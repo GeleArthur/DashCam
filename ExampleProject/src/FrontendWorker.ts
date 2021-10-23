@@ -14,7 +14,7 @@ export function AddData(data: string) {
 
   // console.log(parsedData);
 
-  if(parsedData.type == "help"){
+  if(parsedData.type == "error"){
     outputHelp.innerText = data;
   }
 }
