@@ -5,5 +5,5 @@
 .scroll-box{
     overflow-x: hidden;
     overflow-y: auto;
-    height: 500px;   
+    max-height: 200px;
 }

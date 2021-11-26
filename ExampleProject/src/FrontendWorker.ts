@@ -2,21 +2,29 @@
 
 import { sendData } from "./wsConnection";
 
-const outputPart = document.getElementById("output") as HTMLElement;
-const outputHelp = document.getElementById("outputHelp") as HTMLElement;
 const connectionType = document.getElementById("conType") as HTMLElement;
 
 export function AddData(data: string) {
   //   outputPart.innerText = insert(outputPart.innerText,0, data)
-  outputPart.innerText = data;
 
   let parsedData = JSON.parse(data);
-
-  // console.log(parsedData);
-
-  if(parsedData.type == "error"){
-    outputHelp.innerText = data;
+  const typeElement = document.getElementById(parsedData.type) as HTMLElement;
+  if(typeElement != null){
+    typeElement.innerText = data;
+  }else{
+    const typeFields = document.getElementById("outputFields") as HTMLElement;
+    const element = typeFields.appendChild(document.createElement("div"))
+    element.innerText = data;
+    element.id = parsedData.type;
+    element.classList.add("paper", "container", "scroll-box")
   }
+
+  // if(parsedData.type != "playerPos"){
+  //   outputPart.innerText = data;
+  // }
+  // if(parsedData.type == "error"){
+  //   outputHelp.innerText = data;
+  // }
 }
 
 export function ChangeConnectionType(con:string){
