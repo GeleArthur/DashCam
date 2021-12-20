@@ -35,7 +35,7 @@ document.body.onfocus = ()=>{
 }
 
 function failed(){
-  ChangeConnectionType("Failed")
+  ChangeConnectionType("Failed. Enable websocket and restart HyperDash")
 }
 
 function onConnected() {

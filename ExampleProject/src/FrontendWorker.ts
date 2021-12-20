@@ -1,6 +1,7 @@
 // Will set data on the html page
 
 import { sendData } from "./wsConnection";
+import "./Style.css"
 
 const connectionType = document.getElementById("conType") as HTMLElement;
 
@@ -43,10 +44,10 @@ SendButton.addEventListener("click", () => {
   // InputField.value = "";
 });
 
-function insert(stringInput: string, index: number, string: string) {
-  if (index > 0) {
-    return stringInput.substring(0, index) + string + stringInput.substr(index);
-  }
+// function insert(stringInput: string, index: number, string: string) {
+//   if (index > 0) {
+//     return stringInput.substring(0, index) + string + stringInput.substr(index);
+//   }
 
-  return string + stringInput;
-}
+//   return string + stringInput;
+// }

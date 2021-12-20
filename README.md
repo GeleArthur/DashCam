@@ -1,6 +1,24 @@
-WARINING FOR VSCODE USERS: please use https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar NOT https://marketplace.visualstudio.com/items?itemName=octref.vetur. Because of vue3
+# dashcam2
 
-## Recommended IDE Setup
-- [VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=johnsoncodehk.volar)
+## Project setup
+```
+npm install
+```
 
-### Vue 3 + Typescript + Vite
+### Compiles and hot-reloads for development
+```
+npm run serve
+```
+
+### Compiles and minifies for production
+```
+npm run build
+```
+
+### Lints and fixes files
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).

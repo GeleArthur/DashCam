@@ -2,3 +2,4 @@
 
 import './wsConnection'
 import './FrontendWorker'
+import './Style.css'
