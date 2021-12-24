@@ -1,16 +1,23 @@
 <template>
-  <div class="backdrop" :class="{ redTeam: team == 0, blueTeam: team == 1 }">
+  <div
+    class="backdrop"
+    :class="{
+      redTeam: playerData.team == 0,
+      blueTeam: playerData.team == 1,
+      dead: playerData.dead,
+    }"
+  >
     <img src="@/assets/helmet1.png" alt="helmet1" class="icon" />
 
     <div class="container">
       <div class="Name">
-        <p>{{ playerName }}</p>
+        <p>{{ playerData.clan }} {{ playerData.name }}</p>
       </div>
       <div class="playerInfo">
-        <p>{{ leftWeapon }}</p>
-        <p>{{ rightWeapon }}</p>
-        <p>{{ health }}:Health</p>
-        <p>{{ dash }}:dash</p>
+        <p>{{ playerData.leftWeapon }}</p>
+        <p>{{ playerData.rightWeapon }}</p>
+        <p>{{ playerData.health }}:Health</p>
+        <p>{{ playerData.dash }}:dash</p>
       </div>
     </div>
   </div>
@@ -22,15 +29,9 @@ import { defineComponent } from "vue";
 export default defineComponent({
   name: "PlayerTab",
   data() {
-    return {
-      // playerName: "testName",
-      // leftWeapon: "testPistol",
-      // rightWeapon: "testPistol",
-      // Health: 100,
-      // Dash: 100,
-    };
+    return {};
   },
-  props: ["playerName", "leftWeapon", "rightWeapon", "health", "dash", "team"],
+  props: ["playerData"],
 });
 </script>
 
@@ -54,6 +55,9 @@ export default defineComponent({
 .blueTeam {
   background: blue;
 }
+.dead {
+  background: rgba(0.1, 0.1, 0.1, 0.5);
+}
 
 .container {
   display: grid;
@@ -70,13 +74,22 @@ export default defineComponent({
   grid-area: Name;
   justify-self: center;
 }
+.Name > p {
+  margin: 0px;
+  font-size: 1.5em;
+  font-weight: bold;
+}
 
 .playerInfo {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
 
   grid-area: playerInfo;
-  align-items: end;
+  align-items: center;
   justify-items: center;
+}
+
+.playerInfo > p {
+  margin: 0px;
 }
 </style>

@@ -1,28 +1,19 @@
 <template>
+  <a>{{ connection }}</a>
   <div class="container">
-    <div>
+    <div class="redTeam">
       <player-tab
         v-for="(item, index) in redTeamList"
         :key="index"
-        :playerName="item.name"
-        :leftWeapon="item.leftWeapon"
-        :rightWeapon="item.rightWeapon"
-        :Dash="item.dash"
-        :Health="item.health"
-        :team="item.team"
+        :playerData="item"
       />
     </div>
     <div></div>
-    <div class="floatleft">
+    <div class="blueTeam">
       <player-tab
         v-for="(item, index) in blueTeamList"
         :key="index"
-        :playerName="item.name"
-        :leftWeapon="item.leftWeapon"
-        :rightWeapon="item.rightWeapon"
-        :Dash="item.dash"
-        :Health="item.health"
-        :team="item.team"
+        :playerData="item"
       />
     </div>
   </div>
@@ -35,11 +26,13 @@ import PlayerTab from "./components/PlayerTab.vue";
 
 interface playerInfo {
   name: string;
+  clan: string;
   team: number;
   leftWeapon: string;
   rightWeapon: string;
   health: number;
   dash: number;
+  dead: boolean;
 }
 
 export default defineComponent({
@@ -75,11 +68,13 @@ export default defineComponent({
           console.log(socketData);
           this.PlayerData.push({
             name: socketData.name,
+            clan: socketData.clanTag,
             team: socketData.team,
             leftWeapon: "pistol",
             rightWeapon: "pistol",
             health: 100,
             dash: 100,
+            dead: false,
           });
 
           break;
@@ -93,6 +88,22 @@ export default defineComponent({
           this.PlayerData[socketData.spectatorIndex].rightWeapon =
             socketData.rightHand;
           break;
+        case "switchTeam":
+          console.log(socketData);
+          this.PlayerData[socketData.spectatorIndex].team = socketData.team;
+          break;
+        case "killFeed":
+          console.log(socketData);
+          this.PlayerData[socketData.victim].dead = true;
+          break;
+        case "respawn":
+          console.log(socketData);
+          this.PlayerData[socketData.spectatorIndex].dead = false;
+          break;
+        case "healthUpdate":
+          this.PlayerData[socketData.spectatorIndex].health = socketData.health;
+          break;
+
         default:
           // console.log("Support " + socketData.type + " Please");
           break;
@@ -140,7 +151,22 @@ export default defineComponent({
 });
 </script>
 
-<style lang="scss" scoped>
+<style scoped>
+.blueTeam {
+  justify-self: end;
+}
+.redTeam {
+  justify-self: start;
+}
+.container {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  /* justify-items: self-end; */
+  /* gap: 10em 10em; */
+}
+</style>
+
+<style>
 #app {
   font-family: Arial;
 }
@@ -148,15 +174,5 @@ export default defineComponent({
 body {
   margin: 0px;
   padding: 0px;
-}
-
-.floatleft {
-  justify-self: end;
-}
-.container {
-  display: grid;
-  grid-template-columns: auto auto auto;
-  // justify-items: self-end;
-  // gap: 10em 10em;
 }
 </style>
