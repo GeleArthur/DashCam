@@ -1,11 +1,14 @@
 <template>
-  <a>{{ connection }}</a>
+  <div v-if="connection">
+    <a>{{ connection }}</a>
+    <button @click="AddFakeData">fakeData</button>
+  </div>
   <div class="container">
     <div class="redTeam">
-      <player-tab
+      <new-player-tab
         v-for="(item, index) in redTeamList"
-        :key="index"
         :playerData="item"
+        :key="index"
       />
     </div>
     <div></div>
@@ -23,6 +26,7 @@
 import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
 import PlayerTab from "./components/PlayerTab.vue";
+import NewPlayerTab from "./components/NewPlayerTab.vue";
 
 interface playerInfo {
   name: string;
@@ -39,6 +43,7 @@ export default defineComponent({
   name: "App",
   components: {
     PlayerTab,
+    NewPlayerTab,
   },
   data() {
     return {
@@ -107,6 +112,32 @@ export default defineComponent({
         default:
           // console.log("Support " + socketData.type + " Please");
           break;
+      }
+    },
+    AddFakeData() {
+      for (let i = 0; i < 5; i++) {
+        this.PlayerData.push({
+          name: Math.random().toString(16).substr(2, 16),
+          clan: Math.random().toString(16).substr(2, 2),
+          team: 0,
+          leftWeapon: "pistol",
+          rightWeapon: "pistol",
+          health: 100,
+          dash: 100,
+          dead: false,
+        });
+      }
+      for (let i = 0; i < 5; i++) {
+        this.PlayerData.push({
+          name: Math.random().toString(16).substr(2, 16),
+          clan: Math.random().toString(16).substr(2, 2),
+          team: 1,
+          leftWeapon: "pistol",
+          rightWeapon: "pistol",
+          health: 100,
+          dash: 100,
+          dead: false,
+        });
       }
     },
   },
