@@ -205,5 +205,6 @@ export default defineComponent({
 body {
   margin: 0px;
   padding: 0px;
+  background: rgba(100, 100, 100, 1);
 }
 </style>

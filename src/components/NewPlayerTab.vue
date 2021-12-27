@@ -23,11 +23,17 @@
         <div class="deadSkullText">10</div>
       </div>
     </div>
-    <div class="Health"></div>
-    <div class="Dash"></div>
+    <div class="Health">
+      <div class="HealthText">100</div>
+      <div class="HealthProgress"></div>
+    </div>
+    <div class="Dash">
+      <div class="DashText">100</div>
+      <div class="DashProgress"></div>
+    </div>
     <div class="Loadout">
-      <div>?</div>
-      <div>?</div>
+      <img src="" alt="leftHand" />
+      <img src="" alt="rightHand" />
     </div>
   </div>
 </template>
@@ -73,18 +79,9 @@ export default defineComponent({
 
 /*#region backGround */
 .container {
-  background: rgba(255, 0, 0, 1);
+  // background: rgba(255, 0, 0, 1);
 }
 
-.redTeam {
-  background: red;
-}
-.blueTeam {
-  background: blue;
-}
-.dead {
-  background: rgba(0.1, 0.1, 0.1, 0.5);
-}
 /*#endregion*/
 
 /*#region gird */
@@ -130,6 +127,7 @@ export default defineComponent({
 }
 /*#endregion*/
 
+/*#region deadKiils*/
 .deadSkullIcon {
   width: 1em;
   margin-left: auto;
@@ -153,15 +151,75 @@ export default defineComponent({
   display: flex;
   flex-direction: column;
   align-items: center;
-  // justify-content: center;
+
+  box-sizing: border-box;
+  border-right: 5px solid black;
+  padding-right: 2px;
+  border-radius: 0px 7px 7px 0px;
+  height: 100%;
+  background: rgb(75, 75, 75);
 }
 
 .kills {
   @include deadkillsText;
-  border-bottom: solid;
+  border-bottom: 3px solid black;
 }
 
 .deads {
   @include deadkillsText;
+  border-top: 3px solid black;
 }
+/*#endregion*/
+
+/*#region HealthDash*/
+.Health {
+  width: 50px;
+  height: 100px;
+  position: relative;
+
+  .HealthProgress {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: green;
+  }
+  .HealthText {
+    color: white;
+    font-weight: 900;
+    text-align: center;
+    position: relative;
+    top: 1px;
+    z-index: 1;
+  }
+}
+
+.Dash {
+  width: 50px;
+  height: 100px;
+  position: relative;
+  border-left: 2px solid black;
+
+  .DashProgress {
+    display: block;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: rgb(0, 138, 180);
+  }
+  .DashText {
+    color: white;
+    font-weight: 900;
+    text-align: center;
+    position: relative;
+    top: 1px;
+    z-index: 1;
+  }
+}
+
+/*#endregion*/
 </style>
