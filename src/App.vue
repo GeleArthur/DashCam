@@ -7,8 +7,9 @@
     <div class="redTeam">
       <new-player-tab
         v-for="(item, index) in redTeamList"
-        :playerData="item"
         :key="index"
+        :playerData="item"
+        :selectedIndex="selectedIndex"
       />
     </div>
     <div></div>
@@ -28,12 +29,19 @@ import { HOSt, PORT } from "./ConstVars";
 import PlayerTab from "./components/PlayerTab.vue";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 
-interface playerInfo {
+export interface playerInfo {
+  specatorIndex: number;
   name: string;
   clan: string;
   team: number;
-  leftWeapon: string;
-  rightWeapon: string;
+  leftWeapon: {
+    imageSource: string;
+    weaponName: string;
+  };
+  rightWeapon: {
+    imageSource: string;
+    weaponName: string;
+  };
   health: number;
   dash: number;
   dead: boolean;
@@ -49,6 +57,7 @@ export default defineComponent({
     return {
       PlayerData: [] as playerInfo[],
       connection: "Failed",
+      selectedIndex: 0,
     };
   },
   computed: {
@@ -72,11 +81,18 @@ export default defineComponent({
         case "playerJoins":
           console.log(socketData);
           this.PlayerData.push({
+            specatorIndex: socketData.spectatorIndex,
             name: socketData.name,
             clan: socketData.clanTag,
             team: socketData.team,
-            leftWeapon: "pistol",
-            rightWeapon: "pistol",
+            leftWeapon: {
+              imageSource: require("@/assets/gun-pistol.png"),
+              weaponName: "pistol",
+            },
+            rightWeapon: {
+              imageSource: require("@/assets/gun-pistol.png"),
+              weaponName: "pistol",
+            },
             health: 100,
             dash: 100,
             dead: false,
@@ -88,10 +104,10 @@ export default defineComponent({
           this.PlayerData.splice(socketData.spectatorIndex, 1);
           break;
         case "loadoutUpdate":
-          this.PlayerData[socketData.spectatorIndex].leftWeapon =
-            socketData.leftHand;
-          this.PlayerData[socketData.spectatorIndex].rightWeapon =
-            socketData.rightHand;
+          // this.PlayerData[socketData.spectatorIndex].leftWeapon =
+          //   socketData.leftHand;
+          // this.PlayerData[socketData.spectatorIndex].rightWeapon =
+          //   socketData.rightHand;
           break;
         case "switchTeam":
           console.log(socketData);
@@ -117,11 +133,18 @@ export default defineComponent({
     AddFakeData() {
       for (let i = 0; i < 5; i++) {
         this.PlayerData.push({
+          specatorIndex: i,
           name: Math.random().toString(16).substr(2, 16),
           clan: Math.random().toString(16).substr(2, 2),
           team: 0,
-          leftWeapon: "pistol",
-          rightWeapon: "pistol",
+          leftWeapon: {
+            imageSource: require("@/assets/gun-pistol.png"),
+            weaponName: "pistol",
+          },
+          rightWeapon: {
+            imageSource: require("@/assets/gun-pistol.png"),
+            weaponName: "pistol",
+          },
           health: 100,
           dash: 100,
           dead: false,
@@ -129,11 +152,18 @@ export default defineComponent({
       }
       for (let i = 0; i < 5; i++) {
         this.PlayerData.push({
+          specatorIndex: 5 + i,
           name: Math.random().toString(16).substr(2, 16),
           clan: Math.random().toString(16).substr(2, 2),
           team: 1,
-          leftWeapon: "pistol",
-          rightWeapon: "pistol",
+          leftWeapon: {
+            imageSource: "gun-pistol.png",
+            weaponName: "pistol",
+          },
+          rightWeapon: {
+            imageSource: "gun-pistol.png",
+            weaponName: "pistol",
+          },
           health: 100,
           dash: 100,
           dead: false,

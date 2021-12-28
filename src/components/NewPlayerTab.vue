@@ -23,30 +23,50 @@
         <div class="deadSkullText">10</div>
       </div>
     </div>
-    <div class="Health">
-      <div class="HealthText">100</div>
-      <div class="HealthProgress"></div>
+    <div class="DHContainer Health">
+      <div class="DHText HealthText">100</div>
+      <div class="DHProgress HealthProgress"></div>
     </div>
-    <div class="Dash">
-      <div class="DashText">100</div>
-      <div class="DashProgress"></div>
+    <div class="DHContainer Dash">
+      <div class="DHText DashText">100</div>
+      <div class="DHProgress DashProgress"></div>
     </div>
-    <div class="Loadout">
-      <img src="" alt="leftHand" />
-      <img src="" alt="rightHand" />
+
+    <div
+      class="Loadout"
+      :class="{
+        selectedColor: this.selectedIndex == this.playerData.specatorIndex,
+      }"
+    >
+      <div class="LoadoutPart LoadoutLeft">
+        <img :src="playerData.leftWeapon.imageSource" alt="leftHand" />
+      </div>
+      <div class="LoadoutPart LoadoutRight">
+        <img :src="playerData.rightWeapon.imageSource" alt="rightHand" />
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
+import { playerInfo } from "../App.vue";
 
 export default defineComponent({
   name: "NewPlayerTab",
   data() {
     return {};
   },
-  props: ["playerData"],
+  props: {
+    playerData: {
+      type: Object as () => playerInfo,
+      required: true,
+    },
+    selectedIndex: {
+      type: Number,
+      required: true,
+    },
+  },
 });
 </script>
 
@@ -86,11 +106,9 @@ export default defineComponent({
 
 /*#region gird */
 .container {
-  /* width: 500px; */
   display: grid;
   margin-bottom: 10px;
 
-  grid-auto-columns: 1fr 1fr;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
   grid-template-areas: "Icon DeadKills Health Dash Loadout";
@@ -172,53 +190,71 @@ export default defineComponent({
 /*#endregion*/
 
 /*#region HealthDash*/
-.Health {
+.DHContainer {
   width: 50px;
   height: 100px;
   position: relative;
 
-  .HealthProgress {
+  border-bottom: 2px solid black;
+  border-top: 2px solid black;
+
+  display: flex;
+
+  .DHProgress {
     display: block;
     height: 100%;
     width: 100%;
     position: absolute;
     left: 0;
     bottom: 0;
-    background: green;
   }
-  .HealthText {
+
+  .DHText {
     color: white;
     font-weight: 900;
-    text-align: center;
-    position: relative;
-    top: 1px;
     z-index: 1;
+    align-self: flex-end;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+.Health {
+  border-left: 2px solid black;
+
+  .HealthProgress {
+    background: green;
   }
 }
 
 .Dash {
-  width: 50px;
-  height: 100px;
-  position: relative;
-  border-left: 2px solid black;
+  border-right: 2px solid black;
 
   .DashProgress {
-    display: block;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
     background: rgb(0, 138, 180);
   }
-  .DashText {
-    color: white;
-    font-weight: 900;
-    text-align: center;
-    position: relative;
-    top: 1px;
-    z-index: 1;
+}
+
+/*#endregion*/
+
+/*#region Loadout*/
+.LoadoutPart {
+  height: 52px;
+  position: relative;
+  display: inline-block;
+  img {
+    // height: 50px;
+    display: block;
+    max-height: 100%;
   }
+}
+
+.Loadout {
+  background: red;
+}
+
+.selectedColor {
+  background: yellow;
 }
 
 /*#endregion*/
