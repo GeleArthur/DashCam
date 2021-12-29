@@ -77,6 +77,30 @@ export default defineComponent({
   methods: {
     updateData(data: string) {
       var socketData = JSON.parse(data);
+
+      function getImage(gunName: string): string {
+        switch (gunName) {
+          case "DefaultPistol":
+            return require("./assets/gun-pistol.png");
+          case "ShockPistol":
+            return require("./assets/gun-shock.png");
+          case "Shotgun":
+            return require("./assets/gun-shotgun.png");
+          case "BurstRifle":
+            return require("./assets/gun-burst.png");
+          case "Rocket":
+            return require("./assets/gun-rocket.png");
+          case "Sniper":
+            return require("./assets/gun-sniper.png");
+          case "Shield":
+            return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
+
+          default:
+            console.error("Unkown gun " + gunName);
+            return "";
+        }
+      }
+
       switch (socketData.type) {
         case "playerJoins":
           console.log(socketData);
@@ -104,10 +128,15 @@ export default defineComponent({
           this.PlayerData.splice(socketData.spectatorIndex, 1);
           break;
         case "loadoutUpdate":
-          // this.PlayerData[socketData.spectatorIndex].leftWeapon =
-          //   socketData.leftHand;
-          // this.PlayerData[socketData.spectatorIndex].rightWeapon =
-          //   socketData.rightHand;
+          this.PlayerData[socketData.spectatorIndex].leftWeapon = {
+            imageSource: getImage(socketData.leftHand),
+            weaponName: socketData.leftHand,
+          };
+
+          this.PlayerData[socketData.spectatorIndex].rightWeapon = {
+            imageSource: getImage(socketData.rightHand),
+            weaponName: socketData.rightHand,
+          };
           break;
         case "switchTeam":
           console.log(socketData);

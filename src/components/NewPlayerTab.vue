@@ -24,7 +24,7 @@
       </div>
     </div>
     <div class="DHContainer Health">
-      <div class="DHText HealthText">100</div>
+      <div class="DHText HealthText">{{ playerData.health }}</div>
       <div class="DHProgress HealthProgress"></div>
     </div>
     <div class="DHContainer Dash">
@@ -39,10 +39,16 @@
       }"
     >
       <div class="LoadoutPart LoadoutLeft">
-        <img :src="playerData.leftWeapon.imageSource" alt="leftHand" />
+        <img
+          :src="playerData.leftWeapon.imageSource"
+          :alt="playerData.rightWeapon.weaponName"
+        />
       </div>
       <div class="LoadoutPart LoadoutRight">
-        <img :src="playerData.rightWeapon.imageSource" alt="rightHand" />
+        <img
+          :src="playerData.rightWeapon.imageSource"
+          :alt="playerData.rightWeapon.weaponName"
+        />
       </div>
     </div>
   </div>
@@ -56,6 +62,11 @@ export default defineComponent({
   name: "NewPlayerTab",
   data() {
     return {};
+  },
+  computed: {
+    healthSize() {
+      return this.playerData.health + "%";
+    },
   },
   props: {
     playerData: {
@@ -224,6 +235,7 @@ export default defineComponent({
 
   .HealthProgress {
     background: green;
+    height: v-bind(healthSize);
   }
 }
 
@@ -240,6 +252,7 @@ export default defineComponent({
 /*#region Loadout*/
 .LoadoutPart {
   height: 52px;
+  width: 100px;
   position: relative;
   display: inline-block;
   img {
