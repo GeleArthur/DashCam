@@ -120,11 +120,11 @@ export default defineComponent({
             team: socketData.team,
             leftWeapon: {
               imageSource: require("@/assets/gun-pistol.png"),
-              weaponName: "pistol",
+              weaponName: "DefaultPistol",
             },
             rightWeapon: {
               imageSource: require("@/assets/gun-pistol.png"),
-              weaponName: "pistol",
+              weaponName: "DefaultPistol",
             },
             health: 100,
             dash: 100,
@@ -170,43 +170,26 @@ export default defineComponent({
       }
     },
     AddFakeData() {
-      for (let i = 0; i < 5; i++) {
-        this.PlayerData.push({
-          specatorIndex: i,
-          name: Math.random().toString(16).substr(2, 16),
-          clan: Math.random().toString(16).substr(2, 2),
-          team: 0,
-          leftWeapon: {
-            imageSource: require("@/assets/gun-pistol.png"),
-            weaponName: "pistol",
-          },
-          rightWeapon: {
-            imageSource: require("@/assets/gun-pistol.png"),
-            weaponName: "pistol",
-          },
-          health: 100,
-          dash: 100,
-          dead: false,
-        });
-      }
-      for (let i = 0; i < 5; i++) {
-        this.PlayerData.push({
-          specatorIndex: 5 + i,
-          name: Math.random().toString(16).substr(2, 16),
-          clan: Math.random().toString(16).substr(2, 2),
-          team: 1,
-          leftWeapon: {
-            imageSource: "gun-pistol.png",
-            weaponName: "pistol",
-          },
-          rightWeapon: {
-            imageSource: "gun-pistol.png",
-            weaponName: "pistol",
-          },
-          health: 100,
-          dash: 100,
-          dead: false,
-        });
+      for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
+        for (let i = 0; i < 5; i++) {
+          this.PlayerData.push({
+            specatorIndex: i + teamIndex * 5,
+            name: Math.random().toString(16).substr(2, 16),
+            clan: Math.random().toString(16).substr(2, 2),
+            team: teamIndex,
+            leftWeapon: {
+              imageSource: require("@/assets/gun-pistol.png"),
+              weaponName: "pistol",
+            },
+            rightWeapon: {
+              imageSource: require("@/assets/gun-pistol.png"),
+              weaponName: "pistol",
+            },
+            health: 100,
+            dash: 100,
+            dead: false,
+          });
+        }
       }
     },
   },
@@ -275,5 +258,6 @@ body {
   margin: 0px;
   padding: 0px;
   background: rgba(100, 100, 100, 1);
+  overflow: hidden; /* lazy ass fix this */
 }
 </style>

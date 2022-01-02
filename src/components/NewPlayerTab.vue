@@ -1,8 +1,8 @@
 <template>
   <div
     :class="{
-      Lcontainer: playerData.team == 0,
-      Rcontainer: playerData.team == 1,
+      Rcontainer: playerData.team == 0,
+      Bcontainer: playerData.team == 1,
     }"
   >
     <div class="Icon">
@@ -10,7 +10,13 @@
       <div>{{ playerData.name }}</div>
     </div>
     <div class="DeadKills">
-      <div class="kills">
+      <div
+        class="kills"
+        :class="{
+          RDeadKills: playerData.team == 0,
+          BDeadKills: playerData.team == 1,
+        }"
+      >
         <img
           src="@/assets/death-skull.png"
           alt="deadSkull"
@@ -19,7 +25,13 @@
         <div class="deadSkullText">10</div>
       </div>
 
-      <div class="deads">
+      <div
+        class="deads"
+        :class="{
+          RDeadKills: playerData.team == 0,
+          BDeadKills: playerData.team == 1,
+        }"
+      >
         <img
           src="@/assets/death-skull.png"
           alt="deadSkull"
@@ -28,11 +40,11 @@
         <div class="deadSkullText">10</div>
       </div>
     </div>
-    <div class="DHContainer Health">
+    <div class="DHContainer HDleftBorder">
       <div class="DHText HealthText">{{ playerData.health }}</div>
       <div class="DHProgress HealthProgress"></div>
     </div>
-    <div class="DHContainer Dash">
+    <div class="DHContainer HDrightBorder">
       <div class="DHText DashText">100</div>
       <div class="DHProgress DashProgress"></div>
     </div>
@@ -41,6 +53,8 @@
       class="Loadout"
       :class="{
         selectedColor: this.selectedIndex == this.playerData.specatorIndex,
+        RLoadout: playerData.team == 0,
+        BLoadout: playerData.team == 1,
       }"
     >
       <div class="LoadoutPart LoadoutLeft">
@@ -113,13 +127,6 @@ export default defineComponent({
 
 /*#endregion*/
 
-/*#region backGround */
-// .container {
-//   background: rgba(255, 0, 0, 1);
-// }
-
-/*#endregion*/
-
 /*#region gird */
 
 @mixin container {
@@ -130,12 +137,12 @@ export default defineComponent({
   grid-template-rows: 1fr;
 }
 
-.Lcontainer {
+.Rcontainer {
   @include container;
   grid-template-areas: "Icon DeadKills Health Dash Loadout";
 }
 
-.Rcontainer {
+.Bcontainer {
   @include container;
   grid-template-areas: "Loadout Dash Health DeadKills Icon";
 }
@@ -197,9 +204,6 @@ export default defineComponent({
   align-items: center;
 
   box-sizing: border-box;
-  border-right: 5px solid black;
-  padding-right: 2px;
-  border-radius: 0px 7px 7px 0px;
   height: 100%;
   background: rgb(75, 75, 75);
 }
@@ -212,6 +216,18 @@ export default defineComponent({
 .deads {
   @include deadkillsText;
   border-top: 3px solid black;
+}
+
+.RDeadKills {
+  border-right: 5px solid black;
+  padding-right: 2px;
+  border-radius: 0px 7px 7px 0px;
+}
+
+.BDeadKills {
+  border-left: 5px solid black;
+  padding-left: 2px;
+  border-radius: 7px 0px 0px 7px;
 }
 /*#endregion*/
 
@@ -244,21 +260,21 @@ export default defineComponent({
   }
 }
 
-.Health {
+.HDleftBorder {
   border-left: 2px solid black;
-
-  .HealthProgress {
-    background: green;
-    height: v-bind(healthSize);
-  }
 }
 
-.Dash {
+.HDrightBorder {
   border-right: 2px solid black;
+}
 
-  .DashProgress {
-    background: rgb(0, 138, 180);
-  }
+.HealthProgress {
+  background: green;
+  height: v-bind(healthSize);
+}
+
+.DashProgress {
+  background: rgb(0, 138, 180);
 }
 
 /*#endregion*/
@@ -276,8 +292,12 @@ export default defineComponent({
   }
 }
 
-.Loadout {
+.RLoadout {
   background: red;
+}
+
+.BLoadout {
+  background: blue;
 }
 
 .selectedColor {
