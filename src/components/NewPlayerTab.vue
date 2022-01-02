@@ -11,7 +11,7 @@
           alt="deadSkull"
           class="deadSkullIcon"
         />
-        <div class="deadSkullText">10</div>
+        <div class="deadSkullText">{{ playerData.kills }}</div>
       </div>
 
       <div class="deads">
@@ -20,7 +20,7 @@
           alt="deadSkull"
           class="deadSkullIcon"
         />
-        <div class="deadSkullText">10</div>
+        <div class="deadSkullText">{{ playerData.deads }}</div>
       </div>
     </div>
     <div class="DHContainer Health">

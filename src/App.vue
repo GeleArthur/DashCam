@@ -44,7 +44,12 @@ export interface playerInfo {
   };
   health: number;
   dash: number;
-  dead: boolean;
+  isDead: boolean;
+
+  kills: number;
+  deads: number;
+  score: number;
+  ping: number;
 }
 
 export default defineComponent({
@@ -94,6 +99,8 @@ export default defineComponent({
             return require("./assets/gun-sniper.png");
           case "Shield":
             return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
+          case "Uzi":
+            return require("./assets/gun-smg.png");
 
           default:
             console.error("Unkown gun " + gunName);
@@ -119,7 +126,11 @@ export default defineComponent({
             },
             health: 100,
             dash: 100,
-            dead: false,
+            isDead: false,
+            kills: 42,
+            deads: 69,
+            score: 420,
+            ping: 0,
           });
 
           break;
@@ -144,14 +155,24 @@ export default defineComponent({
           break;
         case "killFeed":
           console.log(socketData);
-          this.PlayerData[socketData.victim].dead = true;
+          this.PlayerData[socketData.victim].isDead = true;
           break;
         case "respawn":
           console.log(socketData);
-          this.PlayerData[socketData.spectatorIndex].dead = false;
+          this.PlayerData[socketData.spectatorIndex].isDead = false;
           break;
         case "healthUpdate":
           this.PlayerData[socketData.spectatorIndex].health = socketData.health;
+          break;
+        case "CurrentlySpectating":
+          console.log(socketData);
+          this.selectedIndex = socketData.spectatorIndex;
+          break;
+        case "scoreboard":
+          for (let i = 0; i < this.PlayerData.length; i++) {
+            this.PlayerData[i].kills = socketData.kills[i];
+            this.PlayerData[i].deads = socketData.deads[i];
+          }
           break;
 
         default:
@@ -176,7 +197,11 @@ export default defineComponent({
           },
           health: 100,
           dash: 100,
-          dead: false,
+          isDead: false,
+          kills: 42,
+          deads: 69,
+          score: 420,
+          ping: 0,
         });
       }
       for (let i = 0; i < 5; i++) {
@@ -195,7 +220,12 @@ export default defineComponent({
           },
           health: 100,
           dash: 100,
-          dead: false,
+          isDead: false,
+
+          kills: 42,
+          deads: 69,
+          score: 420,
+          ping: 0,
         });
       }
     },
