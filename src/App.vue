@@ -53,7 +53,12 @@ export interface playerInfo {
   };
   health: number;
   dash: number;
-  dead: boolean;
+  isDead: boolean;
+
+  deads: number;
+  kills: number;
+  score: number;
+  ping: number;
 }
 
 export default defineComponent({
@@ -88,6 +93,7 @@ export default defineComponent({
       var socketData = JSON.parse(data);
 
       function getImage(gunName: string): string {
+        // Something else for require
         switch (gunName) {
           case "DefaultPistol":
             return require("./assets/gun-pistol.png");
@@ -105,6 +111,10 @@ export default defineComponent({
             return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
           case "Uzi":
             return require("./assets/gun-smg.png");
+          case "Cup":
+            return "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg";
+          case "Hand":
+            return "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand-1536x2048.jpg";
 
           default:
             console.error("Unkown gun " + gunName);
@@ -130,7 +140,11 @@ export default defineComponent({
             },
             health: 100,
             dash: 100,
-            dead: false,
+            isDead: false,
+            score: 0,
+            deads: 0,
+            kills: 0,
+            ping: 0,
           });
 
           break;
@@ -155,17 +169,25 @@ export default defineComponent({
           break;
         case "killFeed":
           console.log(socketData);
-          this.PlayerData[socketData.victim].dead = true;
+          this.PlayerData[socketData.victim].isDead = true;
           break;
         case "respawn":
           console.log(socketData);
-          this.PlayerData[socketData.spectatorIndex].dead = false;
+          this.PlayerData[socketData.spectatorIndex].isDead = false;
           break;
         case "healthUpdate":
           this.PlayerData[socketData.spectatorIndex].health = socketData.health;
           break;
         case "CurrentlySpectating":
           this.selectedIndex = socketData.spectatorIndex;
+          break;
+        case "scoreboard":
+          console.log(socketData);
+          for (let i = 0; i < this.PlayerData.length; i++) {
+            this.PlayerData[i].deads = socketData.deads[i];
+            this.PlayerData[i].kills = socketData.kills[i];
+            this.PlayerData[i].score = socketData.scores[i];
+          }
           break;
 
         default:
@@ -192,7 +214,11 @@ export default defineComponent({
             },
             health: 100,
             dash: 100,
-            dead: false,
+            isDead: false,
+            deads: 42,
+            kills: 69,
+            score: 420,
+            ping: 0,
           });
         }
       }

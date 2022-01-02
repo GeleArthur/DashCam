@@ -22,7 +22,7 @@
           alt="deadSkull"
           class="deadSkullIcon"
         />
-        <div class="deadSkullText">10</div>
+        <div class="deadSkullText">{{ playerData.kills }}</div>
       </div>
 
       <div
@@ -37,7 +37,7 @@
           alt="deadSkull"
           class="deadSkullIcon"
         />
-        <div class="deadSkullText">10</div>
+        <div class="deadSkullText">{{ playerData.deads }}</div>
       </div>
     </div>
     <div
@@ -48,7 +48,7 @@
       }"
     >
       <div class="DHText HealthText">{{ playerData.health }}</div>
-      <div class="DHProgress HealthProgress"></div>
+      <div class="HealthProgress DHProgress"></div>
     </div>
     <div
       class="DHContainer Dash"
@@ -244,6 +244,7 @@ export default defineComponent({
 /*#endregion*/
 
 /*#region HealthDash*/
+
 .DHContainer {
   width: 50px;
   position: relative;
@@ -253,15 +254,6 @@ export default defineComponent({
 
   display: flex;
 
-  .DHProgress {
-    display: block;
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-  }
-
   .DHText {
     color: white;
     font-weight: 900;
@@ -270,6 +262,15 @@ export default defineComponent({
     margin-left: auto;
     margin-right: auto;
   }
+}
+
+.DHProgress {
+  display: block;
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  left: 0;
+  bottom: 0;
 }
 
 .HDleftBorder {
