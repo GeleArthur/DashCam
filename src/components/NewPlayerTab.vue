@@ -40,11 +40,23 @@
         <div class="deadSkullText">10</div>
       </div>
     </div>
-    <div class="DHContainer HDleftBorder">
+    <div
+      class="DHContainer Health"
+      :class="{
+        HDrightBorder: playerData.team == 1,
+        HDleftBorder: playerData.team == 0,
+      }"
+    >
       <div class="DHText HealthText">{{ playerData.health }}</div>
       <div class="DHProgress HealthProgress"></div>
     </div>
-    <div class="DHContainer HDrightBorder">
+    <div
+      class="DHContainer Dash"
+      :class="{
+        HDrightBorder: playerData.team == 0,
+        HDleftBorder: playerData.team == 1,
+      }"
+    >
       <div class="DHText DashText">100</div>
       <div class="DHProgress DashProgress"></div>
     </div>
@@ -101,32 +113,6 @@ export default defineComponent({
 </script>
 
 <style scoped lang="scss">
-/*#region topIcon */
-.Icon > img {
-  width: 100px;
-  height: 100px;
-  display: block;
-}
-
-.Icon > div {
-  position: absolute;
-  left: 1px;
-  bottom: 1px;
-  font-weight: 900;
-
-  text-overflow: ellipsis;
-  overflow: hidden;
-  width: 100px;
-  white-space: nowrap;
-}
-.Icon {
-  position: relative;
-  text-align: left;
-  color: white;
-}
-
-/*#endregion*/
-
 /*#region gird */
 
 @mixin container {
@@ -176,6 +162,32 @@ export default defineComponent({
 .Dash {
   grid-area: Dash;
 }
+/*#endregion*/
+
+/*#region topIcon */
+.Icon > img {
+  width: 100px;
+  height: 100px;
+  display: block;
+}
+
+.Icon > div {
+  position: absolute;
+  left: 1px;
+  bottom: 1px;
+  font-weight: 900;
+
+  text-overflow: ellipsis;
+  overflow: hidden;
+  width: 100px;
+  white-space: nowrap;
+}
+.Icon {
+  position: relative;
+  text-align: left;
+  color: white;
+}
+
 /*#endregion*/
 
 /*#region deadKiils*/
@@ -298,6 +310,10 @@ export default defineComponent({
 
 .BLoadout {
   background: blue;
+
+  img {
+    transform: scaleX(-1);
+  }
 }
 
 .selectedColor {

@@ -103,6 +103,8 @@ export default defineComponent({
             return require("./assets/gun-sniper.png");
           case "Shield":
             return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
+          case "Uzi":
+            return require("./assets/gun-smg.png");
 
           default:
             console.error("Unkown gun " + gunName);
@@ -161,6 +163,9 @@ export default defineComponent({
           break;
         case "healthUpdate":
           this.PlayerData[socketData.spectatorIndex].health = socketData.health;
+          break;
+        case "CurrentlySpectating":
+          this.selectedIndex = socketData.spectatorIndex;
           break;
 
         default:
