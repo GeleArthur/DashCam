@@ -1,4 +1,4 @@
-# dashcam
+# dashcam2
 
 ## Project setup
 ```

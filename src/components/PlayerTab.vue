@@ -4,7 +4,7 @@
     :class="{
       redTeam: playerData.team == 0,
       blueTeam: playerData.team == 1,
-      dead: playerData.isDead,
+      dead: playerData.dead,
     }"
   >
     <img src="@/assets/helmet1.png" alt="helmet1" class="icon" />
