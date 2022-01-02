@@ -1,5 +1,10 @@
 <template>
-  <div class="container">
+  <div
+    :class="{
+      Lcontainer: playerData.team == 0,
+      Rcontainer: playerData.team == 1,
+    }"
+  >
     <div class="Icon">
       <img src="@/assets/helmet1.png" alt="helmet1" />
       <div>{{ playerData.name }}</div>
@@ -116,13 +121,23 @@ export default defineComponent({
 /*#endregion*/
 
 /*#region gird */
-.container {
+
+@mixin container {
   display: grid;
   margin-bottom: 10px;
+  grid-template-columns: auto auto auto auto auto;
 
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-rows: 1fr;
+}
+
+.Lcontainer {
+  @include container;
   grid-template-areas: "Icon DeadKills Health Dash Loadout";
+}
+
+.Rcontainer {
+  @include container;
+  grid-template-areas: "Loadout Dash Health DeadKills Icon";
 }
 
 .Icon {
@@ -203,7 +218,6 @@ export default defineComponent({
 /*#region HealthDash*/
 .DHContainer {
   width: 50px;
-  height: 100px;
   position: relative;
 
   border-bottom: 2px solid black;
@@ -251,7 +265,7 @@ export default defineComponent({
 
 /*#region Loadout*/
 .LoadoutPart {
-  height: 52px;
+  height: 52px; // Tell me why
   width: 100px;
   position: relative;
   display: inline-block;

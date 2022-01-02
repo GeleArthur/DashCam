@@ -14,19 +14,28 @@
     </div>
     <div></div>
     <div class="blueTeam">
+      <new-player-tab
+        v-for="(item, index) in blueTeamList"
+        :key="index"
+        :playerData="item"
+        :selectedIndex="selectedIndex"
+      />
+    </div>
+
+    <!-- <div class="blueTeam">
       <player-tab
         v-for="(item, index) in blueTeamList"
         :key="index"
         :playerData="item"
       />
-    </div>
+    </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
-import PlayerTab from "./components/PlayerTab.vue";
+// import PlayerTab from "./components/PlayerTab.vue";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 
 export interface playerInfo {
@@ -50,7 +59,7 @@ export interface playerInfo {
 export default defineComponent({
   name: "App",
   components: {
-    PlayerTab,
+    // PlayerTab,
     NewPlayerTab,
   },
   data() {
