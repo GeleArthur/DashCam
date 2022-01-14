@@ -1,6 +1,6 @@
 <template>
-  <div v-if="connection">
-    <a>{{ connection }}</a>
+  <div v-if="this.$store.state.connection">
+    <a>{{ this.$store.state.connection }}</a>
     <button @click="AddFakeData">fakeData</button>
   </div>
   <div class="container">
@@ -9,7 +9,7 @@
         v-for="(item, index) in redTeamList"
         :key="index"
         :playerData="item"
-        :selectedIndex="selectedIndex"
+        :selectedIndex="this.$store.state.selectedIndex"
       />
     </div>
     <div></div>
@@ -18,71 +18,35 @@
         v-for="(item, index) in blueTeamList"
         :key="index"
         :playerData="item"
-        :selectedIndex="selectedIndex"
+        :selectedIndex="this.$store.state.selectedIndex"
       />
     </div>
-
-    <!-- <div class="blueTeam">
-      <player-tab
-        v-for="(item, index) in blueTeamList"
-        :key="index"
-        :playerData="item"
-      />
-    </div> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
-// import PlayerTab from "./components/PlayerTab.vue";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
-
-export interface playerInfo {
-  specatorIndex: number;
-  name: string;
-  clan: string;
-  team: number;
-  leftWeapon: {
-    imageSource: string;
-    weaponName: string;
-  };
-  rightWeapon: {
-    imageSource: string;
-    weaponName: string;
-  };
-  health: number;
-  dash: number;
-  isDead: boolean;
-
-  deads: number;
-  kills: number;
-  score: number;
-  ping: number;
-}
+import playerInfo from "./models/playerInfo";
 
 export default defineComponent({
   name: "App",
   components: {
-    // PlayerTab,
     NewPlayerTab,
   },
   data() {
-    return {
-      PlayerData: [] as playerInfo[],
-      connection: "Failed",
-      selectedIndex: 0,
-    };
+    return {};
   },
   computed: {
     redTeamList() {
-      let data = this.PlayerData as playerInfo[];
+      let data = this.$store.state.PlayerData as playerInfo[];
       return data.filter((e: playerInfo) => {
         return e.team == 0;
       });
     },
     blueTeamList() {
-      let data = this.PlayerData as playerInfo[];
+      let data = this.$store.state.PlayerData as playerInfo[];
       return data.filter((e: playerInfo) => {
         return e.team == 1;
       });
@@ -96,21 +60,21 @@ export default defineComponent({
         // Something else for require
         switch (gunName) {
           case "DefaultPistol":
-            return require("./assets/gun-pistol.png");
+            return "/assets/gun-pistol.png";
           case "ShockPistol":
-            return require("./assets/gun-shock.png");
+            return "/assets/gun-shock.png";
           case "Shotgun":
-            return require("./assets/gun-shotgun.png");
+            return "/assets/gun-shotgun.png";
           case "BurstRifle":
-            return require("./assets/gun-burst.png");
+            return "/assets/gun-burst.png";
           case "Rocket":
-            return require("./assets/gun-rocket.png");
+            return "/assets/gun-rocket.png";
           case "Sniper":
-            return require("./assets/gun-sniper.png");
+            return "/assets/gun-sniper.png";
           case "Shield":
             return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
           case "Uzi":
-            return require("./assets/gun-smg.png");
+            return "/assets/gun-smg.png";
           case "Cup":
             return "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg";
           case "Hand":
@@ -131,11 +95,11 @@ export default defineComponent({
             clan: socketData.clanTag,
             team: socketData.team,
             leftWeapon: {
-              imageSource: require("@/assets/gun-pistol.png"),
+              imageSource: "./assets/gun-pistol.png",
               weaponName: "DefaultPistol",
             },
             rightWeapon: {
-              imageSource: require("@/assets/gun-pistol.png"),
+              imageSource: "./assets/gun-pistol.png",
               weaponName: "DefaultPistol",
             },
             health: 100,
@@ -205,11 +169,11 @@ export default defineComponent({
             clan: Math.random().toString(16).substr(2, 2),
             team: teamIndex,
             leftWeapon: {
-              imageSource: require("@/assets/gun-pistol.png"),
+              imageSource: "./assets/gun-pistol.png",
               weaponName: "pistol",
             },
             rightWeapon: {
-              imageSource: require("@/assets/gun-pistol.png"),
+              imageSource: "./assets/gun-pistol.png",
               weaponName: "pistol",
             },
             health: 100,

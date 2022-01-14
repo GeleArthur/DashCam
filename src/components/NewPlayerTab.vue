@@ -6,7 +6,7 @@
     }"
   >
     <div class="Icon">
-      <img src="@/assets/helmet1.png" alt="helmet1" />
+      <img src="/assets/helmet1.png" alt="helmet1" />
       <div>{{ playerData.name }}</div>
     </div>
     <div class="DeadKills">
@@ -18,7 +18,7 @@
         }"
       >
         <img
-          src="@/assets/death-skull.png"
+          src="/assets/death-skull.png"
           alt="deadSkull"
           class="deadSkullIcon"
         />
@@ -33,7 +33,7 @@
         }"
       >
         <img
-          src="@/assets/death-skull.png"
+          src="/assets/death-skull.png"
           alt="deadSkull"
           class="deadSkullIcon"
         />
@@ -87,7 +87,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { playerInfo } from "../App.vue";
+import { playerInfo } from "../models/playerInfo";
 
 export default defineComponent({
   name: "NewPlayerTab",
@@ -166,8 +166,8 @@ export default defineComponent({
 
 /*#region topIcon */
 .Icon > img {
-  width: 100px;
-  height: 100px;
+  // width: 100px;
+  height: 104px;
   display: block;
 }
 
@@ -203,6 +203,10 @@ export default defineComponent({
   // border: solid;
   border-color: black;
   text-align: center;
+
+  div {
+    padding: 2px;
+  }
 }
 
 .deadSkullText {
