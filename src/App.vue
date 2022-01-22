@@ -8,8 +8,7 @@
       <new-player-tab
         v-for="(item, index) in redTeamList"
         :key="index"
-        :playerData="item"
-        :selectedIndex="this.$store.state.selectedIndex"
+        :spectatorIndex="this.$store.state.PlayerData.indexOf(item)"
       />
     </div>
     <div></div>
@@ -17,8 +16,7 @@
       <new-player-tab
         v-for="(item, index) in blueTeamList"
         :key="index"
-        :playerData="item"
-        :selectedIndex="this.$store.state.selectedIndex"
+        :spectatorIndex="this.$store.state.PlayerData.indexOf(item)"
       />
     </div>
   </div>
@@ -29,6 +27,7 @@ import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 import playerInfo from "./models/playerInfo";
+import { mapMutations } from "vuex";
 
 export default defineComponent({
   name: "App",
@@ -55,138 +54,9 @@ export default defineComponent({
   methods: {
     updateData(data: string) {
       var socketData = JSON.parse(data);
-
-      function getImage(gunName: string): string {
-        // Something else for require
-        switch (gunName) {
-          case "DefaultPistol":
-            return "/assets/gun-pistol.png";
-          case "ShockPistol":
-            return "/assets/gun-shock.png";
-          case "Shotgun":
-            return "/assets/gun-shotgun.png";
-          case "BurstRifle":
-            return "/assets/gun-burst.png";
-          case "Rocket":
-            return "/assets/gun-rocket.png";
-          case "Sniper":
-            return "/assets/gun-sniper.png";
-          case "Shield":
-            return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
-          case "Uzi":
-            return "/assets/gun-smg.png";
-          case "Cup":
-            return "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg";
-          case "Hand":
-            return "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand-1536x2048.jpg";
-
-          default:
-            console.error("Unkown gun " + gunName);
-            return "";
-        }
-      }
-
-      switch (socketData.type) {
-        case "playerJoins":
-          console.log(socketData);
-          this.PlayerData.push({
-            specatorIndex: socketData.spectatorIndex,
-            name: socketData.name,
-            clan: socketData.clanTag,
-            team: socketData.team,
-            leftWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "DefaultPistol",
-            },
-            rightWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "DefaultPistol",
-            },
-            health: 100,
-            dash: 100,
-            isDead: false,
-            score: 0,
-            deads: 0,
-            kills: 0,
-            ping: 0,
-          });
-
-          break;
-        case "playerLeaves":
-          console.log(socketData);
-          this.PlayerData.splice(socketData.spectatorIndex, 1);
-          break;
-        case "loadoutUpdate":
-          this.PlayerData[socketData.spectatorIndex].leftWeapon = {
-            imageSource: getImage(socketData.leftHand),
-            weaponName: socketData.leftHand,
-          };
-
-          this.PlayerData[socketData.spectatorIndex].rightWeapon = {
-            imageSource: getImage(socketData.rightHand),
-            weaponName: socketData.rightHand,
-          };
-          break;
-        case "switchTeam":
-          console.log(socketData);
-          this.PlayerData[socketData.spectatorIndex].team = socketData.team;
-          break;
-        case "killFeed":
-          console.log(socketData);
-          this.PlayerData[socketData.victim].isDead = true;
-          break;
-        case "respawn":
-          console.log(socketData);
-          this.PlayerData[socketData.spectatorIndex].isDead = false;
-          break;
-        case "healthUpdate":
-          this.PlayerData[socketData.spectatorIndex].health = socketData.health;
-          break;
-        case "CurrentlySpectating":
-          this.selectedIndex = socketData.spectatorIndex;
-          break;
-        case "scoreboard":
-          console.log(socketData);
-          for (let i = 0; i < this.PlayerData.length; i++) {
-            this.PlayerData[i].deads = socketData.deads[i];
-            this.PlayerData[i].kills = socketData.kills[i];
-            this.PlayerData[i].score = socketData.scores[i];
-          }
-          break;
-
-        default:
-          // console.log("Support " + socketData.type + " Please");
-
-          break;
-      }
+      this.$store.commit(socketData.type, socketData);
     },
-    AddFakeData() {
-      for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
-        for (let i = 0; i < 5; i++) {
-          this.PlayerData.push({
-            specatorIndex: i + teamIndex * 5,
-            name: Math.random().toString(16).substr(2, 16),
-            clan: Math.random().toString(16).substr(2, 2),
-            team: teamIndex,
-            leftWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "pistol",
-            },
-            rightWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "pistol",
-            },
-            health: 100,
-            dash: 100,
-            isDead: false,
-            deads: 42,
-            kills: 69,
-            score: 420,
-            ping: 0,
-          });
-        }
-      }
-    },
+    ...mapMutations(["AddFakeData", "changeConnection"]),
   },
   mounted() {
     let ws: WebSocket;
@@ -200,7 +70,7 @@ export default defineComponent({
       }
 
       ws = new WebSocket(`ws://${HOSt}:${PORT}`);
-      this.connection = "Connecting";
+      this.changeConnection("Connecting");
 
       ws.addEventListener("error", failed);
       ws.addEventListener("close", failed);
@@ -213,11 +83,11 @@ export default defineComponent({
     };
 
     const failed = () => {
-      this.connection = "Failed. Enable websocket and restart HyperDash";
+      this.changeConnection("Failed. Enable websocket and restart HyperDash");
     };
 
     const onConnected = () => {
-      this.connection = "";
+      this.changeConnection("");
     };
 
     const onMessage = (ev: MessageEvent<string>) => {

@@ -64,7 +64,8 @@
     <div
       class="Loadout"
       :class="{
-        selectedColor: this.selectedIndex == this.playerData.specatorIndex,
+        selectedColor:
+          this.$store.state.selectedIndex == this.playerData.specatorIndex,
         RLoadout: playerData.team == 0,
         BLoadout: playerData.team == 1,
       }"
@@ -87,24 +88,20 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { playerInfo } from "../models/playerInfo";
+import { mapState } from "vuex";
 
 export default defineComponent({
   name: "NewPlayerTab",
-  data() {
-    return {};
-  },
-  computed: {
+  computed: mapState({
     healthSize() {
-      return this.playerData.health + "%";
+      return this.$store.state.PlayerData[this.spectatorIndex].health + "%";
     },
-  },
+    playerData() {
+      return this.$store.state.PlayerData[this.spectatorIndex];
+    },
+  }),
   props: {
-    playerData: {
-      type: Object as () => playerInfo,
-      required: true,
-    },
-    selectedIndex: {
+    spectatorIndex: {
       type: Number,
       required: true,
     },
