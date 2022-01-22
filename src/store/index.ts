@@ -1,6 +1,6 @@
-import { playerInfo } from "@/models/playerInfo";
+import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
-import { getImage } from "@/Util/GetImage";
+import { getImage } from "../Util/GetImage";
 
 export default createStore({
   state: {
@@ -30,6 +30,9 @@ export default createStore({
         deads: 0,
         kills: 0,
         ping: 0,
+
+        feetPosition: { X: 0, Y: 0, Z: 0 },
+        feetRotation: 0,
       });
     },
     playerLeaves(state, socketData: any) {
@@ -70,7 +73,13 @@ export default createStore({
       }
     },
     playerPos(state, socketData: any) {
-      1 + 1;
+      for (let i = 0; i < socketData.feetPos.length / 3; i++) {
+        state.PlayerData[i].feetPosition = {
+          X: socketData.feetPos[i * 3 + 0],
+          Y: socketData.feetPos[i * 3 + 1],
+          Z: socketData.feetPos[i * 3 + 2],
+        };
+      }
     },
     status(state, socketData: any) {
       1 + 1;
@@ -102,6 +111,9 @@ export default createStore({
             kills: 69,
             score: 420,
             ping: 0,
+
+            feetPosition: { X: 0, Y: 0, Z: 0 },
+            feetRotation: 0,
           });
         }
       }

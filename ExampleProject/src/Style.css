@@ -1,9 +1,0 @@
-.with-100per{
-    width: 100%;
-}
-
-.scroll-box{
-    overflow-x: hidden;
-    overflow-y: auto;
-    max-height: 200px;
-}

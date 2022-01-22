@@ -1,6 +1,6 @@
 <template>
-  <div v-if="this.$store.state.connection">
-    <a>{{ this.$store.state.connection }}</a>
+  <div v-if="$store.state.connection">
+    <a>{{ $store.state.connection }}</a>
     <button @click="AddFakeData">fakeData</button>
   </div>
   <div class="container">
@@ -8,7 +8,7 @@
       <new-player-tab
         v-for="(item, index) in redTeamList"
         :key="index"
-        :spectatorIndex="this.$store.state.PlayerData.indexOf(item)"
+        :spectatorIndex="$store.state.PlayerData.indexOf(item)"
       />
     </div>
     <div></div>
@@ -16,7 +16,7 @@
       <new-player-tab
         v-for="(item, index) in blueTeamList"
         :key="index"
-        :spectatorIndex="this.$store.state.PlayerData.indexOf(item)"
+        :spectatorIndex="$store.state.PlayerData.indexOf(item)"
       />
     </div>
   </div>
@@ -27,7 +27,7 @@ import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 import playerInfo from "./models/playerInfo";
-import { mapMutations } from "vuex";
+import { mapMutations, mapState } from "vuex";
 
 export default defineComponent({
   name: "App",
@@ -37,7 +37,7 @@ export default defineComponent({
   data() {
     return {};
   },
-  computed: {
+  computed: mapState({
     redTeamList() {
       let data = this.$store.state.PlayerData as playerInfo[];
       return data.filter((e: playerInfo) => {
@@ -50,7 +50,7 @@ export default defineComponent({
         return e.team == 1;
       });
     },
-  },
+  }),
   methods: {
     updateData(data: string) {
       var socketData = JSON.parse(data);

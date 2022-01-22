@@ -64,8 +64,7 @@
     <div
       class="Loadout"
       :class="{
-        selectedColor:
-          this.$store.state.selectedIndex == this.playerData.specatorIndex,
+        selectedColor: $store.state.selectedIndex == playerData.specatorIndex,
         RLoadout: playerData.team == 0,
         BLoadout: playerData.team == 1,
       }"

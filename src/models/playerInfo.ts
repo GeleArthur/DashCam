@@ -19,6 +19,13 @@ export interface playerInfo {
   kills: number;
   score: number;
   ping: number;
+
+  feetPosition: {
+    X: number;
+    Y: number;
+    Z: number;
+  };
+  feetRotation: number;
 }
 
 export default playerInfo;
