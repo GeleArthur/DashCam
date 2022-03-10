@@ -3,3 +3,9 @@
 > Full TypeScript support template for Vue 3 + Vite power by [Volar](https://github.com/johnsoncodehk/volar)
 
 This template is modify from [vite/create-app](https://github.com/vitejs/vite/tree/main/packages/create-app/template-vue-ts).
+
+# Building
+- Install nodejs 16+ https://nodejs.org/
+- open terminal and type 
+- `"npm install"`
+- `"npm run dev"`
