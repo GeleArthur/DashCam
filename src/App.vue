@@ -4,21 +4,25 @@
     <button @click="AddFakeData">fakeData</button>
   </div>
   <div class="container">
-    <div class="redTeam">
-      <new-player-tab
-        v-for="(item, index) in redTeamList"
-        :key="index"
-        :spectatorIndex="$store.state.PlayerData.indexOf(item)"
-      />
+    <mini-map />
+
+    <div class="teamContainer">
+      <div class="redTeam">
+        <new-player-tab
+          v-for="(item, index) in redTeamList"
+          :key="index"
+          :spectatorIndex="$store.state.PlayerData.indexOf(item)"
+        />
+      </div>
+      <div class="blueTeam">
+        <new-player-tab
+          v-for="(item, index) in blueTeamList"
+          :key="index"
+          :spectatorIndex="$store.state.PlayerData.indexOf(item)"
+        />
+      </div>
     </div>
-    <div></div>
-    <div class="blueTeam">
-      <new-player-tab
-        v-for="(item, index) in blueTeamList"
-        :key="index"
-        :spectatorIndex="$store.state.PlayerData.indexOf(item)"
-      />
-    </div>
+    
   </div>
 </template>
 
@@ -28,11 +32,13 @@ import { HOSt, PORT } from "./ConstVars";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 import playerInfo from "./models/playerInfo";
 import { mapMutations, mapState } from "vuex";
+import MiniMap from "./components/MiniMap.vue";
 
 export default defineComponent({
   name: "App",
   components: {
     NewPlayerTab,
+    MiniMap,
   },
   data() {
     return {};
@@ -56,7 +62,37 @@ export default defineComponent({
       var socketData = JSON.parse(data);
       this.$store.commit(socketData.type, socketData);
     },
-    ...mapMutations(["AddFakeData", "changeConnection"]),
+    AddFakeData() {
+      for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
+        for (let i = 0; i < 5; i++) {
+          this.$store.commit("playerJoins", {
+            specatorIndex: i + teamIndex * 5,
+            name: Math.random().toString(16).substr(2, 16),
+            clan: Math.random().toString(16).substr(2, 2),
+            team: teamIndex,
+            leftWeapon: {
+              imageSource: "./assets/gun-pistol.png",
+              weaponName: "pistol",
+            },
+            rightWeapon: {
+              imageSource: "./assets/gun-pistol.png",
+              weaponName: "pistol",
+            },
+            health: 100,
+            dash: 100,
+            isDead: false,
+            deads: 42,
+            kills: 69,
+            score: 420,
+            ping: 0,
+
+            feetPosition: { X: 0, Y: 0, Z: 0 },
+            feetRotation: 0,
+          });
+        }
+      }
+    },
+    ...mapMutations(["changeConnection"]),
   },
   mounted() {
     let ws: WebSocket;
@@ -106,11 +142,9 @@ export default defineComponent({
 .redTeam {
   justify-self: start;
 }
-.container {
+.teamContainer {
   display: grid;
-  grid-template-columns: auto auto auto;
-  /* justify-items: self-end; */
-  /* gap: 10em 10em; */
+  grid-template-columns: auto auto;
 }
 </style>
 
@@ -123,6 +157,5 @@ body {
   margin: 0px;
   padding: 0px;
   background: rgba(100, 100, 100, 1);
-  overflow: hidden; /* lazy ass fix this */
 }
 </style>

@@ -57,7 +57,7 @@
         HDleftBorder: playerData.team == 1,
       }"
     >
-      <div class="DHText DashText">100</div>
+      <div class="DHText DashText">{{ playerData.dash.toFixed(1) }}</div>
       <div class="DHProgress DashProgress"></div>
     </div>
 
@@ -94,6 +94,9 @@ export default defineComponent({
   computed: mapState({
     healthSize() {
       return this.$store.state.PlayerData[this.spectatorIndex].health + "%";
+    },
+    dashSize(){
+      return (this.$store.state.PlayerData[this.spectatorIndex].dash/3*100).toString() + "%";
     },
     playerData() {
       return this.$store.state.PlayerData[this.spectatorIndex];
@@ -288,6 +291,7 @@ export default defineComponent({
 
 .DashProgress {
   background: rgb(0, 138, 180);
+  height: v-bind(dashSize);
 }
 
 /*#endregion*/

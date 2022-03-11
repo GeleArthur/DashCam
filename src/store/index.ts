@@ -1,6 +1,7 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
+import { playerJoins } from "../models/playerJoins";
 
 export default createStore({
   state: {
@@ -9,7 +10,7 @@ export default createStore({
     selectedIndex: 0,
   },
   mutations: {
-    playerJoins(state, socketData: any) {
+    playerJoins(state, socketData: playerJoins) {
       state.PlayerData.push({
         specatorIndex: socketData.spectatorIndex,
         name: socketData.name,
@@ -79,44 +80,14 @@ export default createStore({
           Y: socketData.feetPos[i * 3 + 1],
           Z: socketData.feetPos[i * 3 + 2],
         };
+        state.PlayerData[i].feetRotation = socketData.feetDirection;
       }
     },
     status(state, socketData: any) {
       1 + 1;
     },
     dashUpdate(state, socketData: any) {
-      1 + 1;
-    },
-
-    AddFakeData(state) {
-      for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
-        for (let i = 0; i < 5; i++) {
-          state.PlayerData.push({
-            specatorIndex: i + teamIndex * 5,
-            name: Math.random().toString(16).substr(2, 16),
-            clan: Math.random().toString(16).substr(2, 2),
-            team: teamIndex,
-            leftWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "pistol",
-            },
-            rightWeapon: {
-              imageSource: "./assets/gun-pistol.png",
-              weaponName: "pistol",
-            },
-            health: 100,
-            dash: 100,
-            isDead: false,
-            deads: 42,
-            kills: 69,
-            score: 420,
-            ping: 0,
-
-            feetPosition: { X: 0, Y: 0, Z: 0 },
-            feetRotation: 0,
-          });
-        }
-      }
+      state.PlayerData[socketData.spectatorIndex].dash = socketData.dashAmount;
     },
     changeConnection(state, connectionType) {
       state.connection = connectionType;
