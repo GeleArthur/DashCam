@@ -1,14 +1,14 @@
 export interface playerJoins {
-  type: string;
+	type: string;
 
-  feetPos: number[];
-  feetDirection: number[];
+	feetPos: number[];
+	feetDirection: number[];
 
-  headPos: number[];
-  headRot: number[];
+	headPos: number[];
+	headRot: number[];
 
-  level: number;
-  id: string;
+	level: number;
+	id: string;
 }
 
 export default playerJoins;
