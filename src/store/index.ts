@@ -2,6 +2,7 @@ import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
 import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
+import { playerJoins } from "../models/playerJoins";
 
 export default createStore({
   state: {
@@ -11,7 +12,7 @@ export default createStore({
     matchInfo: {} as matchInfo,
   },
   mutations: {
-    playerJoins(state, socketData: any) {
+    playerJoins(state, socketData: playerJoins) {
       state.PlayerData.push({
         specatorIndex: socketData.spectatorIndex,
         name: socketData.name,
@@ -81,13 +82,14 @@ export default createStore({
           Y: socketData.feetPos[i * 3 + 1],
           Z: socketData.feetPos[i * 3 + 2],
         };
+        state.PlayerData[i].feetRotation = socketData.feetDirection;
       }
     },
     status(state, socketData: any) {
       1 + 1;
     },
     dashUpdate(state, socketData: any) {
-      1 + 1;
+      state.PlayerData[socketData.spectatorIndex].dash = socketData.dashAmount;
     },
 
     // Will not be called by hyperBash
