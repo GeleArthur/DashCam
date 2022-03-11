@@ -12,3 +12,8 @@ jobs:
           node-version: '16'
       - run: npm ci
       - run: npm run build
+      - name: Archive Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: Artifacts
+          path: dist/
