@@ -1,13 +1,13 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
-import matchInfo from "../models/matchInfo";
+import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 
 export default createStore({
   state: {
     connection: "Failed",
-    PlayerData: [] as playerInfo[],
     selectedIndex: 0,
+    PlayerData: [] as playerInfo[],
     matchInfo: {} as matchInfo,
   },
   mutations: {
@@ -90,6 +90,7 @@ export default createStore({
       1 + 1;
     },
 
+    // Will not be called by hyperBash
     AddFakeData(state) {
       for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
         for (let i = 0; i < 5; i++) {
@@ -119,6 +120,35 @@ export default createStore({
           });
         }
       }
+
+      state.matchInfo = {
+        controllPoint: {
+          TeamScoringPoints: teams.none,
+          blueScore: 0,
+          redScore: 0,
+        },
+        domination: {
+          countDownTimer: 5,
+          teamCountDown: teams.none,
+          pointA: teams.none,
+          pointB: teams.none,
+          pointC: teams.none,
+        },
+        payload: {
+          amountBlueOnCart: 0,
+          blueTeamPercent: 0,
+          cartBlockedByRed: false,
+          checkPoint: false,
+          redTeamPercent: 0,
+          secondRound: false,
+        },
+
+        map: mapName.lobby,
+        matchtype: matchType.lobby,
+        timer: 99999
+      }
+
+      state.selectedIndex = 0;
     },
     changeConnection(state, connectionType) {
       state.connection = connectionType;
