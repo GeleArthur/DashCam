@@ -1,12 +1,14 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
+import matchInfo from "../models/matchInfo";
 
 export default createStore({
   state: {
-    PlayerData: [] as playerInfo[],
     connection: "Failed",
+    PlayerData: [] as playerInfo[],
     selectedIndex: 0,
+    matchInfo: {} as matchInfo,
   },
   mutations: {
     playerJoins(state, socketData: any) {
