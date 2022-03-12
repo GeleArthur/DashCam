@@ -1,8 +1,11 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
-import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
-import { playerJoins } from "../models/playerJoins";
+import matchInfo from "../models/matchInfo";
+
+import playerJoins from "../models/HyperBashModels/playerJoins";
+import playerPos from "../models/HyperBashModels/playerPos";
+import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 
 export default createStore({
 	state: {
@@ -42,7 +45,7 @@ export default createStore({
 			state.PlayerData.splice(socketData.spectatorIndex, 1);
 		},
 
-		loadoutUpdate(state, socketData: any) {
+		loadoutUpdate(state, socketData: LoadoutUpdate) {
 			state.PlayerData[socketData.spectatorIndex].leftWeapon = {
 				imageSource: getImage(socketData.leftHand),
 				weaponName: socketData.leftHand,
@@ -75,14 +78,15 @@ export default createStore({
 				state.PlayerData[i].score = socketData.scores[i];
 			}
 		},
-		playerPos(state, socketData: any) {
+		playerPos(state, socketData: playerPos) {
 			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
 				state.PlayerData[i].feetPosition = {
 					X: socketData.feetPos[i * 3 + 0],
 					Y: socketData.feetPos[i * 3 + 1],
 					Z: socketData.feetPos[i * 3 + 2],
 				};
-				state.PlayerData[i].feetRotation = socketData.feetDirection;
+
+				state.PlayerData[i].feetRotation = socketData.feetDirection[i];
 			}
 		},
 		status(state, socketData: any) {

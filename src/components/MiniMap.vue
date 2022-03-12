@@ -6,7 +6,7 @@
 import { defineComponent } from "vue";
 import * as PIXI from "pixi.js";
 import store from "../store/store";
-import playerJoins from "../models/playerJoins";
+import playerJoins from "../models/HyperBashModels/playerJoins";
 import { Graphics } from "pixi.js";
 
 export default defineComponent({
