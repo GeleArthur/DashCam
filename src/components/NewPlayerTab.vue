@@ -1,4 +1,7 @@
+
+
 <template>
+<!-- next time everything should be split up in diffrent files-->
 	<div
 		:class="{
 			Rcontainer: playerData.team == 0,

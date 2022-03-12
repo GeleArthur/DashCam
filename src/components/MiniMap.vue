@@ -33,10 +33,13 @@ export default defineComponent({
 		store.subscribe((mutation, state) => {
 			switch (mutation.type) {
 				case "playerPos":
-					this.updateCanvas();
+					this.updatePlayerPos();
 					break;
 				case "playerJoins":
 					this.addPlayer(mutation.payload);
+					break;
+				case "playerLeaves":
+					this.removePlayer(mutation.payload);
 					break;
 			}
 		});
@@ -57,7 +60,11 @@ export default defineComponent({
 			this.world.addChild(newPlayer);
 		},
 
-		updateCanvas() {
+		removePlayer(playerLeaves: any) {
+			this.world.removeChildAt(playerLeaves.spectatorIndex);
+		},
+
+		updatePlayerPos() {
 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
 				this.players[i].position.set(
 					this.$store.state.PlayerData[i].feetPosition.X,
