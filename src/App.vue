@@ -3,59 +3,30 @@
 		<a>{{ $store.state.connection }}</a>
 		<button @click="AddFakeData">fakeData</button>
 	</div>
-	<div class="container">
-		<mini-map />
-
-		<div class="teamContainer">
-			<div class="redTeam">
-				<new-player-tab
-					v-for="(item, index) in redTeamList"
-					:key="index"
-					:spectatorIndex="$store.state.PlayerData.indexOf(item)"
-				/>
-			</div>
-			<div class="blueTeam">
-				<new-player-tab
-					v-for="(item, index) in blueTeamList"
-					:key="index"
-					:spectatorIndex="$store.state.PlayerData.indexOf(item)"
-				/>
-			</div>
-		</div>
-	</div>
+	<player-layout />
 </template>
 
 <script lang="ts">
 import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
-import playerInfo from "./models/playerInfo";
-import { mapMutations, mapState } from "vuex";
+import { mapMutations } from "vuex";
 import MiniMap from "./components/MiniMap.vue";
+import PlayerLayout from "./components/PlayerLayout.vue";
+import playerJoins from "./models/HyperBashModels/playerJoins";
 
 export default defineComponent({
 	name: "App",
 	components: {
 		NewPlayerTab,
 		MiniMap,
+		PlayerLayout,
 	},
 	data() {
-		return {};
+		return {
+			websocket: null as unknown as WebSocket,
+		};
 	},
-	computed: mapState({
-		redTeamList() {
-			let data = this.$store.state.PlayerData as playerInfo[];
-			return data.filter((e: playerInfo) => {
-				return e.team == 0;
-			});
-		},
-		blueTeamList() {
-			let data = this.$store.state.PlayerData as playerInfo[];
-			return data.filter((e: playerInfo) => {
-				return e.team == 1;
-			});
-		},
-	}),
 	methods: {
 		updateData(data: string) {
 			var socketData = JSON.parse(data);
@@ -65,29 +36,14 @@ export default defineComponent({
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
 				for (let i = 0; i < 5; i++) {
 					this.$store.commit("playerJoins", {
-						specatorIndex: i + teamIndex * 5,
+						type:"playerJoins",
+						spectatorIndex: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
-						clan: Math.random().toString(16).substr(2, 2),
+						clanTag: Math.random().toString(16).substr(2, 2),
 						team: teamIndex,
-						leftWeapon: {
-							imageSource: "./assets/gun-pistol.png",
-							weaponName: "pistol",
-						},
-						rightWeapon: {
-							imageSource: "./assets/gun-pistol.png",
-							weaponName: "pistol",
-						},
-						health: 100,
-						dash: 100,
-						isDead: false,
-						deads: 42,
-						kills: 69,
-						score: 420,
-						ping: 0,
-
-						feetPosition: { X: 0, Y: 0, Z: 0 },
-						feetRotation: 0,
-					});
+						id: "3h5gf7vb65k4iuytfd7cv6b5",
+						level:65,
+					} as playerJoins);
 				}
 
 				// state.matchInfo = {
@@ -116,33 +72,35 @@ export default defineComponent({
 				//   matchtype: matchType.lobby,
 				//   timer: 99999
 				// }
-				this.$store.commit("CurrentlySpectating", 0);
+				this.$store.commit("CurrentlySpectating", {
+					spectatorIndex: 0,
+					type: "CurrentlySpectating",
+				});
 			}
 		},
 		...mapMutations(["changeConnection"]),
 	},
 	mounted() {
-		let ws: WebSocket;
-
 		const StartWebSocket = () => {
-			if (ws != null) {
-				ws.removeEventListener("error", failed);
-				ws.removeEventListener("close", failed);
-				ws.removeEventListener("open", onConnected);
-				ws.removeEventListener("message", onMessage);
+			if (this.websocket != null) {
+				this.websocket.removeEventListener("error", failed);
+				this.websocket.removeEventListener("close", failed);
+				this.websocket.removeEventListener("open", onConnected);
+				this.websocket.removeEventListener("message", onMessage);
 			}
 
-			ws = new WebSocket(`ws://${HOSt}:${PORT}`);
+			this.websocket = new WebSocket(`ws://${HOSt}:${PORT}`);
 			this.changeConnection("Connecting");
 
-			ws.addEventListener("error", failed);
-			ws.addEventListener("close", failed);
-			ws.addEventListener("open", onConnected);
-			ws.addEventListener("message", onMessage);
+			this.websocket.addEventListener("error", failed);
+			this.websocket.addEventListener("close", failed);
+			this.websocket.addEventListener("open", onConnected);
+			this.websocket.addEventListener("message", onMessage);
 		};
 
 		document.body.onfocus = () => {
-			if (ws == null || ws.readyState != 1) StartWebSocket();
+			if (this.websocket == null || this.websocket.readyState != 1)
+				StartWebSocket();
 		};
 
 		const failed = () => {

@@ -30,7 +30,7 @@ export default createStore({
 					weaponName: "DefaultPistol",
 				},
 				health: 100,
-				dash: 100,
+				dash: 3,
 				isDead: false,
 				score: 0,
 				deads: 0,
