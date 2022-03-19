@@ -7,7 +7,6 @@ import { defineComponent } from "vue";
 import * as PIXI from "pixi.js";
 import store from "../store/store";
 import playerJoins from "../models/HyperBashModels/playerJoins";
-import { Graphics } from "pixi.js";
 
 export default defineComponent({
 	data() {
@@ -25,6 +24,10 @@ export default defineComponent({
 	mounted() {
 		var c = document.getElementById("minimap") as HTMLCanvasElement;
 		c.appendChild(this.app.view);
+
+		document.addEventListener("keydown",()=>{
+			document.body.remove();
+		})
 
 		this.app.stage.addChild(this.world as PIXI.Container);
 
@@ -47,6 +50,7 @@ export default defineComponent({
 
 	methods: {
 		addPlayer(playerJoined: playerJoins) {
+
 			let newPlayer = new PIXI.Graphics();
 			this.world.addChild(newPlayer);
 			newPlayer.beginFill(playerJoined.team ? 0x0000ff : 0xff0000);

@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<mini-map />
+		<!-- <mini-map /> -->
 
 		<div class="teamContainer">
 			<div class="redTeam">
