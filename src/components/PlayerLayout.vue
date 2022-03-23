@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<!-- <mini-map /> -->
+		<mini-map />
 
-		<div class="teamContainer">
+		<!-- <div class="teamContainer">
 			<div class="redTeam">
 				<new-player-tab
 					v-for="(item, index) in redTeamList"
@@ -17,7 +17,7 @@
 					:spectatorIndex="$store.state.PlayerData.indexOf(item)"
 				/>
 			</div>
-		</div>
+		</div> -->
 	</div>
 </template>
 

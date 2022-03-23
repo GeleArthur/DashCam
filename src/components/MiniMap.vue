@@ -12,12 +12,14 @@ export default defineComponent({
 	data() {
 		return {
 			app: new PIXI.Application({
-				backgroundAlpha: 0.1,
+				backgroundAlpha: 1.0,
 				width: 400,
 				height: 400,
 			}),
 			world: new PIXI.Container(),
+			playerContainer: new PIXI.Container(),
 			players: [] as PIXI.Graphics[],
+			dragging: false,
 		};
 	},
 
@@ -25,13 +27,10 @@ export default defineComponent({
 		var c = document.getElementById("minimap") as HTMLCanvasElement;
 		c.appendChild(this.app.view);
 
-		document.addEventListener("keydown",()=>{
-			document.body.remove();
-		})
-
 		this.app.stage.addChild(this.world as PIXI.Container);
 
 		this.world.position.set(this.app.view.width / 2, this.app.view.height / 2);
+		this.world.addChild(this.playerContainer as PIXI.Container);
 
 		store.subscribe((mutation, state) => {
 			switch (mutation.type) {
@@ -46,11 +45,24 @@ export default defineComponent({
 					break;
 			}
 		});
+
+		this.app.view.addEventListener("pointermove", (e) => {
+			if(this.dragging == false) return;
+			this.world.position.set(
+				this.world.position.x + e.movementX,
+				this.world.position.y + e.movementY
+			);
+		});
+		this.app.view.addEventListener("pointerdown",()=>{
+			this.dragging = true;
+		})
+		this.app.view.addEventListener("pointerup",()=>{
+			this.dragging = false;
+		})
 	},
 
 	methods: {
 		addPlayer(playerJoined: playerJoins) {
-
 			let newPlayer = new PIXI.Graphics();
 			this.world.addChild(newPlayer);
 			newPlayer.beginFill(playerJoined.team ? 0x0000ff : 0xff0000);
@@ -61,11 +73,12 @@ export default defineComponent({
 			newPlayer.endFill();
 			this.players.push(newPlayer);
 
-			this.world.addChild(newPlayer);
+			this.playerContainer.addChild(newPlayer);
 		},
 
 		removePlayer(playerLeaves: any) {
-			this.world.removeChildAt(playerLeaves.spectatorIndex);
+			this.playerContainer.removeChildAt(playerLeaves.spectatorIndex);
+			this.players.splice(playerLeaves.spectatorIndex, 1);
 		},
 
 		updatePlayerPos() {

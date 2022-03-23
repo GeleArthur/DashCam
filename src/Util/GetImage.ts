@@ -27,3 +27,7 @@ export function getImage(gunName: string): string {
 			return "";
 	}
 }
+
+export function getRandomArbitrary(min: number, max: number) {
+	return Math.random() * (max - min) + min;
+}
