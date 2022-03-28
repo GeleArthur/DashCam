@@ -98,12 +98,12 @@ export default defineComponent({
 
 .team--blue{
 	background: transparent url('../../public/assets/dln-ui-team-blue.png') no-repeat scroll top left;
-	grid-template-columns:20px 424px 94px;
+	grid-template-columns:20px auto 94px;
 }
 .team--blue .team__logo{grid-column:3;}
 .team--red{
 	background: transparent url('../../public/assets/dln-ui-team-red.png') no-repeat scroll top right;
-	grid-template-columns:94px 420px 20px;
+	grid-template-columns:94px auto 20px;
 }
 .team--red .team__logo{grid-column:1;}
 

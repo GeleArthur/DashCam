@@ -1,7 +1,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
-
 <template>
 	<div id="admin" v-if="$store.state.connection">
 		<a>{{ $store.state.connection }}</a>
@@ -18,6 +17,8 @@ import { mapMutations } from "vuex";
 import MiniMap from "./components/MiniMap.vue";
 import PlayerLayout from "./components/PlayerLayout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
+import playerPos from "./models/HyperBashModels/playerPos";
+import { getRandomArbitrary } from "./Util/GetImage";
 
 export default defineComponent({
 	name: "App",
@@ -29,6 +30,7 @@ export default defineComponent({
 	data() {
 		return {
 			websocket: null as unknown as WebSocket,
+			fakeDataInterval: 0,
 		};
 	},
 	methods: {
@@ -37,50 +39,95 @@ export default defineComponent({
 			this.$store.commit(socketData.type, socketData);
 		},
 		AddFakeData() {
+			clearInterval(this.fakeDataInterval);
+
+			for (let i = this.$store.state.PlayerData.length - 1; i >= 0; i--) {
+				this.$store.commit("playerLeaves", {
+					spectatorIndex: i,
+					type: "playerLeaves",
+				});
+			}
+
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
 				for (let i = 0; i < 5; i++) {
 					this.$store.commit("playerJoins", {
-						type:"playerJoins",
+						type: "playerJoins",
 						spectatorIndex: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
 						clanTag: Math.random().toString(16).substr(2, 2),
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
-						level:65,
+						level: 65,
 					} as playerJoins);
 				}
-
-				// state.matchInfo = {
-				//   controllPoint: {
-				//     TeamScoringPoints: teams.none,
-				//     blueScore: 0,
-				//     redScore: 0,
-				//   },
-				//   domination: {
-				//     countDownTimer: 5,
-				//     teamCountDown: teams.none,
-				//     pointA: teams.none,
-				//     pointB: teams.none,
-				//     pointC: teams.none,
-				//   },
-				//   payload: {
-				//     amountBlueOnCart: 0,
-				//     blueTeamPercent: 0,
-				//     cartBlockedByRed: false,
-				//     checkPoint: false,
-				//     redTeamPercent: 0,
-				//     secondRound: false,
-				//   },
-
-				//   map: mapName.lobby,
-				//   matchtype: matchType.lobby,
-				//   timer: 99999
-				// }
-				this.$store.commit("CurrentlySpectating", {
-					spectatorIndex: 0,
-					type: "CurrentlySpectating",
-				});
 			}
+
+			// state.matchInfo = {
+			//   controllPoint: {
+			//     TeamScoringPoints: teams.none,
+			//     blueScore: 0,
+			//     redScore: 0,
+			//   },
+			//   domination: {
+			//     countDownTimer: 5,
+			//     teamCountDown: teams.none,
+			//     pointA: teams.none,
+			//     pointB: teams.none,
+			//     pointC: teams.none,
+			//   },
+			//   payload: {
+			//     amountBlueOnCart: 0,
+			//     blueTeamPercent: 0,
+			//     cartBlockedByRed: false,
+			//     checkPoint: false,
+			//     redTeamPercent: 0,
+			//     secondRound: false,
+			//   },
+
+			//   map: mapName.lobby,
+			//   matchtype: matchType.lobby,
+			//   timer: 99999
+			// }
+
+			this.$store.commit("CurrentlySpectating", {
+				spectatorIndex: 0,
+				type: "CurrentlySpectating",
+			});
+
+			this.$store.commit("playerPos", {
+				type: "playerPos",
+				feetDirection: [...Array(10).keys()].map(() =>
+					getRandomArbitrary(0, 360)
+				),
+				feetPos: [...Array(10 * 3).keys()].map(() =>
+					getRandomArbitrary(-200, 200)
+				),
+			} as playerPos);
+
+			this.fakeDataInterval = setInterval(() => {
+				let feetArray = [];
+				let feetDirection = [];
+				for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+					feetArray.push(
+						this.$store.state.PlayerData[i].feetPosition.X +
+							getRandomArbitrary(-1, 1)
+					);
+					feetArray.push(
+						this.$store.state.PlayerData[i].feetPosition.Y +
+							getRandomArbitrary(-1, 1)
+					);
+					feetArray.push(
+						this.$store.state.PlayerData[i].feetPosition.Z +
+							getRandomArbitrary(-1, 1)
+					);
+				}
+
+				this.$store.commit("playerPos", {
+					type: "playerPos",
+					feetDirection: [...Array(10).keys()].map(() => 0),
+					feetPos: feetArray,
+				} as playerPos);
+			}, 10);
 		},
 		...mapMutations(["changeConnection"]),
 	},

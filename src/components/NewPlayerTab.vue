@@ -7,7 +7,9 @@
 	}
 	.player__name{grid-column-gap:10px;text-align:left;}
 </style>
+
 <template>
+<!-- next time everything should be split up in diffrent files-->
 	<div
 		:class="{
 			'player player__red': playerData.team == 0,
