@@ -168,7 +168,23 @@ export default defineComponent({
 </script>
 
 <style>
-#app{font-family:'Roboto',sans-serif;}
-#admin{background-color:rgba(0,0,0,0.5);bottom:0;color:#fff;display:grid;grid-template-columns:auto 100px;left:0;padding:1em;position:fixed;right:0;}
-body{background:rgba(100,100,100,1);margin:0px;padding:0px;}
+#app {
+	font-family: "Roboto", sans-serif;
+}
+#admin {
+	background-color: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	color: #fff;
+	display: grid;
+	grid-template-columns: auto 100px;
+	left: 0;
+	padding: 1em;
+	position: fixed;
+	right: 0;
+}
+body {
+	background: rgba(100, 100, 100, 1);
+	margin: 0px;
+	padding: 0px;
+}
 </style>

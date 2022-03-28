@@ -8,11 +8,13 @@ import * as PIXI from "pixi.js";
 import store from "../store/store";
 import playerJoins from "../models/HyperBashModels/playerJoins";
 
+import abyssMap from "../assets/Maps/Payload_Abyss_2.png";
+
 export default defineComponent({
 	data() {
 		return {
 			app: new PIXI.Application({
-				backgroundAlpha: 0.1,
+				backgroundAlpha: 0.5,
 				width: 400,
 				height: 400,
 			}),
@@ -34,7 +36,7 @@ export default defineComponent({
 
 		const loader = PIXI.Loader.shared;
 
-		loader.add("Abyss", "/assets/Maps/Payload_Abyss_2.png");
+		loader.add("Abyss", abyssMap);
 		loader.load((loader, resources) => {
 			let backgroundImage = new PIXI.Sprite(resources.Abyss.texture);
 			backgroundImage.scale.set(1.0);
