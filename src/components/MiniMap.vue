@@ -2,6 +2,12 @@
 	<div id="minimap"></div>
 </template>
 
+<style>
+  #minimap{
+    
+  }
+</style>
+
 <script lang="ts">
 import { defineComponent } from "vue";
 import * as PIXI from "pixi.js";
