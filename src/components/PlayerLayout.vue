@@ -40,16 +40,16 @@
 			</div>
 		</div>
 		
-		<mini-map />
+		<!-- <mini-map /> -->
 		
-		<div class="playerBar">
+		<div class="playerBar" :disabled="$store.state.selectedIndex == 0">
 			<div class="playerBar_wrapper">
 				<div class="playerBar__dashes">=====</div>
-				<div class="playerBar__score">24,523</div>
+				<div class="playerBar__score">{{selectedPlayer.score}}</div>
 				<div class="playerBar__health">=====</div>
-				<div class="playerBar__kills">104</div>
-				<div class="playerBar__name">UNSC Styledev</div>
-				<div class="playerBar__deaths">54</div>
+				<div class="playerBar__kills">{{selectedPlayer.kills}}</div>
+				<div class="playerBar__name">{{selectedPlayer.name}}</div>
+				<div class="playerBar__deaths">{{selectedPlayer.deads}}</div>
 			</div>
 		</div>
 		
@@ -82,6 +82,9 @@ export default defineComponent({
 			return data.filter((e: playerInfo) => {
 				return e.team == 1;
 			});
+		},
+		selectedPlayer() {
+			return this.$store.state.PlayerData[this.$store.state.selectedIndex];
 		},
 	}),
 });

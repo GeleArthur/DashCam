@@ -14,9 +14,9 @@ export default defineComponent({
 	data() {
 		return {
 			app: new PIXI.Application({
-				backgroundAlpha: 0.5,
-				width: 400,
-				height: 400,
+				backgroundAlpha: 0.3,
+				width: 200,
+				height: 200,
 			}),
 			world: new PIXI.Container(),
 			playerContainer: new PIXI.Container(),
@@ -44,19 +44,19 @@ export default defineComponent({
 			this.world.addChildAt(backgroundImage, 0);
 		});
 
-		store.subscribe((mutation, state) => {
-			switch (mutation.type) {
-				case "playerPos":
-					this.updatePlayerPos();
-					break;
-				case "playerJoins":
-					this.addPlayer(mutation.payload);
-					break;
-				case "playerLeaves":
-					this.removePlayer(mutation.payload);
-					break;
-			}
-		});
+		// store.subscribe((mutation, state) => {
+		// 	switch (mutation.type) {
+		// 		case "playerPos":
+		// 			this.updatePlayerPos();
+		// 			break;
+		// 		case "playerJoins":
+		// 			this.addPlayer(mutation.payload);
+		// 			break;
+		// 		case "playerLeaves":
+		// 			this.removePlayer(mutation.payload);
+		// 			break;
+		// 	}
+		// });
 
 		this.app.view.addEventListener("pointermove", (e) => {
 			if (this.dragging == false) return;

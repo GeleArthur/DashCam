@@ -59,6 +59,13 @@ export default defineComponent({
 				}
 			}
 
+			this.$store.commit("scoreboard", {
+				type: "scoreboard",
+				deads: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
+				kills: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
+				score: [...Array(10).keys()].map(() => getRandomInt(0, 100000)),
+			});
+
 			// state.matchInfo = {
 			//   controllPoint: {
 			//     TeamScoringPoints: teams.none,
@@ -165,6 +172,10 @@ export default defineComponent({
 		StartWebSocket();
 	},
 });
+
+function getRandomInt(arg0: number, arg1: number): any {
+throw new Error("Function not implemented.");
+}
 </script>
 
 <style>
