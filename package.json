@@ -19,7 +19,6 @@
     "sass": "^1.49.0",
     "typescript": "latest",
     "vite": "latest",
-    "vue-tsc": "latest",
-    "@volar/vue-language-service-types": "latest"
+    "vue-tsc": "latest"
   }
 }
