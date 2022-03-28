@@ -12,7 +12,7 @@ export default defineComponent({
 	data() {
 		return {
 			app: new PIXI.Application({
-				backgroundAlpha: 1.0,
+				backgroundAlpha: 0.1,
 				width: 400,
 				height: 400,
 			}),
@@ -32,6 +32,16 @@ export default defineComponent({
 		this.world.position.set(this.app.view.width / 2, this.app.view.height / 2);
 		this.world.addChild(this.playerContainer as PIXI.Container);
 
+		const loader = PIXI.Loader.shared;
+
+		loader.add("Abyss", "/assets/Maps/Payload_Abyss_2.png");
+		loader.load((loader, resources) => {
+			let backgroundImage = new PIXI.Sprite(resources.Abyss.texture);
+			backgroundImage.scale.set(0.1)
+			backgroundImage.position.set(-600,-600)
+			this.world.addChildAt(backgroundImage,0);
+		});
+
 		store.subscribe((mutation, state) => {
 			switch (mutation.type) {
 				case "playerPos":
@@ -47,16 +57,19 @@ export default defineComponent({
 		});
 
 		this.app.view.addEventListener("pointermove", (e) => {
-			if(this.dragging == false) return;
+			if (this.dragging == false) return;
 			this.world.position.set(
 				this.world.position.x + e.movementX,
 				this.world.position.y + e.movementY
 			);
 		});
-		this.app.view.addEventListener("pointerdown",()=>{
+		this.app.view.addEventListener("pointerdown", () => {
 			this.dragging = true;
-		})
-		this.app.view.addEventListener("pointerup",()=>{
+		});
+		this.app.view.addEventListener("pointerup", () => {
+			this.dragging = false;
+		});
+		this.app.view.addEventListener("pointerleave",()=>{
 			this.dragging = false;
 		})
 	},
@@ -71,6 +84,7 @@ export default defineComponent({
 			newPlayer.lineTo(-30, 0);
 			newPlayer.lineTo(0, -60);
 			newPlayer.endFill();
+			newPlayer.scale.set(0.1, 0.1);
 			this.players.push(newPlayer);
 
 			this.playerContainer.addChild(newPlayer);

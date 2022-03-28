@@ -105,7 +105,6 @@ export default defineComponent({
 
 			this.fakeDataInterval = setInterval(() => {
 				let feetArray = [];
-				let feetDirection = [];
 				for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
 					feetArray.push(
 						this.$store.state.PlayerData[i].feetPosition.X +
