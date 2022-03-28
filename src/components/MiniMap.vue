@@ -2,12 +2,6 @@
 	<div id="minimap"></div>
 </template>
 
-<style>
-  #minimap{
-    
-  }
-</style>
-
 <script lang="ts">
 import { defineComponent } from "vue";
 import * as PIXI from "pixi.js";
@@ -43,9 +37,9 @@ export default defineComponent({
 		loader.add("Abyss", "/assets/Maps/Payload_Abyss_2.png");
 		loader.load((loader, resources) => {
 			let backgroundImage = new PIXI.Sprite(resources.Abyss.texture);
-			backgroundImage.scale.set(0.1)
-			backgroundImage.position.set(-600,-600)
-			this.world.addChildAt(backgroundImage,0);
+			backgroundImage.scale.set(1.0);
+			backgroundImage.position.set(0, 0);
+			this.world.addChildAt(backgroundImage, 0);
 		});
 
 		store.subscribe((mutation, state) => {
@@ -75,9 +69,9 @@ export default defineComponent({
 		this.app.view.addEventListener("pointerup", () => {
 			this.dragging = false;
 		});
-		this.app.view.addEventListener("pointerleave",()=>{
+		this.app.view.addEventListener("pointerleave", () => {
 			this.dragging = false;
-		})
+		});
 	},
 
 	methods: {
@@ -115,5 +109,3 @@ export default defineComponent({
 	computed: {},
 });
 </script>
-
-<style scoped></style>

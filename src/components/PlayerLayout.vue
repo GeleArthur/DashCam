@@ -1,5 +1,7 @@
 <template>
 	<div class="container">
+
+
 		<div class="team team--blue">
 			<div class="team__players team__players--blue">
 				<new-player-tab
@@ -50,6 +52,7 @@
 				<div class="playerBar__deaths">54</div>
 			</div>
 		</div>
+		
 	</div>
 </template>
 
@@ -97,12 +100,12 @@ export default defineComponent({
 .team__logo{grid-row:2 / span 2;}
 
 .team--blue{
-	background: transparent url('../../public/assets/dln-ui-team-blue.png') no-repeat scroll top left;
+	background: transparent url('../assets/dln-ui-team-blue.png') no-repeat scroll top left;
 	grid-template-columns:20px auto 94px;
 }
 .team--blue .team__logo{grid-column:3;}
 .team--red{
-	background: transparent url('../../public/assets/dln-ui-team-red.png') no-repeat scroll top right;
+	background: transparent url('../assets/dln-ui-team-red.png') no-repeat scroll top right;
 	grid-template-columns:94px auto 20px;
 }
 .team--red .team__logo{grid-column:1;}
@@ -121,7 +124,7 @@ export default defineComponent({
 
 .scoreboard{display:flex;grid-column:2;grid-row:1;justify-content:center;}
 .scoreboard__wrapper {
-	background: transparent url('../../public/assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;
+	background: transparent url('../assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;
 	color: #fff;
 	display: grid;
 	grid-column-start: 2;
@@ -151,7 +154,7 @@ export default defineComponent({
 	margin-bottom: 1em;
 }
 .playerBar_wrapper {
-	background: transparent url('../../public/assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
+	background: transparent url('../assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
 	color: #fff;
 	display: grid;
 	grid-template-columns: 42px 8px 40px 3px 83px 15px 140px 13px 84px 3px 40px 8px auto;
