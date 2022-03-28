@@ -1,7 +1,11 @@
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@700;900&display=swap" rel="stylesheet">
+
 <template>
-	<div v-if="$store.state.connection">
+	<div id="admin" v-if="$store.state.connection">
 		<a>{{ $store.state.connection }}</a>
-		<button @click="AddFakeData">fakeData</button>
+		<button @click="AddFakeData">Fake Data</button>
 	</div>
 	<player-layout />
 </template>
@@ -120,27 +124,8 @@ export default defineComponent({
 });
 </script>
 
-<style scoped>
-.blueTeam {
-	justify-self: end;
-}
-.redTeam {
-	justify-self: start;
-}
-.teamContainer {
-	display: grid;
-	grid-template-columns: auto auto;
-}
-</style>
-
 <style>
-#app {
-	font-family: Arial;
-}
-
-body {
-	margin: 0px;
-	padding: 0px;
-	background: rgba(100, 100, 100, 1);
-}
+#app{font-family:'Roboto',sans-serif;}
+#admin{background-color:rgba(0,0,0,0.5);bottom:0;color:#fff;display:grid;grid-template-columns:auto 100px;left:0;padding:1em;position:fixed;right:0;}
+body{background:rgba(100,100,100,1);margin:0px;padding:0px;}
 </style>
