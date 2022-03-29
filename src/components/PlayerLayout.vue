@@ -40,7 +40,7 @@
 		
 		<!-- <mini-map /> -->
 		
-		<div class="playerBar" :disabled="$store.state.selectedIndex == 0">
+		<div class="playerBar" v-if="$store.state.selectedIndex >= 0">
 			<div class="playerBar_wrapper">
 				<div class="playerBar__dashes">{{selectedPlayer.dash.toFixed(1)}}</div>
 				<div class="playerBar__score">{{selectedPlayer.score}}</div>

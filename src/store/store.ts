@@ -10,7 +10,7 @@ import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 export default createStore({
 	state: {
 		connection: "Failed",
-		selectedIndex: 0,
+		selectedIndex: -1,
 		PlayerData: [] as playerInfo[],
 		matchInfo: {} as matchInfo,
 	},

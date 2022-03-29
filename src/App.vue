@@ -94,7 +94,7 @@ export default defineComponent({
 			// }
 
 			this.$store.commit("CurrentlySpectating", {
-				spectatorIndex: 0,
+				spectatorIndex: -1,
 				type: "CurrentlySpectating",
 			});
 
