@@ -74,31 +74,32 @@ export default defineComponent({
 				scores: [...Array(10).keys()].map(() => getRandomInt(0, 100000)),
 			});
 			
-			// state.matchInfo = {
-			//   controllPoint: {
-			//     TeamScoringPoints: teams.none,
-			//     blueScore: 0,
-			//     redScore: 0,
-			//   },
-			//   domination: {
-			//     countDownTimer: 5,
-			//     teamCountDown: teams.none,
-			//     pointA: teams.none,
-			//     pointB: teams.none,
-			//     pointC: teams.none,
-			//   },
-			//   payload: {
-			//     amountBlueOnCart: 0,
-			//     blueTeamPercent: 0,
-			//     cartBlockedByRed: false,
-			//     checkPoint: false,
-			//     redTeamPercent: 0,
-			//     secondRound: false,
-			//   },
-			//   map: mapName.lobby,
-			//   matchtype: matchType.lobby,
-			//   timer: 99999
-			// }
+			// TODO needs to be like how the game will call it
+			state.matchInfo = {
+			  controllPoint: {
+			    TeamScoringPoints: teams.none,
+			    blueScore: 0,
+			    redScore: 0,
+			  },
+			  domination: {
+			    countDownTimer: 5,
+			    teamCountDown: teams.none,
+			    pointA: teams.none,
+			    pointB: teams.none,
+			    pointC: teams.none,
+			  },
+			  payload: {
+			    amountBlueOnCart: 0,
+			    blueTeamPercent: 0,
+			    cartBlockedByRed: false,
+			    checkPoint: false,
+			    redTeamPercent: 0,
+			    secondRound: false,
+			  },
+			  map: mapName.lobby,
+			  matchtype: matchType.lobby,
+			  timer: 99999
+			}
 
 			this.$store.commit("CurrentlySpectating", {
 				spectatorIndex: -1,
