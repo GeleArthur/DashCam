@@ -1,7 +1,7 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
-import matchInfo from "../models/matchInfo";
+import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 
 import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
@@ -17,7 +17,7 @@ export default createStore({
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
 			state.PlayerData.push({
-				specatorIndex: socketData.spectatorIndex,
+				specatorIndex: socketData.playerID,
 				name: socketData.name,
 				clan: socketData.clanTag,
 				team: socketData.team,
@@ -29,13 +29,12 @@ export default createStore({
 					imageSource: "./assets/gun-pistol.png",
 					weaponName: "DefaultPistol",
 				},
-				health: socketData.health,
-				dashes: socketData.dashes,
-				dash: socketData.dash,
+				health: 100,
+				dash: 3,
 				isDead: false,
-				score: socketData.score,
-				deads: socketData.deads,
-				kills: socketData.kills,
+				score: 0,
+				deads: 0,
+				kills: 0,
 				ping: 0,
 
 				feetPosition: { X: 0, Y: 0, Z: 0 },
@@ -43,34 +42,34 @@ export default createStore({
 			});
 		},
 		playerLeaves(state, socketData: any) {
-			state.PlayerData.splice(socketData.spectatorIndex, 1);
+			state.PlayerData.splice(socketData.playerID, 1);
 		},
 
 		loadoutUpdate(state, socketData: LoadoutUpdate) {
-			state.PlayerData[socketData.spectatorIndex].leftWeapon = {
+			state.PlayerData[socketData.playerID].leftWeapon = {
 				imageSource: getImage(socketData.leftHand),
 				weaponName: socketData.leftHand,
 			};
 
-			state.PlayerData[socketData.spectatorIndex].rightWeapon = {
+			state.PlayerData[socketData.playerID].rightWeapon = {
 				imageSource: getImage(socketData.rightHand),
 				weaponName: socketData.rightHand,
 			};
 		},
 		switchTeam(state, socketData: any) {
-			state.PlayerData[socketData.spectatorIndex].team = socketData.team;
+			state.PlayerData[socketData.playerID].team = socketData.team;
 		},
 		killFeed(state, socketData: any) {
 			state.PlayerData[socketData.victim].isDead = true;
 		},
 		respawn(state, socketData: any) {
-			state.PlayerData[socketData.spectatorIndex].isDead = false;
+			state.PlayerData[socketData.playerID].isDead = false;
 		},
 		healthUpdate(state, socketData: any) {
-			state.PlayerData[socketData.spectatorIndex].health = socketData.health;
+			state.PlayerData[socketData.playerID].health = socketData.health;
 		},
 		CurrentlySpectating(state, socketData: any) {
-			state.selectedIndex = socketData.spectatorIndex;
+			state.selectedIndex = socketData.playerID;
 		},
 		scoreboard(state, socketData: any) {
 			for (let i = 0; i < state.PlayerData.length; i++) {
@@ -94,13 +93,41 @@ export default createStore({
 			1 + 1;
 		},
 		dashUpdate(state, socketData: any) {
-			state.PlayerData[socketData.spectatorIndex].dash = socketData.dashAmount;
+			state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
 		},
 
 		// Will not be called by hyperBash
 		changeConnection(state, connectionType) {
 			state.connection = connectionType;
 		},
+
+		fakeMatchData(state){
+			state.matchInfo = {
+				controllPoint: {
+				  TeamScoringPoints: teams.none,
+				  blueScore: 0,
+				  redScore: 0,
+				},
+				domination: {
+				  countDownTimer: 5,
+				  teamCountDown: teams.none,
+				  pointA: teams.none,
+				  pointB: teams.none,
+				  pointC: teams.none,
+				},
+				payload: {
+				  amountBlueOnCart: 0,
+				  blueTeamPercent: 0,
+				  cartBlockedByRed: false,
+				  checkPoint: false,
+				  redTeamPercent: 0,
+				  secondRound: false,
+				},
+				map: mapName.lobby,
+				matchtype: matchType.lobby,
+				timer: 99999
+			  }
+		}
 	},
 	actions: {},
 	modules: {},

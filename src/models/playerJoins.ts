@@ -3,7 +3,7 @@ export interface playerJoins {
   name: string;
   clanTag: string;
   team: number;
-  spectatorIndex: number;
+  playerID: number;
   level: number;
   id: string;
 }

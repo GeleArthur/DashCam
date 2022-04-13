@@ -1,6 +1,6 @@
 export interface LoadoutUpdate {
 	type: string;
-	spectatorIndex: number;
+	playerID: number;
 	leftHand: string;
 	rightHand: string;
 }

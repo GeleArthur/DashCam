@@ -40,29 +40,21 @@ export default defineComponent({
 
 			for (let i = this.$store.state.PlayerData.length - 1; i >= 0; i--) {
 				this.$store.commit("playerLeaves", {
-					spectatorIndex: i,
+					playerID: i,
 					type: "playerLeaves",
 				});
 			}
 
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
-				for (let i = 0; i < 5; i++) {
-					var dashes = getRandomInt(0, 2) ? 3 : 5;
-					
+				for (let i = 0; i < 5; i++) {					
 					this.$store.commit("playerJoins", {
 						type: "playerJoins",
-						spectatorIndex: i + teamIndex * 5,
+						playerID: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
 						clanTag: Math.random().toString(16).substr(2, 2),
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
-						level: 65,
-						health: Math.floor(Math.random() * 101),
-						dashes: dashes,
-						dash: getRandomInt(0, (dashes+1)),
-						score: getRandomInt(0, 20001),
-						kills: getRandomInt(0, 101),
-						deads: getRandomInt(0, 101)
+						level: getRandomInt(0,100),
 					} as playerJoins);
 				}
 			}
@@ -75,34 +67,10 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
-			state.matchInfo = {
-			  controllPoint: {
-			    TeamScoringPoints: teams.none,
-			    blueScore: 0,
-			    redScore: 0,
-			  },
-			  domination: {
-			    countDownTimer: 5,
-			    teamCountDown: teams.none,
-			    pointA: teams.none,
-			    pointB: teams.none,
-			    pointC: teams.none,
-			  },
-			  payload: {
-			    amountBlueOnCart: 0,
-			    blueTeamPercent: 0,
-			    cartBlockedByRed: false,
-			    checkPoint: false,
-			    redTeamPercent: 0,
-			    secondRound: false,
-			  },
-			  map: mapName.lobby,
-			  matchtype: matchType.lobby,
-			  timer: 99999
-			}
+			this.$store.commit("fakeMatchData");
 
 			this.$store.commit("CurrentlySpectating", {
-				spectatorIndex: -1,
+				playerID: -1,
 				type: "CurrentlySpectating",
 			});
 
@@ -116,6 +84,14 @@ export default defineComponent({
 				),
 			} as playerPos);
 
+			for (let i = 0; i < 10; i++) {
+				this.$store.commit("dashUpdate", {
+					type:"dashUpdate",
+					playerID:i,
+					dashAmount: getRandomArbitrary(0,3),
+				})
+			}
+			
 			this.fakeDataInterval = setInterval(() => {
 				let feetArray = [];
 				for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
@@ -139,6 +115,8 @@ export default defineComponent({
 					feetPos: feetArray,
 				} as playerPos);
 			}, 10);
+
+
 		},
 		...mapMutations(["changeConnection"]),
 	},

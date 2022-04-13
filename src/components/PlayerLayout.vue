@@ -5,7 +5,7 @@
 				<new-player-tab
 					v-for="(item, index) in blueTeamList"
 					:key="index"
-					:spectatorIndex="$store.state.PlayerData.indexOf(item)"
+					:playerID="$store.state.PlayerData.indexOf(item)"
 				/>
 			</div>
 			<div class="team__logo">
@@ -21,7 +21,7 @@
 				<new-player-tab
 					v-for="(item, index) in redTeamList"
 					:key="index"
-					:spectatorIndex="$store.state.PlayerData.indexOf(item)"
+					:playerID="$store.state.PlayerData.indexOf(item)"
 				/>
 			</div>
 		</div>

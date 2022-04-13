@@ -93,8 +93,8 @@ export default defineComponent({
 		},
 
 		removePlayer(playerLeaves: any) {
-			this.playerContainer.removeChildAt(playerLeaves.spectatorIndex);
-			this.players.splice(playerLeaves.spectatorIndex, 1);
+			this.playerContainer.removeChildAt(playerLeaves.playerID);
+			this.players.splice(playerLeaves.playerID, 1);
 		},
 
 		updatePlayerPos() {
