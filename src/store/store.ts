@@ -31,6 +31,7 @@ export default createStore({
 				},
 				health: 100,
 				dash: 3,
+				dashPickup: false,
 				isDead: false,
 				score: 0,
 				deads: 0,

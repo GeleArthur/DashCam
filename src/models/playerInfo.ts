@@ -13,6 +13,7 @@ export interface playerInfo {
 	};
 	health: number;
 	dash: number;
+	dashPickup: boolean;
 	isDead: boolean;
 
 	deads: number;

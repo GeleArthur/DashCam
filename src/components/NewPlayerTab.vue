@@ -12,7 +12,7 @@
 		<div class="player__dashes">
 			<div class="dashes">
 				<player-dashes
-					v-for="index in playerData.dashes"
+					v-for="index in maxDashes"
 					:n="index"
 					:playerData="playerData"
 				/>
@@ -68,6 +68,9 @@
 			playerData() {
 				return this.$store.state.PlayerData[this.playerID];
 			},
+			maxDashes(){
+				return this.$store.state.PlayerData[this.playerID].dashPickup ? 5 : 3;
+			}
 		}),
 		props: {
 			playerID: {
