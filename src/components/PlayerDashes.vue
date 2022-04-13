@@ -1,8 +1,8 @@
 <template>
 	<div
 		:class="{
-			'dash dash--normal': playerData.dashes == 3,
-			'dash dash--max': playerData.dashes == 5,
+			'dash dash--normal': !playerData.dashPickup,
+			'dash dash--max': playerData.dashPickup,
 		}"
 	>
 		<div class="dashes__fill" :style="dashesLeft"></div>
@@ -24,8 +24,7 @@
 				else {
 					var diff = 1 - (this.index - this.playerData.dash);
 					
-					if ( diff < 0 ) dashWidth = 0;
-					else dashWidth = diff * 100;
+					dashWidth = diff < 0 ? 0 : diff * 100;
 				}
 				
 				return { width: dashWidth + '%' };
