@@ -15,7 +15,7 @@ import MiniMap from "./components/MiniMap.vue";
 import PlayerLayout from "./components/PlayerLayout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import playerPos from "./models/HyperBashModels/playerPos";
-import { getRandomArbitrary } from "./Util/GetImage";
+import { getRandomArbitrary, getRandomInt } from "./Util/GetImage";
 
 export default defineComponent({
 	name: "App",
@@ -180,12 +180,6 @@ export default defineComponent({
 		StartWebSocket();
 	},
 });
-
-function getRandomInt(min: number, max: number) {
-	min = Math.ceil(min);
-	max = Math.floor(max);
-	return Math.floor(Math.random() * (max - min) + min);
-}
 </script>
 
 <style>
