@@ -89,6 +89,7 @@ export default defineComponent({
 					type:"dashUpdate",
 					playerID:i,
 					dashAmount: getRandomArbitrary(0,3),
+					dashPickUp: getRandomArbitrary(0,1) > 0.5
 				})
 			}
 			

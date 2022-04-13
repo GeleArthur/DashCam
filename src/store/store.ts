@@ -95,6 +95,7 @@ export default createStore({
 		},
 		dashUpdate(state, socketData: any) {
 			state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
+			state.PlayerData[socketData.playerID].dashPickup = socketData.dashPickUp;
 		},
 
 		// Will not be called by hyperBash
