@@ -18,22 +18,21 @@
 		name: "PlayerDashes",
 		computed: mapState({
 			dashesLeft() {
-				var dashWidth = '0%';
-				console.log(this.n + ': ' + this.playerData.dash + '/' + this.playerData.dashes);
+				var dashWidth = 0;
 				
-				if ( this.n <= this.playerData.dash ) dashWidth = '100%';
+				if ( this.index <= this.playerData.dash ) dashWidth = 100;
 				else {
-					var diff = 1 - (this.n - this.playerData.dash);
+					var diff = 1 - (this.index - this.playerData.dash);
 					
-					if ( diff < 0 ) dashWidth = '0%';
-					else dashWidth = diff * 100 + '%';
+					if ( diff < 0 ) dashWidth = 0;
+					else dashWidth = diff * 100;
 				}
 				
-				return { width: dashWidth };
+				return { width: dashWidth + '%' };
 			},
 		}),
 		props: {
-			n: {
+			index: {
 				type: Number,
 				required: true
 			},

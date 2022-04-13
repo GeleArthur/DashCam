@@ -13,7 +13,7 @@
 			<div class="dashes">
 				<player-dashes
 					v-for="index in maxDashes"
-					:n="index"
+					:index="index"
 					:playerData="playerData"
 				/>
 			</div>
