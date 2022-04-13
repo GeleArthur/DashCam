@@ -47,6 +47,8 @@ export default defineComponent({
 
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
 				for (let i = 0; i < 5; i++) {
+					var dashes = getRandomInt(0, 2) ? 3 : 5;
+					
 					this.$store.commit("playerJoins", {
 						type: "playerJoins",
 						spectatorIndex: i + teamIndex * 5,
@@ -55,17 +57,23 @@ export default defineComponent({
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
 						level: 65,
+						health: Math.floor(Math.random() * 101),
+						dashes: dashes,
+						dash: getRandomInt(0, (dashes+1)),
+						score: getRandomInt(0, 20001),
+						kills: getRandomInt(0, 101),
+						deads: getRandomInt(0, 101)
 					} as playerJoins);
 				}
 			}
-
+			
 			this.$store.commit("scoreboard", {
 				type: "scoreboard",
 				deads: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
 				kills: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
-				score: [...Array(10).keys()].map(() => getRandomInt(0, 100000)),
+				scores: [...Array(10).keys()].map(() => getRandomInt(0, 100000)),
 			});
-
+			
 			// state.matchInfo = {
 			//   controllPoint: {
 			//     TeamScoringPoints: teams.none,
@@ -87,7 +95,6 @@ export default defineComponent({
 			//     redTeamPercent: 0,
 			//     secondRound: false,
 			//   },
-
 			//   map: mapName.lobby,
 			//   matchtype: matchType.lobby,
 			//   timer: 99999
@@ -173,8 +180,10 @@ export default defineComponent({
 	},
 });
 
-function getRandomInt(arg0: number, arg1: number): any {
-throw new Error("Function not implemented.");
+function getRandomInt(min: number, max: number) {
+	min = Math.ceil(min);
+	max = Math.floor(max);
+	return Math.floor(Math.random() * (max - min) + min);
 }
 </script>
 

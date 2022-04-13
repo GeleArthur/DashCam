@@ -101,24 +101,12 @@
 <style>
 .container{display:grid;height:100vh;grid-template-columns:538px auto 538px;grid-template-rows:1fr 1fr;text-align:center;}
 
-.team{
-	color: rgba(255,255,255,0.95);
-	display: grid;
-	grid-template-rows:20px 17px 77px auto;
-	height: 231px;
-	width: 538px;
-}
+.team{color:rgba(255,255,255,0.95);display:grid;grid-template-rows:20px 17px 77px auto;height:231px;width:538px;}
 .team__logo{grid-row:2 / span 2;}
 
-.team--blue{
-	background: transparent url('../assets/dln-ui-team-blue.png') no-repeat scroll top left;
-	grid-template-columns:20px auto 94px;
-}
+.team--blue{background:transparent url('../assets/dln-ui-team-blue.png') no-repeat scroll top left;grid-template-columns:20px auto 94px;}
 .team--blue .team__logo{grid-column:3;}
-.team--red{
-	background: transparent url('../assets/dln-ui-team-red.png') no-repeat scroll top right;
-	grid-template-columns:94px auto 20px;
-}
+.team--red{background:transparent url('../assets/dln-ui-team-red.png') no-repeat scroll top right;grid-template-columns:94px auto 20px;}
 .team--red .team__logo{grid-column:1;}
 
 .team__players{display:grid;grid-row:3;grid-template-columns:repeat(1,1fr);grid-template-rows:repeat(5,1fr);height:150px;row-gap:8px;width:402px;}
@@ -166,32 +154,28 @@
 .playerBar__deaths{font-size:24px;font-weight:700;grid-column:11 / span 2;grid-row:4 / span 3;}
 .playerBar__name{font-size:30px;font-weight:800;grid-column:4 / span 6;grid-row:6 / span 2;}
 
-.healthBar{
-	display:block;
-	position:relative;
-	width:100%;
-	height:21px;
+.dashes {
+	display: flex;
+	height: 21px;
+	justify-content:space-between;
+	position: relative;
+	width: 100%;
 }
-.healthBar .healthBar__life{
-	background-color: rgba(255,255,255,0.6);
-	display:block;
+.dashes .dash{
 	height:100%;
 	position:relative;
-	transform: skew(20deg);
-	transition: width 0.2s ease-in-out;
-	z-index:5;
+	width:21px;
 }
-.healthBar .healthBar__track{
-	background-color:rgba(0,0,0,0.2);
-	bottom:-1px;
-	left:-1px;
-	position:absolute;
-	right:-1px;
-	transform: skew(20deg);
-	top:-1px;
-	z-index:1;
+.dashes .dash--max{width:12px;}
+.dashes .dashes__fill{
+	background-color:rgba(255,255,255,0.6);display:block;height:100%;position:relative;transform:skew(-20deg);transition:width 0.2s ease-in-out;z-index:5;
 }
-.healthBar:hover .healthBar__life{
-	width:33%!important;
+.dashes .dashes__track{
+	background-color:rgba(0,0,0,0.2);bottom:-1px;left:-1px;position:absolute;right:-1px;top:-1px;transform:skew(-20deg);z-index:1;
 }
+
+.healthBar{display:block;height:21px;position:relative;width:100%;}
+.healthBar .healthBar__life{background-color:rgba(255,255,255,0.6);display:block;height:100%;position:relative;transform:skew(20deg);transition:width 0.2s ease-in-out;z-index:5;}
+.healthBar .healthBar__track{background-color:rgba(0,0,0,0.2);bottom:-1px;left:-1px;position:absolute;right:-1px;top:-1px;transform:skew(20deg);z-index:1;}
+.healthBar:hover .healthBar__life{width:33%!important;}
 </style>
