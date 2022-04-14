@@ -144,6 +144,8 @@ export default defineComponent({
 		...mapMutations(["changeConnection"]),
 	},
 	mounted() {
+		this.$store.commit("init");
+
 		const StartWebSocket = () => {
 			if (this.websocket != null) {
 				this.websocket.removeEventListener("error", failed);

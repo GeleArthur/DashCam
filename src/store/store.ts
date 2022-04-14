@@ -11,13 +11,13 @@ export default createStore({
 	state: {
 		connection: "Failed",
 		selectedIndex: -1,
-		PlayerData: [] as playerInfo[],
+		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
-			state.PlayerData.push({
-				specatorIndex: socketData.playerID,
+			state.PlayerData[socketData.playerID] = {
+				playerID: socketData.playerID,
 				name: socketData.name,
 				clan: socketData.clanTag,
 				team: socketData.team,
@@ -40,70 +40,82 @@ export default createStore({
 
 				feetPosition: { X: 0, Y: 0, Z: 0 },
 				feetRotation: 0,
-			});
+			};
 		},
 		playerLeaves(state, socketData: any) {
-			state.PlayerData.splice(socketData.playerID, 1);
+			state.PlayerData[socketData.playerID] = undefined;
 		},
 
 		loadoutUpdate(state, socketData: LoadoutUpdate) {
-			state.PlayerData[socketData.playerID].leftWeapon = {
+			state.PlayerData[socketData.playerID]!.leftWeapon = {
 				imageSource: getImage(socketData.leftHand),
 				weaponName: socketData.leftHand,
 			};
 
-			state.PlayerData[socketData.playerID].rightWeapon = {
+			state.PlayerData[socketData.playerID]!.rightWeapon = {
 				imageSource: getImage(socketData.rightHand),
 				weaponName: socketData.rightHand,
 			};
 		},
 		switchTeam(state, socketData: any) {
-			state.PlayerData[socketData.playerID].team = socketData.team;
+			state.PlayerData[socketData.playerID]!.team = socketData.team;
 		},
 		killFeed(state, socketData: any) {
-			state.PlayerData[socketData.victim].isDead = true;
+			state.PlayerData[socketData.victim]!.isDead = true;
 		},
 		respawn(state, socketData: any) {
-			state.PlayerData[socketData.playerID].isDead = false;
+			state.PlayerData[socketData.playerID]!.isDead = false;
 		},
 		healthUpdate(state, socketData: any) {
-			state.PlayerData[socketData.playerID].health = socketData.health;
+			state.PlayerData[socketData.playerID]!.health = socketData.health;
 		},
 		CurrentlySpectating(state, socketData: any) {
 			state.selectedIndex = socketData.playerID;
 		},
 		scoreboard(state, socketData: any) {
 			for (let i = 0; i < state.PlayerData.length; i++) {
-				state.PlayerData[i].deads = socketData.deads[i];
-				state.PlayerData[i].kills = socketData.kills[i];
-				state.PlayerData[i].score = socketData.scores[i];
+				if (state.PlayerData[i] != undefined) {
+					state.PlayerData[i]!.deads = socketData.deads[i];
+					state.PlayerData[i]!.kills = socketData.kills[i];
+					state.PlayerData[i]!.score = socketData.scores[i];
+				}
 			}
 		},
 		playerPos(state, socketData: playerPos) {
 			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
-				state.PlayerData[i].feetPosition = {
-					X: socketData.feetPos[i * 3 + 0],
-					Y: socketData.feetPos[i * 3 + 1],
-					Z: socketData.feetPos[i * 3 + 2],
-				};
+				if (state.PlayerData[i] != undefined) {
+					state.PlayerData[i]!.feetPosition = {
+						X: socketData.feetPos[i * 3 + 0],
+						Y: socketData.feetPos[i * 3 + 1],
+						Z: socketData.feetPos[i * 3 + 2],
+					};
 
-				state.PlayerData[i].feetRotation = socketData.feetDirection[i];
+					state.PlayerData[i]!.feetRotation = socketData.feetDirection[i];
+				}
 			}
 		},
 		status(state, socketData: any) {
 			1 + 1;
 		},
 		dashUpdate(state, socketData: any) {
-			state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
-			state.PlayerData[socketData.playerID].dashPickup = socketData.dashPickUp;
+			if(state.PlayerData[socketData.playerID] != undefined){
+				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
+				state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
+			}
 		},
 
 		// Will not be called by hyperBash
+		init(state, payload) {
+			for (let i = 0; i < 10; i++) {
+				state.PlayerData[i] = undefined;
+			}
+		},
+
 		changeConnection(state, connectionType) {
 			state.connection = connectionType;
 		},
 
-		fakeMatchData(state){
+		fakeMatchData(state) {
 			state.matchInfo = {
 				controllPoint: {
 					TeamScoringPoints: teams.none,
@@ -127,9 +139,9 @@ export default createStore({
 				},
 				map: mapName.lobby,
 				matchtype: matchType.lobby,
-				timer: 99999
-			}
-		}
+				timer: 99999,
+			};
+		},
 	},
 	actions: {},
 	modules: {},

@@ -74,18 +74,22 @@
 		computed: mapState({
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
-				return data.filter((e: playerInfo) => {
-					return e.team == 0;
-				});
+				return data.filter((e: playerInfo) => e?.team == 0);
 			},
 			blueTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
-				return data.filter((e: playerInfo) => {
-					return e.team == 1;
-				});
+				return data.filter((e: playerInfo) => e?.team == 1);
 			},
 			selectedPlayer() {
-				return this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+
+				if(player == undefined){
+					// Not good error prevting should be something better
+					return {dash:0, score:0, kills:0, name:"", deads:0} as playerInfo
+				}else{
+					return this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				}
+
 			},
 			healthBar() {
 				let player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
