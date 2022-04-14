@@ -106,29 +106,29 @@ export default createStore({
 		fakeMatchData(state){
 			state.matchInfo = {
 				controllPoint: {
-				  TeamScoringPoints: teams.none,
-				  blueScore: 0,
-				  redScore: 0,
+					TeamScoringPoints: teams.none,
+					blueScore: 0,
+					redScore: 0,
 				},
 				domination: {
-				  countDownTimer: 5,
-				  teamCountDown: teams.none,
-				  pointA: teams.none,
-				  pointB: teams.none,
-				  pointC: teams.none,
+					countDownTimer: 5,
+					teamCountDown: teams.none,
+					pointA: teams.none,
+					pointB: teams.none,
+					pointC: teams.none,
 				},
 				payload: {
-				  amountBlueOnCart: 0,
-				  blueTeamPercent: 0,
-				  cartBlockedByRed: false,
-				  checkPoint: false,
-				  redTeamPercent: 0,
-				  secondRound: false,
+					amountBlueOnCart: 0,
+					blueTeamPercent: 0,
+					cartBlockedByRed: false,
+					checkPoint: false,
+					redTeamPercent: 0,
+					secondRound: false,
 				},
 				map: mapName.lobby,
 				matchtype: matchType.lobby,
 				timer: 99999
-			  }
+			}
 		}
 	},
 	actions: {},

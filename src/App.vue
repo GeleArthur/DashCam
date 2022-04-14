@@ -37,16 +37,16 @@ export default defineComponent({
 		},
 		AddFakeData() {
 			clearInterval(this.fakeDataInterval);
-
+			
 			for (let i = this.$store.state.PlayerData.length - 1; i >= 0; i--) {
 				this.$store.commit("playerLeaves", {
 					playerID: i,
 					type: "playerLeaves",
 				});
 			}
-
+			
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
-				for (let i = 0; i < 5; i++) {					
+				for (let i = 0; i < 5; i++) {
 					this.$store.commit("playerJoins", {
 						type: "playerJoins",
 						playerID: i + teamIndex * 5,
@@ -68,12 +68,12 @@ export default defineComponent({
 			
 			// TODO needs to be like how the game will call it
 			this.$store.commit("fakeMatchData");
-
+			
 			this.$store.commit("CurrentlySpectating", {
 				playerID: -1,
 				type: "CurrentlySpectating",
 			});
-
+			
 			this.$store.commit("playerPos", {
 				type: "playerPos",
 				feetDirection: [...Array(10).keys()].map(() =>
@@ -83,13 +83,21 @@ export default defineComponent({
 					getRandomArbitrary(-200, 200)
 				),
 			} as playerPos);
-
+			
 			for (let i = 0; i < 10; i++) {
+				var dashPickup = getRandomArbitrary(0,1) > 0.5;
+				
 				this.$store.commit("dashUpdate", {
 					type:"dashUpdate",
 					playerID:i,
-					dashAmount: getRandomArbitrary(0,3),
-					dashPickUp: getRandomArbitrary(0,1) > 0.5
+					dashAmount: getRandomArbitrary(0, (dashPickup ? 5 : 3)),
+					dashPickUp: dashPickup
+				})
+				
+				this.$store.commit("healthUpdate", {
+					type:"healthUpdate",
+					playerID:i,
+					health: getRandomArbitrary(0, 101)
 				})
 			}
 			
@@ -108,15 +116,29 @@ export default defineComponent({
 						this.$store.state.PlayerData[i].feetPosition.Z +
 							getRandomArbitrary(-1, 1)
 					);
+					
+					var dash = this.$store.state.PlayerData[i].dash * .7;
+					
+					// this.$store.commit("dashUpdate", {
+					// 	type:"dashUpdate",
+					// 	playerID:i,
+					// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
+					// 	dashPickUp: dashPickup
+					// })
+					
+					// this.$store.commit("healthUpdate", {
+					// 	type:"healthUpdate",
+					// 	playerID:i,
+					// 	health: getRandomArbitrary(0, 101)
+					// })
 				}
-
+				
 				this.$store.commit("playerPos", {
 					type: "playerPos",
 					feetDirection: [...Array(10).keys()].map(() => 0),
 					feetPos: feetArray,
 				} as playerPos);
 			}, 10);
-
 
 		},
 		...mapMutations(["changeConnection"]),

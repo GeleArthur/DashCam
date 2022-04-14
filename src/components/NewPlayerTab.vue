@@ -52,18 +52,10 @@
 			PlayerDashes,
 		},
 		computed: mapState({
-			// dashesLeft() {
-			// 	return {
-			// 		width: ((this.$store.state.PlayerData[this.playerID].dash / this.$store.state.PlayerData[this.playerID].dashes) * 100).toString() + "%"
-			// 	};
-			// },
 			healthBar() {
 				return {
 					width: this.$store.state.PlayerData[this.playerID].health + '%'
 				};
-			},
-			healthSize() {
-				return this.$store.state.PlayerData[this.playerID].health + "%";
 			},
 			playerData() {
 				return this.$store.state.PlayerData[this.playerID];
