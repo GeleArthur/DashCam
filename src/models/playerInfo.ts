@@ -1,5 +1,5 @@
 export interface playerInfo {
-	specatorIndex: number;
+	playerID: number;
 	name: string;
 	clan: string;
 	team: number;

@@ -74,15 +74,11 @@
 		computed: mapState({
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
-				return data.filter((e: playerInfo) => {
-					return e.team == 0;
-				});
+				return data.filter((e: playerInfo) => e?.team == 0);
 			},
 			blueTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
-				return data.filter((e: playerInfo) => {
-					return e.team == 1;
-				});
+				return data.filter((e: playerInfo) => e?.team == 1);
 			},
 			selectedPlayer() {
 				return this.$store.state.PlayerData[this.$store.state.selectedIndex];
