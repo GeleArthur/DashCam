@@ -11,7 +11,7 @@ export default createStore({
 	state: {
 		connection: "Failed",
 		selectedIndex: -1,
-		PlayerData: [] as (playerInfo | undefined)[] ,
+		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
 	},
 	mutations: {
@@ -73,34 +73,39 @@ export default createStore({
 			state.selectedIndex = socketData.playerID;
 		},
 		scoreboard(state, socketData: any) {
-			// for (let i = 0; i < state.PlayerData.length; i++) {
-			// 	state.PlayerData[i]!.deads = socketData.deads[i];
-			// 	state.PlayerData[i]!.kills = socketData.kills[i];
-			// 	state.PlayerData[i]!.score = socketData.scores[i];
-			// }
+			for (let i = 0; i < state.PlayerData.length; i++) {
+				if (state.PlayerData[i] != undefined) {
+					state.PlayerData[i]!.deads = socketData.deads[i];
+					state.PlayerData[i]!.kills = socketData.kills[i];
+					state.PlayerData[i]!.score = socketData.scores[i];
+				}
+			}
 		},
 		playerPos(state, socketData: playerPos) {
-			// for (let i = 0; i < socketData.feetPos.length / 3; i++) {
-			// 	state.PlayerData[i]!.feetPosition = {
-			// 		X: socketData.feetPos[i * 3 + 0],
-			// 		Y: socketData.feetPos[i * 3 + 1],
-			// 		Z: socketData.feetPos[i * 3 + 2],
-			// 	};
+			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
+				if (state.PlayerData[i] != undefined) {
+					state.PlayerData[i]!.feetPosition = {
+						X: socketData.feetPos[i * 3 + 0],
+						Y: socketData.feetPos[i * 3 + 1],
+						Z: socketData.feetPos[i * 3 + 2],
+					};
 
-			// 	state.PlayerData[i]!.feetRotation = socketData.feetDirection[i];
-			// }
+					state.PlayerData[i]!.feetRotation = socketData.feetDirection[i];
+				}
+			}
 		},
 		status(state, socketData: any) {
 			1 + 1;
 		},
 		dashUpdate(state, socketData: any) {
-			state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
-			state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
+			if(state.PlayerData[socketData.playerID] != undefined){
+				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
+				state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
+			}
 		},
 
-
 		// Will not be called by hyperBash
-		init(state, payload){
+		init(state, payload) {
 			for (let i = 0; i < 10; i++) {
 				state.PlayerData[i] = undefined;
 			}
@@ -110,33 +115,33 @@ export default createStore({
 			state.connection = connectionType;
 		},
 
-		fakeMatchData(state){
+		fakeMatchData(state) {
 			state.matchInfo = {
 				controllPoint: {
-				  TeamScoringPoints: teams.none,
-				  blueScore: 0,
-				  redScore: 0,
+					TeamScoringPoints: teams.none,
+					blueScore: 0,
+					redScore: 0,
 				},
 				domination: {
-				  countDownTimer: 5,
-				  teamCountDown: teams.none,
-				  pointA: teams.none,
-				  pointB: teams.none,
-				  pointC: teams.none,
+					countDownTimer: 5,
+					teamCountDown: teams.none,
+					pointA: teams.none,
+					pointB: teams.none,
+					pointC: teams.none,
 				},
 				payload: {
-				  amountBlueOnCart: 0,
-				  blueTeamPercent: 0,
-				  cartBlockedByRed: false,
-				  checkPoint: false,
-				  redTeamPercent: 0,
-				  secondRound: false,
+					amountBlueOnCart: 0,
+					blueTeamPercent: 0,
+					cartBlockedByRed: false,
+					checkPoint: false,
+					redTeamPercent: 0,
+					secondRound: false,
 				},
 				map: mapName.lobby,
 				matchtype: matchType.lobby,
-				timer: 99999
-			  }
-		}
+				timer: 99999,
+			};
+		},
 	},
 	actions: {},
 	modules: {},
