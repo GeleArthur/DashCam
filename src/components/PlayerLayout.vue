@@ -8,13 +8,13 @@
 					:playerID="$store.state.PlayerData.indexOf(item)"
 				/>
 			</div>
-			<div class="team__logo">
+			<div class="team__logo" v-if="blueTeam">
 				<img src="https://dashleague.games/wp-content/uploads/2021/01/team-hhi-256x256@2x.png" width="94" height="94">
 			</div>
 		</div>
 		
 		<div class="team team--red">
-			<div class="team__logo">
+			<div class="team__logo" v-if="redTeam">
 				<img src="https://dashleague.games/wp-content/uploads/2021/01/team-unsc-256x256@2x.png" width="94" height="94">
 			</div>
 			<div class="team__players team__players--red">
@@ -28,13 +28,11 @@
 		
 		<div class="scoreboard">
 			<div class="scoreboard__wrapper">
-				<div class="scoreboard__name scoreboard__name--blue">BLUE</div>
-				<div class="scoreboard__score scoreboard__score--blue">###</div>
-				
-				<div class="scoreboard__name scoreboard__name--red">RED</div>
-				<div class="scoreboard__score scoreboard__score--red">###</div>
-				
-				<div class="scoreboard__time">00:00</div>
+				<div class="scoreboard__name scoreboard__name--blue" v-if="blueTeam">{{ blueTeam }}</div>
+				<div class="scoreboard__score scoreboard__score--blue" v-if="blueTeam">###</div>
+				<div class="scoreboard__time" v-if="matchData.timer">{{matchData.timer}}</div>
+				<div class="scoreboard__name scoreboard__name--red" v-if="redTeam">{{ redTeam }}</div>
+				<div class="scoreboard__score scoreboard__score--red" v-if="blueTeam">###</div>
 			</div>
 		</div>
 		
@@ -72,9 +70,15 @@
 			MiniMap,
 		},
 		computed: mapState({
+			redTeam() {
+				return this.redTeamList.length ? this.redTeamList[0].clan : 'RED';
+			},
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
 				return data.filter((e: playerInfo) => e?.team == 0);
+			},
+			blueTeam() {
+				return this.blueTeamList.length ? this.blueTeamList[0].clan : 'BLUE';
 			},
 			blueTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
@@ -82,21 +86,23 @@
 			},
 			selectedPlayer() {
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
-
-				if(player == undefined){
+				
+				if ( player == undefined ) {
 					// Not good error prevting should be something better
 					return {dash:0, score:0, kills:0, name:"", deads:0} as playerInfo
-				}else{
+				} else {
 					return this.$store.state.PlayerData[this.$store.state.selectedIndex];
 				}
-
 			},
 			healthBar() {
-				let player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
 				
 				return {
 					width: `${player.health}%`
 				};
+			},
+			matchData() {
+				return this.$store.state.matchInfo;
 			}
 		}),
 	});

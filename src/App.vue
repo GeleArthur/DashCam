@@ -45,13 +45,17 @@ export default defineComponent({
 				});
 			}
 			
+			var teams = ['UNSC', 'D', 'ARC', 'F1R3', 'HHI', 'DARK'];
+			
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
+				var team = teams[Math.floor(Math.random() * teams.length)];
+				
 				for (let i = 0; i < 5; i++) {
 					this.$store.commit("playerJoins", {
 						type: "playerJoins",
 						playerID: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
-						clanTag: Math.random().toString(16).substr(2, 2),
+						clanTag: team,
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
 						level: getRandomInt(0,100),
