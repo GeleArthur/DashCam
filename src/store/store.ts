@@ -135,6 +135,8 @@ export default createStore({
 				},
 				blueScore:0,
 				redScore:0,
+				blueTeamName: socketData.blueTeamName,
+				redTeamName: socketData.redTeamName,
 				mapname: mapName.lauchpad,
 				matchtype: matchType.payload,
 				timer: socketData.timer,

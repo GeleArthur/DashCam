@@ -48,6 +48,9 @@ export interface matchInfo {
 	blueScore: number;
 	redScore: number;
 
+	blueTeamName: string;
+	redTeamName: string;
+
 	payload: payloadInfo;
 	domination: dominationInfo;
 	controlPoint: controlPointInfo;
