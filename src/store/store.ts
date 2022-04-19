@@ -119,8 +119,6 @@ export default createStore({
 			state.matchInfo = {
 				controlPoint: {
 					TeamScoringPoints: teams.none,
-					blueScore: 0,
-					redScore: 0,
 				},
 				domination: {
 					countDownTimer: 5,
@@ -131,14 +129,16 @@ export default createStore({
 				},
 				payload: {
 					amountBlueOnCart: 0,
-					blueTeamPercent: 0,
 					cartBlockedByRed: false,
 					checkPoint: false,
-					redTeamPercent: 0,
 					secondRound: false,
 				},
-				mapname: mapName.lobby,
-				matchtype: matchType.lobby,
+				blueScore:0,
+				redScore:0,
+				blueTeamName: socketData.blueTeamName,
+				redTeamName: socketData.redTeamName,
+				mapname: mapName.lauchpad,
+				matchtype: matchType.payload,
 				timer: socketData.timer,
 			};
 		},

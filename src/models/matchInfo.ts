@@ -22,8 +22,6 @@ export enum teams {
 }
 
 export interface payloadInfo {
-	blueTeamPercent: number;
-	redTeamPercent: number;
 	secondRound: boolean;
 	checkPoint: boolean;
 	cartBlockedByRed: boolean;
@@ -40,14 +38,18 @@ export interface dominationInfo {
 
 export interface controlPointInfo {
 	TeamScoringPoints: teams;
-	blueScore: number;
-	redScore: number;
 }
 
 export interface matchInfo {
 	matchtype: matchType;
 	mapname: mapName;
 	timer: number;
+
+	blueScore: number;
+	redScore: number;
+
+	blueTeamName: string;
+	redTeamName: string;
 
 	payload: payloadInfo;
 	domination: dominationInfo;

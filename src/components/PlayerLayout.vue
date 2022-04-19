@@ -9,13 +9,13 @@
 				/>
 			</div>
 			<div class="team__logo" v-if="blueTeam">
-				<img src="https://dashleague.games/wp-content/uploads/2021/01/team-hhi-256x256@2x.png" width="94" height="94">
+				<img :src="blueLogo" width="94" height="94">
 			</div>
 		</div>
 		
 		<div class="team team--red">
 			<div class="team__logo" v-if="redTeam">
-				<img src="https://dashleague.games/wp-content/uploads/2021/01/team-unsc-256x256@2x.png" width="94" height="94">
+				<img :src="redLogo" width="94" height="94">
 			</div>
 			<div class="team__players team__players--red">
 				<new-player-tab
@@ -204,6 +204,14 @@
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
 				
 				return player.dashPickup ? 5 : 3;
+			},
+			blueLogo(){
+				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
+				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
+			},
+			redLogo(){
+				if(this.$store.state.matchInfo.redTeamName == undefined) return "";
+				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
 			}
 		}),
 	});

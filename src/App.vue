@@ -44,16 +44,18 @@ export default defineComponent({
 			}
 			
 			var teams = ['UNSC', 'D', 'ARC', 'F1R3', 'HHI', 'DARK'];
-			
+			var redTeam = teams[Math.floor(Math.random() * teams.length)];
+			var blueTeam = teams[Math.floor(Math.random() * teams.length)];
+
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
-				var team = teams[Math.floor(Math.random() * teams.length)];
+				var currentTeam = (teamIndex == 0) ? redTeam : blueTeam;
 				
 				for (let i = 0; i < 5; i++) {
 					this.$store.commit("playerJoins", {
 						type: "playerJoins",
 						playerID: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
-						clanTag: team,
+						clanTag: currentTeam,
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
 						level: getRandomInt(0,100),
@@ -70,27 +72,24 @@ export default defineComponent({
 			
 			// TODO needs to be like how the game will call it
 			this.$store.commit("matchInfo", {
-				timer: getRandomInt(1000, 9999)
+				timer: getRandomInt(1000, 9999),
+				blueTeamName: blueTeam,
+				redTeamName: redTeam
 			});
 			
 			this.$store.commit("CurrentlySpectating", {
 				playerID: getRandomInt(0, 9),
 				type: "CurrentlySpectating",
 			});
-			
-			this.$store.commit("playerPos", {
-				type: "playerPos",
-				feetDirection: [...Array(10).keys()].map(() =>
-					getRandomArbitrary(0, 360)
-				),
-				feetPos: [...Array(10 * 3).keys()].map(() =>
-					getRandomArbitrary(-200, 200)
-				),
-			} as playerPos);
+
+			for (let i = 0; i < 2; i++) {
+				this.$store.commit("killFeed",{
+					victim: getRandomInt(0,9)
+				})
+			}
 			
 			for (let i = 0; i < 10; i++) {
 				var dashPickup = getRandomArbitrary(0,1) > 0.5;
-				
 				this.$store.commit("dashUpdate", {
 					type:"dashUpdate",
 					playerID:i,
@@ -105,44 +104,44 @@ export default defineComponent({
 				})
 			}
 			
-			this.fakeDataInterval = setInterval(() => {
-				let feetArray = [];
-				for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-					feetArray.push(
-						this.$store.state.PlayerData[i].feetPosition.X +
-							getRandomArbitrary(-1, 1)
-					);
-					feetArray.push(
-						this.$store.state.PlayerData[i].feetPosition.Y +
-							getRandomArbitrary(-1, 1)
-					);
-					feetArray.push(
-						this.$store.state.PlayerData[i].feetPosition.Z +
-							getRandomArbitrary(-1, 1)
-					);
+			// this.fakeDataInterval = setInterval(() => {
+			// 	let feetArray = [];
+			// 	for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+			// 		feetArray.push(
+			// 			this.$store.state.PlayerData[i].feetPosition.X +
+			// 				getRandomArbitrary(-1, 1)
+			// 		);
+			// 		feetArray.push(
+			// 			this.$store.state.PlayerData[i].feetPosition.Y +
+			// 				getRandomArbitrary(-1, 1)
+			// 		);
+			// 		feetArray.push(
+			// 			this.$store.state.PlayerData[i].feetPosition.Z +
+			// 				getRandomArbitrary(-1, 1)
+			// 		);
 					
-					var dash = this.$store.state.PlayerData[i].dash * .7;
+			// 		var dash = this.$store.state.PlayerData[i].dash * .7;
 					
-					// this.$store.commit("dashUpdate", {
-					// 	type:"dashUpdate",
-					// 	playerID:i,
-					// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
-					// 	dashPickUp: dashPickup
-					// })
+			// 		// this.$store.commit("dashUpdate", {
+			// 		// 	type:"dashUpdate",
+			// 		// 	playerID:i,
+			// 		// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
+			// 		// 	dashPickUp: dashPickup
+			// 		// })
 					
-					// this.$store.commit("healthUpdate", {
-					// 	type:"healthUpdate",
-					// 	playerID:i,
-					// 	health: getRandomArbitrary(0, 101)
-					// })
-				}
+			// 		// this.$store.commit("healthUpdate", {
+			// 		// 	type:"healthUpdate",
+			// 		// 	playerID:i,
+			// 		// 	health: getRandomArbitrary(0, 101)
+			// 		// })
+			// 	}
 				
-				this.$store.commit("playerPos", {
-					type: "playerPos",
-					feetDirection: [...Array(10).keys()].map(() => 0),
-					feetPos: feetArray,
-				} as playerPos);
-			}, 10);
+			// 	this.$store.commit("playerPos", {
+			// 		type: "playerPos",
+			// 		feetDirection: [...Array(10).keys()].map(() => 0),
+			// 		feetPos: feetArray,
+			// 	} as playerPos);
+			// }, 10);
 
 		},
 		...mapMutations(["changeConnection"]),
