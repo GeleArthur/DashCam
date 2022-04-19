@@ -11,7 +11,6 @@ import { defineComponent } from "vue";
 import { HOSt, PORT } from "./ConstVars";
 import NewPlayerTab from "./components/NewPlayerTab.vue";
 import { mapMutations } from "vuex";
-import MiniMap from "./components/MiniMap.vue";
 import PlayerLayout from "./components/PlayerLayout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import playerPos from "./models/HyperBashModels/playerPos";
@@ -21,7 +20,6 @@ export default defineComponent({
 	name: "App",
 	components: {
 		NewPlayerTab,
-		MiniMap,
 		PlayerLayout,
 	},
 	data() {
@@ -72,7 +70,7 @@ export default defineComponent({
 			
 			// TODO needs to be like how the game will call it
 			this.$store.commit("matchInfo", {
-				timer: 8000
+				timer: getRandomInt(1000, 9999)
 			});
 			
 			this.$store.commit("CurrentlySpectating", {

@@ -30,7 +30,7 @@
 			<div class="scoreboard__wrapper">
 				<div class="scoreboard__name scoreboard__name--blue" v-if="blueTeam">{{ blueTeam }}</div>
 				<div class="scoreboard__score scoreboard__score--blue" v-if="blueTeam">###</div>
-				<div class="scoreboard__time" v-if="matchData.timer">{{matchData.timer}}</div>
+				<div class="scoreboard__time" v-if="matchInfo">{{matchInfo.timer}}</div>
 				<div class="scoreboard__name scoreboard__name--red" v-if="redTeam">{{ redTeam }}</div>
 				<div class="scoreboard__score scoreboard__score--red" v-if="blueTeam">###</div>
 			</div>
@@ -127,8 +127,6 @@
 	.scoreboard__score--red{grid-column:6;}
 	.scoreboard__time{font-size:30px;font-weight:800;grid-column:4 / span 2;grid-row:5 / span 2;text-align:center;}
 
-	#minimap{grid-row-start:-1;}
-
 	.playerBar{align-items:end;display:flex;grid-column:2;grid-row:-1;justify-content:center;margin-bottom:1em;}
 	.playerBar_wrapper {
 		background: transparent url('../assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
@@ -160,13 +158,11 @@
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	import NewPlayerTab from "./NewPlayerTab.vue";
-	import MiniMap from "./MiniMap.vue";
 	
 	export default defineComponent({
-			name:"PlayerLayout",
-			components: {
+		name:"PlayerLayout",
+		components: {
 			NewPlayerTab,
-			MiniMap,
 			PlayerDashes
 		},
 		computed: mapState({
@@ -201,7 +197,7 @@
 					width: `${player.health}%`
 				};
 			},
-			matchData() {
+			matchInfo() {
 				return this.$store.state.matchInfo;
 			},
 			maxDashes(){

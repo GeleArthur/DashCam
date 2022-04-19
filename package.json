@@ -8,7 +8,6 @@
     "serve": "vite preview"
   },
   "dependencies": {
-    "pixi.js": "^6.2.1",
     "vue": "next",
     "vuex": "^4.0.2"
   },

@@ -2,7 +2,7 @@ export enum matchType {
 	lobby,
 	payload,
 	domination,
-	controllPoint,
+	controlPoint,
 }
 
 export enum mapName {
@@ -38,7 +38,7 @@ export interface dominationInfo {
 	countDownTimer: Number;
 }
 
-export interface controllPointInfo {
+export interface controlPointInfo {
 	TeamScoringPoints: teams;
 	blueScore: number;
 	redScore: number;
@@ -46,12 +46,12 @@ export interface controllPointInfo {
 
 export interface matchInfo {
 	matchtype: matchType;
-	map: mapName;
+	mapname: mapName;
 	timer: number;
 
 	payload: payloadInfo;
 	domination: dominationInfo;
-	controllPoint: controllPointInfo;
+	controlPoint: controlPointInfo;
 }
 
 export default matchInfo;

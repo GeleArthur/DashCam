@@ -1,8 +1,8 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/GetImage";
-import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 
+import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
@@ -115,9 +115,9 @@ export default createStore({
 			state.connection = connectionType;
 		},
 
-		fakeMatchData(state) {
+		matchInfo(state, socketData: any) {
 			state.matchInfo = {
-				controllPoint: {
+				controlPoint: {
 					TeamScoringPoints: teams.none,
 					blueScore: 0,
 					redScore: 0,
@@ -137,9 +137,9 @@ export default createStore({
 					redTeamPercent: 0,
 					secondRound: false,
 				},
-				map: mapName.lobby,
+				mapname: mapName.lobby,
 				matchtype: matchType.lobby,
-				timer: 99999,
+				timer: socketData.timer,
 			};
 		},
 	},
