@@ -52,7 +52,7 @@
 	import PlayerDashes from "./PlayerDashes.vue";
 	
 	export default defineComponent({
-		name: "NewPlayerTab",
+		name: "Player",
 		components: {
 			PlayerDashes,
 		},

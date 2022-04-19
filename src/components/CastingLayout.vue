@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="team team--blue">
 			<div class="team__players team__players--blue">
-				<new-player-tab
+				<player
 					v-for="(item, index) in blueTeamList"
 					:key="index"
 					:playerID="$store.state.PlayerData.indexOf(item)"
@@ -18,7 +18,7 @@
 				<img :src="redLogo" width="94" height="94">
 			</div>
 			<div class="team__players team__players--red">
-				<new-player-tab
+				<player
 					v-for="(item, index) in redTeamList"
 					:key="index"
 					:playerID="$store.state.PlayerData.indexOf(item)"
@@ -157,12 +157,12 @@
 	import { mapMutations, mapState } from "vuex";
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
-	import NewPlayerTab from "./NewPlayerTab.vue";
+	import Player from "./Player.vue";
 	
 	export default defineComponent({
-		name:"PlayerLayout",
+		name:"CastingLayout",
 		components: {
-			NewPlayerTab,
+			Player,
 			PlayerDashes
 		},
 		computed: mapState({
