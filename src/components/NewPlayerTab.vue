@@ -3,10 +3,10 @@
 	<div
 		class="player"
 		:class="{
-			'player__red': playerData.team == 0,
-			'player__blue': playerData.team == 1,
-			'player__dead' : playerData.isDead,
-			'player__alive' : !playerData.isDead
+			'player--red': playerData.team == 0,
+			'player--blue': playerData.team == 1,
+			'player--dead' : playerData.isDead,
+			'player--alive' : !playerData.isDead
 		}"
 	>
 		<div class="player__name">{{ playerData.name }}</div>
@@ -40,6 +40,10 @@
 	.player__health .healthBar{height:10px;}
 	.player__health .healthBar .healthBar__life{transform:skew(0deg);}
 	.player__health .healthBar .healthBar__track{transform:skew(0deg);}
+	
+	.player--dead .player__name,
+	.player--dead .player__kills,
+	.player--dead .player__deaths{opacity:0.5;}
 </style>
 
 <script lang="ts">
