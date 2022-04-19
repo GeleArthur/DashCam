@@ -28,11 +28,11 @@
 		
 		<div class="scoreboard">
 			<div class="scoreboard__wrapper">
-				<div class="scoreboard__name scoreboard__name--blue" v-if="blueTeam">{{ blueTeam }}</div>
-				<div class="scoreboard__score scoreboard__score--blue" v-if="blueTeam">###</div>
-				<div class="scoreboard__time" v-if="matchInfo">{{matchInfo.timer}}</div>
-				<div class="scoreboard__name scoreboard__name--red" v-if="redTeam">{{ redTeam }}</div>
-				<div class="scoreboard__score scoreboard__score--red" v-if="blueTeam">###</div>
+				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeam }}</div>
+				<div class="scoreboard__score scoreboard__score--blue">{{ blueScore }}</div>
+				<div class="scoreboard__time">{{matchInfo.timer}}</div>
+				<div class="scoreboard__name scoreboard__name--red">{{ redTeam }}</div>
+				<div class="scoreboard__score scoreboard__score--red">{{ redScore }}</div>
 			</div>
 		</div>
 		
@@ -166,12 +166,18 @@
 			PlayerDashes
 		},
 		computed: mapState({
+			redScore() {
+				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
+			},
 			redTeam() {
 				return this.redTeamList.length ? this.redTeamList[0].clan : 'RED';
 			},
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
 				return data.filter((e: playerInfo) => e?.team == 0);
+			},
+			blueScore() {
+				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 			},
 			blueTeam() {
 				return this.blueTeamList.length ? this.blueTeamList[0].clan : 'BLUE';

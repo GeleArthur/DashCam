@@ -72,9 +72,11 @@ export default defineComponent({
 			
 			// TODO needs to be like how the game will call it
 			this.$store.commit("matchInfo", {
-				timer: getRandomInt(1000, 9999),
+				timer: getRandomInt(60, 1500),
 				blueTeamName: blueTeam,
-				redTeamName: redTeam
+				redTeamName: redTeam,
+				blueScore: getRandomInt(0, 3),
+				redScore: getRandomInt(0, 3),
 			});
 			
 			this.$store.commit("CurrentlySpectating", {
