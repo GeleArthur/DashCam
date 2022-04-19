@@ -77,20 +77,15 @@ export default defineComponent({
 				playerID: getRandomInt(0, 9),
 				type: "CurrentlySpectating",
 			});
-			
-			this.$store.commit("playerPos", {
-				type: "playerPos",
-				feetDirection: [...Array(10).keys()].map(() =>
-					getRandomArbitrary(0, 360)
-				),
-				feetPos: [...Array(10 * 3).keys()].map(() =>
-					getRandomArbitrary(-200, 200)
-				),
-			} as playerPos);
+
+			for (let i = 0; i < 2; i++) {
+				this.$store.commit("killFeed",{
+					victim: getRandomInt(0,9)
+				})
+			}
 			
 			for (let i = 0; i < 10; i++) {
 				var dashPickup = getRandomArbitrary(0,1) > 0.5;
-				
 				this.$store.commit("dashUpdate", {
 					type:"dashUpdate",
 					playerID:i,
