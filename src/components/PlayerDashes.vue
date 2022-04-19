@@ -1,9 +1,9 @@
 <template>
 	<div
-		:class="{
-			'dash dash--normal': !playerData.dashPickup,
-			'dash dash--max': playerData.dashPickup,
-		}"
+		class="dash"
+		:class="[
+		  playerData.dashPickup ? 'dash--max' : 'dash--normal'
+		]"
 	>
 		<div class="dashes__fill" :style="dashesLeft"></div>
 		<div class="dashes__track"></div>

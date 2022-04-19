@@ -71,10 +71,12 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
-			this.$store.commit("fakeMatchData");
+			this.$store.commit("matchInfo", {
+				timer: 8000
+			});
 			
 			this.$store.commit("CurrentlySpectating", {
-				playerID: -1,
+				playerID: getRandomInt(0, 9),
 				type: "CurrentlySpectating",
 			});
 			
@@ -203,6 +205,7 @@ export default defineComponent({
 	padding: 1em;
 	position: fixed;
 	right: 0;
+	z-index:10;
 }
 body {
 	background: rgba(100, 100, 100, 1);

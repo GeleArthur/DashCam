@@ -1,9 +1,12 @@
 <!-- next time everything should be split up in diffrent files-->
 <template>
 	<div
+		class="player"
 		:class="{
-			'player player__red': playerData.team == 0,
-			'player player__blue': playerData.team == 1,
+			'player__red': playerData.team == 0,
+			'player__blue': playerData.team == 1,
+			'player__dead' : playerData.isDead,
+			'player__alive' : !playerData.isDead
 		}"
 	>
 		<div class="player__name">{{ playerData.name }}</div>
@@ -29,16 +32,14 @@
 
 <style scoped lang="css">
 	.player{align-items:center;display:grid;font-size:20px;font-weight:700;grid-column-gap:20px;grid-template-columns:150px 23px 23px 69px 63px;}
-	.player__name{grid-column-gap:10px;text-align:left;}
+	.player__name{grid-column-gap:10px;text-align:left;overflow:hidden;white-space:nowrap;}
 	
 	.player__dashes .dashes{height:13px;}
 	
 	.player__health{justify-content:start!important;}
 	.player__health .healthBar{height:10px;}
-	.player__health .healthBar .healthBar__life{background-color:rgba(255,255,255,0.75);transform:skew(0deg);}
+	.player__health .healthBar .healthBar__life{transform:skew(0deg);}
 	.player__health .healthBar .healthBar__track{transform:skew(0deg);}
-	.player.dead .player__health .healthBar .healthBar__track{background-color:rgba(0,0,0,0.4);}
-	.player__health:hover .healthBar .healthBar__life{width:33%!important;}
 </style>
 
 <script lang="ts">
@@ -60,7 +61,7 @@
 			playerData() {
 				return this.$store.state.PlayerData[this.playerID];
 			},
-			maxDashes(){
+			maxDashes() {
 				return this.$store.state.PlayerData[this.playerID].dashPickup ? 5 : 3;
 			}
 		}),
