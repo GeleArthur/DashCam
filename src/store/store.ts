@@ -103,6 +103,12 @@ export default createStore({
 				state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
 			}
 		},
+		matchStart(state, socketData: any){
+			state.matchInfo.blueTeamName = socketData.blueTeamName;
+			state.matchInfo.redTeamName = socketData.redTeamName;
+			state.matchInfo.matchtype = socketData.matchType;
+			state.matchInfo.mapname = socketData.mapName;
+		},
 
 		// Will not be called by hyperBash
 		init(state, payload) {

@@ -170,7 +170,7 @@
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
 			},
 			redTeam() {
-				return this.redTeamList.length ? this.redTeamList[0].clan : 'RED';
+				return this.$store.state.matchInfo.redTeamName;
 			},
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
@@ -180,7 +180,7 @@
 				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 			},
 			blueTeam() {
-				return this.blueTeamList.length ? this.blueTeamList[0].clan : 'BLUE';
+				return this.$store.state.matchInfo.blueTeamName;
 			},
 			blueTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
@@ -211,6 +211,7 @@
 				
 				return player.dashPickup ? 5 : 3;
 			},
+			// waiting for API from dashleague
 			blueLogo(){
 				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
@@ -220,7 +221,7 @@
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
 			},
 			timer(){
-				console.log(this.$store.state.matchInfo.timer)
+				// dont do it like this
 				var min = this.$store.state.matchInfo.timer / 60;
 				var sec = (min % 1) * 60;
 
