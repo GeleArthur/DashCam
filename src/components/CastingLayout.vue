@@ -30,7 +30,7 @@
 			<div class="scoreboard__wrapper">
 				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeam }}</div>
 				<div class="scoreboard__score scoreboard__score--blue">{{ blueScore }}</div>
-				<div class="scoreboard__time">{{matchInfo.timer}}</div>
+				<div class="scoreboard__time">{{ timer }}</div>
 				<div class="scoreboard__name scoreboard__name--red">{{ redTeam }}</div>
 				<div class="scoreboard__score scoreboard__score--red">{{ redScore }}</div>
 			</div>
@@ -218,6 +218,29 @@
 			redLogo(){
 				if(this.$store.state.matchInfo.redTeamName == undefined) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
+			},
+			timer(){
+				console.log(this.$store.state.matchInfo.timer)
+				var min = this.$store.state.matchInfo.timer / 60;
+				var sec = (min % 1) * 60;
+
+				min = Math.floor(min);
+				sec = Math.floor(sec);
+
+				let minstring : string;
+				let secstring : string;
+				if(min < 10){
+					minstring = "0" + min;
+				}else{
+					minstring = min.toString();
+				}
+				if(sec < 10){
+					secstring = "0" + sec;
+				}else{
+					secstring = sec.toString();
+				}
+
+				return `${minstring}:${secstring}`
 			}
 		}),
 	});
