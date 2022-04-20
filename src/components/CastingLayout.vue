@@ -28,11 +28,12 @@
 		
 		<div class="scoreboard">
 			<div class="scoreboard__wrapper">
-				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeam }}</div>
-				<div class="scoreboard__score scoreboard__score--blue">{{ blueScore }}</div>
+				{{redTeam}}
+				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeamName }}</div>
+				<div class="scoreboard__score scoreboard__score--blue">{{ blueTeamScore }}</div>
 				<div class="scoreboard__time">{{matchInfo.timer}}</div>
-				<div class="scoreboard__name scoreboard__name--red">{{ redTeam }}</div>
-				<div class="scoreboard__score scoreboard__score--red">{{ redScore }}</div>
+				<div class="scoreboard__name scoreboard__name--red">{{ redTeamName }}</div>
+				<div class="scoreboard__score scoreboard__score--red">{{ redTeamScore }}</div>
 			</div>
 		</div>
 		
@@ -161,26 +162,36 @@
 	
 	export default defineComponent({
 		name:"CastingLayout",
+		data() {
+			return {
+				teams: {},
+			};
+		},
 		components: {
 			Player,
 			PlayerDashes
 		},
 		computed: mapState({
-			redScore() {
+			redTeam() {
+				if ( this.$store.state.matchInfo.redTeamName ) {
+					// call api https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=teamName
+				}
+			},
+			redTeamScore() {
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
 			},
-			redTeam() {
-				return this.redTeamList.length ? this.redTeamList[0].clan : 'RED';
+			redTeamName() {
+				return this.$store.state.matchInfo.redTeamName ? this.$store.state.matchInfo.redTeamName : 'RED';
 			},
 			redTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];
 				return data.filter((e: playerInfo) => e?.team == 0);
 			},
-			blueScore() {
+			blueTeamScore() {
 				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 			},
-			blueTeam() {
-				return this.blueTeamList.length ? this.blueTeamList[0].clan : 'BLUE';
+			blueTeamName() {
+				return this.$store.state.matchInfo.blueTeamName ? this.$store.state.matchInfo.blueTeamName : 'BLUE';
 			},
 			blueTeamList() {
 				let data = this.$store.state.PlayerData as playerInfo[];

@@ -45,8 +45,9 @@ export default defineComponent({
 			
 			var teams = ['UNSC', 'D', 'ARC', 'F1R3', 'HHI', 'DARK'];
 			var redTeam = teams[Math.floor(Math.random() * teams.length)];
+			teams.splice(teams.indexOf(redTeam), 1);
 			var blueTeam = teams[Math.floor(Math.random() * teams.length)];
-
+			
 			for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
 				var currentTeam = (teamIndex == 0) ? redTeam : blueTeam;
 				
