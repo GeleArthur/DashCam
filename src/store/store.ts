@@ -124,28 +124,28 @@ export default createStore({
 
 		matchInfo(state, socketData: any) {
 			state.matchInfo = {
-				controlPoint: {
-					TeamScoringPoints: teams.none,
+				payload: {
+					amountBlueOnCart: socketData.payload.amountBlueOnCart,
+					cartBlockedByRed: socketData.payload.cartBlockedByRed,
+					checkPoint: socketData.payload.checkPoint,
+					secondRound: socketData.payload.secondRound,
 				},
 				domination: {
-					countDownTimer: 5,
-					teamCountDown: teams.none,
-					pointA: teams.none,
-					pointB: teams.none,
-					pointC: teams.none,
+					countDownTimer: socketData.domination.countDownTimer,
+					teamCountDown: socketData.domination.teamCountDown,
+					pointA: socketData.domination.pointA,
+					pointB: socketData.domination.pointB,
+					pointC: socketData.domination.pointC,
 				},
-				payload: {
-					amountBlueOnCart: 0,
-					cartBlockedByRed: false,
-					checkPoint: false,
-					secondRound: false,
+				controlPoint: {
+					TeamScoringPoints: socketData.controlPoint.TeamScoringPoints,
 				},
 				blueScore:socketData.blueScore,
 				redScore:socketData.redScore,
 				blueTeamName: socketData.blueTeamName,
 				redTeamName: socketData.redTeamName,
 				mapname: mapName.lauchpad,
-				matchtype: matchType.payload,
+				matchtype: socketData.matchtype,
 				timer: socketData.timer,
 			};
 		},

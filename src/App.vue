@@ -72,12 +72,43 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
+			
+			var matchtype = getRandomInt(1, 4),
+					redScore  = getRandomInt(0, 3),
+					blueScore = getRandomInt(0, 3);
+					
+			if ( matchtype == 1 ) {
+				redScore  = getRandomInt(0, 101);
+				blueScore = getRandomInt(0, 101);
+			}
+			else if ( matchtype == 3 ) {
+				redScore  = getRandomInt(0, 301);
+				blueScore = getRandomInt(0, 301);
+			}
+			
 			this.$store.commit("matchInfo", {
 				timer: getRandomInt(60, 1500),
 				blueTeamName: blueTeam,
 				redTeamName: redTeam,
-				blueScore: getRandomInt(0, 3),
-				redScore: getRandomInt(0, 3),
+				blueScore: blueScore,
+				redScore: redScore,
+				controlPoint: {
+					TeamScoringPoints: getRandomInt(1, 3),
+				},
+				domination: {
+					countDownTimer: getRandomInt(0, 5),
+					pointA: getRandomInt(0, 4),
+					pointB: getRandomInt(0, 4),
+					pointC: getRandomInt(0, 4),
+					teamCountDown: getRandomInt(0, 3),
+				},
+				payload: {
+					amountBlueOnCart: getRandomInt(0, 4),
+					cartBlockedByRed: getRandomInt(0, 2),
+					checkPoint: getRandomInt(0, 1),
+					secondRound: getRandomInt(0, 1),
+				},
+				matchtype: matchtype
 			});
 			
 			this.$store.commit("CurrentlySpectating", {
