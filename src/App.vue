@@ -8,7 +8,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { HOSt, PORT } from "./ConstVars";
+import { HOST, PORT } from "./ConstVars";
 import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
 import CastingLayout from "./components/CastingLayout.vue";
@@ -191,7 +191,7 @@ export default defineComponent({
 				this.websocket.removeEventListener("message", onMessage);
 			}
 
-			this.websocket = new WebSocket(`ws://${HOSt}:${PORT}`);
+			this.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
 
 			this.websocket.addEventListener("error", failed);
