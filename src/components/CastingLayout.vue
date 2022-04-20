@@ -9,7 +9,7 @@
 				/>
 			</div>
 			<div class="team__logo" v-if="blueTeamName">
-				<img :src="blueLogo" width="94" height="94">
+				<img :src="blueTeamInfo.logo" width="94" height="94">
 			</div>
 		</div>
 		
@@ -25,7 +25,7 @@
 		
 		<div class="team team--red">
 			<div class="team__logo" v-if="redTeamName">
-				<img :src="redLogo" width="94" height="94">
+				<img :src="redTeamInfo.logo" width="94" height="94">
 			</div>
 			<div class="team__players team__players--red">
 				<player
@@ -159,19 +159,44 @@
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	import Player from "./Player.vue";
-import KillFeed from "./KillFeed.vue";
+	import KillFeed from "./KillFeed.vue";
 	
 	export default defineComponent({
 		name:"CastingLayout",
 		data() {
 			return {
-				teams: {},
+				redTeamInfo:{
+					logo:""
+				},
+				blueTeamInfo:{
+					logo:""
+				}
 			};
 		},
 		components: {
 			Player,
 			PlayerDashes,
 			KillFeed
+		},
+		watch:{
+			matchInfo(newValue, oldValue){
+				this.getTeamInfo();
+			}
+		},
+
+		methods:{
+			getTeamInfo(){
+				if(this.$store.state.matchInfo.redTeamName == undefined || this.$store.state.matchInfo.blueTeamName == undefined) return;
+				// Replace with dashleague.games once we release
+				fetch(`/dash/wp-json/api/v1/public/data?data=teams&team=${this.$store.state.matchInfo.redTeamName}`).then(async (redTeam)=>{
+					let redJson = await redTeam.json();
+					this.redTeamInfo.logo = redJson.data.logo;
+				})
+				fetch(`/dash/wp-json/api/v1/public/data?data=teams&team=${this.$store.state.matchInfo.blueTeamName}`).then(async (blueTeam)=>{
+					let blueJson = await blueTeam.json();
+					this.blueTeamInfo.logo = blueJson.data.logo;
+				})
+			}
 		},
 		computed: mapState({
 			redTeam() {
@@ -225,15 +250,15 @@ import KillFeed from "./KillFeed.vue";
 				return player.dashPickup ? 5 : 3;
 			},
 			// waiting for API from dashleague
-			blueLogo() {
-				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
-				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
-			},
-			redLogo() {
-				console.log(this.$store.state.matchInfo.redTeamName);
-				if ( this.$store.state.matchInfo.redTeamName == undefined ) return "";
-				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
-			},
+			// blueLogo() {
+			// 	if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
+			// 	return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
+			// },
+			// redLogo() {
+			// 	console.log(this.$store.state.matchInfo.redTeamName);
+			// 	if ( this.$store.state.matchInfo.redTeamName == undefined ) return "";
+			// 	return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
+			// },
 			timer() {
 				// dont do it like this
 				var min = this.$store.state.matchInfo.timer / 60;
