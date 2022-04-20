@@ -16,10 +16,78 @@
 		<div class="scoreboard">
 			<div class="scoreboard__wrapper">
 				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeamName }}</div>
-				<div class="scoreboard__score scoreboard__score--blue">{{ blueTeamScore }}</div>
-				<div class="scoreboard__time">{{matchInfo.timer}}</div>
+				<div class="scoreboard__score scoreboard__score--blue">
+					{{ blueTeamScore }}<span v-if="matchInfo.matchtype === 1">%</span>
+				</div>
+				<div class="scoreboard__mode scoreboard__mode--blue" v-if="matchInfo.matchtype">
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === 1">
+						<div class="rider" v-for="index in matchInfo.payload.amountBlueOnCart">
+							{{index}}
+						</div>
+					</div>
+					
+					<div class="mode mode--domination" v-if="matchInfo.matchtype === 2">
+						<div v-if="matchInfo.domination.pointA == teams.blue">
+							A
+						</div>
+						<div v-if="matchInfo.domination.pointB == teams.blue">
+							B
+						</div>
+						<div v-if="matchInfo.domination.pointC == teams.blue">
+							C
+						</div>
+					</div>
+					
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === 3">
+						<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.blue">
+							Scoring
+						</div>
+					</div>
+				</div>
+				<div class="scoreboard__time" v-if="matchInfo.matchtype">
+					<div v-if="matchInfo.matchtype === 2 && matchInfo.domination.countDownTimer >= 0">
+						{{matchInfo.domination.countDownTimer}}
+					</div>
+					
+					<div v-else>
+						{{matchInfo.timer}}
+					</div>
+				</div>
 				<div class="scoreboard__name scoreboard__name--red">{{ redTeamName }}</div>
-				<div class="scoreboard__score scoreboard__score--red">{{ redTeamScore }}</div>
+				<div class="scoreboard__score scoreboard__score--red">
+					{{ redTeamScore }}<span v-if="matchInfo.matchtype === 1">%</span>
+				</div>
+				<div class="scoreboard__mode scoreboard__mode--red">
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === 1">
+						<div v-if="matchInfo.payload.cartBlockedByRed">
+							contested
+						</div>
+					</div>
+					
+					<div v-if="matchInfo.matchtype === 2">
+						<div v-if="matchInfo.domination.pointA == teams.red">
+							A
+						</div>
+						<div v-if="matchInfo.domination.pointB == teams.red">
+							B
+						</div>
+						<div v-if="matchInfo.domination.pointC == teams.red">
+							C
+						</div>
+					</div>
+					
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === 3">
+						<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.red">
+							Scoring
+						</div>
+					</div>
+				</div>
+				<div>
+					<div v-if="matchInfo.matchtype === 1">Payload</div>
+					<div v-else-if="matchInfo.matchtype === 2">Domination</div>
+					<div v-else-if="matchInfo.matchtype === 3">Control Point</div>
+					<div v-else>Lobby</div>
+				</div>
 			</div>
 		</div>
 		
@@ -77,7 +145,7 @@
 				<div class="playerBar__deaths">{{selectedPlayer.deads}}</div>
 			</div>
 		</div>
-		<kill-feed></kill-feed>
+		<!-- <kill-feed></kill-feed> -->
 	</div>
 </template>
 
@@ -127,7 +195,11 @@
 	.scoreboard__score--blue{grid-column:3 / span 2;}
 	.scoreboard__score--red{grid-column:6;}
 	.scoreboard__time{font-size:30px;font-weight:800;grid-column:4 / span 2;grid-row:5 / span 2;text-align:center;}
-
+	.scoreboard__mode{grid-row:6;}
+	.scoreboard__mode--blue{grid-column:1 / span 3;}
+	.scoreboard__mode--red{grid-column:6 / span 3;}
+	
+	
 	.playerBar{align-items:end;display:flex;grid-column:2;grid-row:-1;justify-content:center;margin-bottom:1em;}
 	.playerBar_wrapper {
 		background: transparent url('../assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
@@ -159,21 +231,20 @@
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	import Player from "./Player.vue";
-import KillFeed from "./KillFeed.vue";
+	import KillFeed from "./KillFeed.vue";
+	import { teams } from "../models/matchInfo";
 	
 	export default defineComponent({
 		name:"CastingLayout",
-		data() {
-			return {
-				teams: {},
-			};
-		},
 		components: {
 			Player,
 			PlayerDashes,
 			KillFeed
 		},
 		computed: mapState({
+			teams() {
+				return teams;
+			},
 			redTeam() {
 				if ( this.$store.state.matchInfo.redTeamName ) {
 					// call api https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=teamName
@@ -226,11 +297,10 @@ import KillFeed from "./KillFeed.vue";
 			},
 			// waiting for API from dashleague
 			blueLogo() {
-				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
+				if ( this.$store.state.matchInfo.blueTeamName == undefined ) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
 			},
 			redLogo() {
-				console.log(this.$store.state.matchInfo.redTeamName);
 				if ( this.$store.state.matchInfo.redTeamName == undefined ) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
 			},
