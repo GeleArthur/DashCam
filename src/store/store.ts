@@ -1,6 +1,6 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
-import { getImage } from "../Util/GetImage";
+import { getImage } from "../Util/UtilFunctions";
 
 import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 import playerJoins from "../models/HyperBashModels/playerJoins";
