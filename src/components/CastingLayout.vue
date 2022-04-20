@@ -8,7 +8,7 @@
 					:playerID="$store.state.PlayerData.indexOf(item)"
 				/>
 			</div>
-			<div class="team__logo" v-if="blueTeam">
+			<div class="team__logo" v-if="blueTeamName">
 				<img :src="blueLogo" width="94" height="94">
 			</div>
 		</div>
@@ -24,7 +24,7 @@
 		</div>
 		
 		<div class="team team--red">
-			<div class="team__logo" v-if="redTeam">
+			<div class="team__logo" v-if="redTeamName">
 				<img :src="redLogo" width="94" height="94">
 			</div>
 			<div class="team__players team__players--red">
@@ -169,10 +169,10 @@ import KillFeed from "./KillFeed.vue";
 			};
 		},
 		components: {
-    Player,
-    PlayerDashes,
-    KillFeed
-},
+			Player,
+			PlayerDashes,
+			KillFeed
+		},
 		computed: mapState({
 			redTeam() {
 				if ( this.$store.state.matchInfo.redTeamName ) {
@@ -219,42 +219,47 @@ import KillFeed from "./KillFeed.vue";
 			matchInfo() {
 				return this.$store.state.matchInfo;
 			},
-			maxDashes(){
+			maxDashes() {
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
 				
 				return player.dashPickup ? 5 : 3;
 			},
 			// waiting for API from dashleague
-			blueLogo(){
+			blueLogo() {
 				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
 			},
-			redLogo(){
-				if(this.$store.state.matchInfo.redTeamName == undefined) return "";
+			redLogo() {
+				console.log(this.$store.state.matchInfo.redTeamName);
+				if ( this.$store.state.matchInfo.redTeamName == undefined ) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
 			},
-			timer(){
+			timer() {
 				// dont do it like this
 				var min = this.$store.state.matchInfo.timer / 60;
 				var sec = (min % 1) * 60;
-
+				
 				min = Math.floor(min);
 				sec = Math.floor(sec);
-
+				
 				let minstring : string;
 				let secstring : string;
-				if(min < 10){
+				
+				if ( min < 10 ) {
 					minstring = "0" + min;
-				}else{
+				}
+				else {
 					minstring = min.toString();
 				}
-				if(sec < 10){
+				
+				if ( sec < 10 ) {
 					secstring = "0" + sec;
-				}else{
+				}
+				else {
 					secstring = sec.toString();
 				}
-
-				return `${minstring}:${secstring}`
+				
+				return `${minstring}:${secstring}`;
 			}
 		}),
 	});
