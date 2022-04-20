@@ -77,6 +77,7 @@
 				<div class="playerBar__deaths">{{selectedPlayer.deads}}</div>
 			</div>
 		</div>
+		<kill-feed></kill-feed>
 	</div>
 </template>
 
@@ -158,13 +159,15 @@
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	import Player from "./Player.vue";
+import KillFeed from "./KillFeed.vue";
 	
 	export default defineComponent({
 		name:"CastingLayout",
 		components: {
-			Player,
-			PlayerDashes
-		},
+    Player,
+    PlayerDashes,
+    KillFeed
+},
 		computed: mapState({
 			redScore() {
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
