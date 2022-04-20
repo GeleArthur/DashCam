@@ -6,6 +6,7 @@ import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
+import killFeed from "../models/HyperBashModels/killfeed";
 
 export default createStore({
 	state: {
@@ -60,7 +61,7 @@ export default createStore({
 		switchTeam(state, socketData: any) {
 			state.PlayerData[socketData.playerID]!.team = socketData.team;
 		},
-		killFeed(state, socketData: any) {
+		killFeed(state, socketData: killFeed) {
 			state.PlayerData[socketData.victim]!.isDead = true;
 		},
 		respawn(state, socketData: any) {
@@ -102,6 +103,12 @@ export default createStore({
 				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
 				state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
 			}
+		},
+		matchStart(state, socketData: any){
+			state.matchInfo.blueTeamName = socketData.blueTeamName;
+			state.matchInfo.redTeamName = socketData.redTeamName;
+			state.matchInfo.matchtype = socketData.matchType;
+			state.matchInfo.mapname = socketData.mapName;
 		},
 
 		// Will not be called by hyperBash

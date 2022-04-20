@@ -13,6 +13,16 @@
 			</div>
 		</div>
 		
+		<div class="scoreboard">
+			<div class="scoreboard__wrapper">
+				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeamName }}</div>
+				<div class="scoreboard__score scoreboard__score--blue">{{ blueTeamScore }}</div>
+				<div class="scoreboard__time">{{matchInfo.timer}}</div>
+				<div class="scoreboard__name scoreboard__name--red">{{ redTeamName }}</div>
+				<div class="scoreboard__score scoreboard__score--red">{{ redTeamScore }}</div>
+			</div>
+		</div>
+		
 		<div class="team team--red">
 			<div class="team__logo" v-if="redTeam">
 				<img :src="redLogo" width="94" height="94">
@@ -23,17 +33,6 @@
 					:key="index"
 					:playerID="$store.state.PlayerData.indexOf(item)"
 				/>
-			</div>
-		</div>
-		
-		<div class="scoreboard">
-			<div class="scoreboard__wrapper">
-				{{redTeam}}
-				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeamName }}</div>
-				<div class="scoreboard__score scoreboard__score--blue">{{ blueTeamScore }}</div>
-				<div class="scoreboard__time">{{matchInfo.timer}}</div>
-				<div class="scoreboard__name scoreboard__name--red">{{ redTeamName }}</div>
-				<div class="scoreboard__score scoreboard__score--red">{{ redTeamScore }}</div>
 			</div>
 		</div>
 		
@@ -78,6 +77,7 @@
 				<div class="playerBar__deaths">{{selectedPlayer.deads}}</div>
 			</div>
 		</div>
+		<kill-feed></kill-feed>
 	</div>
 </template>
 
@@ -105,7 +105,7 @@
 
 	.team__players{display:grid;grid-row:3;grid-template-columns:repeat(1,1fr);grid-template-rows:repeat(5,1fr);height:150px;row-gap:8px;width:402px;}
 	.team__players--blue{grid-column:2;}
-	.team__players--red{justify-self:end;}
+	.team__players--red{grid-column:2;justify-self:end;}
 
 	.scoreboard{display:flex;grid-column:2;grid-row:1;justify-content:center;}
 	.scoreboard__wrapper {
@@ -159,6 +159,7 @@
 	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	import Player from "./Player.vue";
+import KillFeed from "./KillFeed.vue";
 	
 	export default defineComponent({
 		name:"CastingLayout",
@@ -168,9 +169,10 @@
 			};
 		},
 		components: {
-			Player,
-			PlayerDashes
-		},
+    Player,
+    PlayerDashes,
+    KillFeed
+},
 		computed: mapState({
 			redTeam() {
 				if ( this.$store.state.matchInfo.redTeamName ) {
@@ -222,6 +224,7 @@
 				
 				return player.dashPickup ? 5 : 3;
 			},
+			// waiting for API from dashleague
 			blueLogo(){
 				if(this.$store.state.matchInfo.blueTeamName == undefined) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.blueTeamName.toLowerCase()}-256x256@2x.png`
@@ -229,6 +232,29 @@
 			redLogo(){
 				if(this.$store.state.matchInfo.redTeamName == undefined) return "";
 				return `https://dashleague.games/wp-content/uploads/2021/01/team-${this.$store.state.matchInfo.redTeamName.toLowerCase()}-256x256@2x.png`
+			},
+			timer(){
+				// dont do it like this
+				var min = this.$store.state.matchInfo.timer / 60;
+				var sec = (min % 1) * 60;
+
+				min = Math.floor(min);
+				sec = Math.floor(sec);
+
+				let minstring : string;
+				let secstring : string;
+				if(min < 10){
+					minstring = "0" + min;
+				}else{
+					minstring = min.toString();
+				}
+				if(sec < 10){
+					secstring = "0" + sec;
+				}else{
+					secstring = sec.toString();
+				}
+
+				return `${minstring}:${secstring}`
 			}
 		}),
 	});
