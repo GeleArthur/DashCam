@@ -6,31 +6,42 @@
 				{{ blueTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 			</div>
 			<div class="scoreboard_mode scoreboard_mode--blue" v-if="matchInfo.matchtype">
-				<div class="mode mode--payload mode--blue" v-if="matchInfo.matchtype === matchType.Payload">
-					<div class="payload_riders">
-						<payload-rider
-							v-for="index in 3"
-							:index="index"
-							:load="matchInfo.payload.amountBlueOnCart"
+				<div class="mode mode--blue" :class="matchTypeClass">
+					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
+						<bar
+							:index="teams.blue"
+							:compare="'='"
+							:value="matchInfo.controlPoint.TeamScoringPoints"
+							:width="'100%'"
 						/>
 					</div>
-				</div>
-				
-				<div class="mode mode--domination" v-if="matchInfo.matchtype === matchType.Domination">
-					<div v-if="matchInfo.domination.pointA == teams.blue">
-						A
+					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
+						<bar
+							:text="'A'"
+							:index="teams.blue"
+							:compare="'='"
+							:value="matchInfo.domination.pointA"
+						/>
+						<bar
+							:text="'B'"
+							:index="teams.blue"
+							:compare="'='"
+							:value="matchInfo.domination.pointB"
+						/>
+						<bar
+							:text="'C'"
+							:index="teams.blue"
+							:compare="'='"
+							:value="matchInfo.domination.pointC"
+						/>
 					</div>
-					<div v-if="matchInfo.domination.pointB == teams.blue">
-						B
-					</div>
-					<div v-if="matchInfo.domination.pointC == teams.blue">
-						C
-					</div>
-				</div>
-				
-				<div class="mode mode--payload" v-if="matchInfo.matchtype === matchType.ControlPoint">
-					<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.blue">
-						Scoring
+					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
+						<bar
+							v-for="index in 3"
+							:index="index"
+							:compare="'<='"
+							:value="matchInfo.payload.amountBlueOnCart"
+						/>
 					</div>
 				</div>
 			</div>
@@ -48,36 +59,43 @@
 				{{ redTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 			</div>
 			<div class="scoreboard_mode scoreboard_mode--red">
-				<div class="mode mode--payload mode--red" v-if="matchInfo.matchtype === matchType.Payload">
-					<div class="payload">
-						<div class="payload_fill" :style="payloadContested"></div>
-						<div class="payload_track"></div>
+				<div class="mode mode--red" :class="matchTypeClass">
+					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
+						<bar
+							:value="matchInfo.controlPoint.TeamScoringPoints"
+							:compare="'='"
+							:index="teams.red"
+							:width="'100%'"
+						/>
+					</div>
+					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
+						<bar
+							:text="'A'"
+							:value="matchInfo.domination.pointA"
+							:compare="'='"
+							:index="teams.red"
+						/>
+						<bar
+							:text="'B'"
+							:value="matchInfo.domination.pointB"
+							:compare="'='"
+							:index="teams.red"
+						/>
+						<bar
+							:text="'C'"
+							:value="matchInfo.domination.pointC"
+							:compare="'='"
+							:index="teams.red"
+						/>
+					</div>
+					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
+						<bar
+							:value="matchInfo.payload.cartBlockedByRed"
+							:compare="'boolean'"
+							:width="'100%'"
+						/>
 					</div>
 				</div>
-				
-				<div v-if="matchInfo.matchtype === matchType.Domination">
-					<div v-if="matchInfo.domination.pointA == teams.red">
-						A
-					</div>
-					<div v-if="matchInfo.domination.pointB == teams.red">
-						B
-					</div>
-					<div v-if="matchInfo.domination.pointC == teams.red">
-						C
-					</div>
-				</div>
-				
-				<div class="mode mode--payload" v-if="matchInfo.matchtype === matchType.ControlPoint">
-					<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.red">
-						Scoring
-					</div>
-				</div>
-			</div>
-			<div>
-				<div v-if="matchInfo.matchtype === matchType.Payload">Payload</div>
-				<div v-else-if="matchInfo.matchtype === matchType.Domination">Domination</div>
-				<div v-else-if="matchInfo.matchtype === matchType.ControlPoint">Control Point</div>
-				<div v-else>Lobby</div>
 			</div>
 		</div>
 	</div>
@@ -85,17 +103,7 @@
 
 <style scoped lang="css">
 	.scoreboard{display:flex;grid-column:2;grid-row:1;justify-content:center;}
-	.scoreboard_wrapper {
-		background: transparent url('../assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;
-		color: #fff;
-		display: grid;
-		grid-column-start: 2;
-		grid-template-columns: 122px 12px 70px 7px 105px 71px 12px auto;
-		grid-template-rows: 17px 9px 29px 11px 4px auto;
-		height: 107px;
-		margin-top: 1em;
-		width: 523px;
-	}
+	.scoreboard_wrapper{background:transparent url('../assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;color:#fff;display:grid;grid-column-start:2;grid-template-columns:122px 12px 70px 7px 105px 71px 12px auto;grid-template-rows:17px 9px 29px 11px 4px auto;height:107px;margin-top:1em;width:523px;}
 	.scoreboard_wrapper > div{align-items:center;display:flex;justify-content:center;}
 	.scoreboard_name{font-size:30px;font-weight:800;grid-row:3 / span 3;}
 	.scoreboard_name--blue{grid-column:1;}
@@ -108,13 +116,17 @@
 	.scoreboard_mode--blue{grid-column:1 / span 3;justify-content:flex-end!important;}
 	.scoreboard_mode--red{grid-column:6 / span 3;justify-content:flex-start!important;}
 	
-	.mode--blue{margin-right:21px;}
-	.mode--red{margin-left:22px;}
-	.payload, .payload_riders{display:flex;flex-direction:row-reverse;height:21px;justify-content:space-between;position:relative;width:102px;}
-	.payload{transform: scaleX(-1);}
-	.payload_fill{background-color:#ff7272;display:block;height:100%;position:relative;transform:skew(38deg);transition:width 0.1s ease-in-out;z-index:5;}
-	.payload_track{background-color:rgba(0,0,0,0.3);bottom:-1px;left:-1px;position:absolute;right:-1px;top:-1px;transform:skew(38deg);z-index:1;}
-/*	.payload{width:50px;}*/
+	.bars{display:flex;flex-direction:row;height:21px;justify-content:space-between;position:relative;width:102px;}
+	
+	.mode--controlpoint .bars{width:51px;}
+	.mode--domination .bars{flex-direction:row;}
+	
+	.mode--blue{padding-right:22px;}
+	.mode--blue.mode--domination{padding-right:28px;}
+	.mode--blue.mode--payload .bars{flex-direction:row-reverse;}
+	
+	.mode--red{padding-left:22px;}
+	.mode--red.mode--domination{padding-left:28px;}
 </style>
 
 <script lang="ts">
@@ -123,12 +135,12 @@
 	import playerInfo from "../models/playerInfo";
 	import { matchType, teams } from "../models/matchInfo";
 	import Player from "./Player.vue";
-	import PayloadRider from "./PayloadRider.vue";
+	import Bar from "./Bar.vue";
 	
 	export default defineComponent({
 		name: "Scoreboard",
 		components: {
-			PayloadRider,
+			Bar,
 		},
 		computed: mapState({
 			players() {
@@ -152,6 +164,11 @@
 			},
 			teams() {
 				return teams;
+			},
+			matchTypeClass() {
+				var mode = matchType[this.$store.state.matchInfo.matchtype] !== undefined ? matchType[this.$store.state.matchInfo.matchtype].toLowerCase() : false;
+				
+				return mode ? 'mode--' + mode : '';
 			},
 			matchType() {
 				return matchType;
@@ -182,9 +199,6 @@
 				}
 				
 				return `${minstring}:${secstring}`;
-			},
-			payloadContested() {
-				return { width: this.$store.state.matchInfo.payload.cartBlockedByRed ? '100%' : '0' };
 			},
 			matchInfo(){
 				return this.$store.state.matchInfo;

@@ -3,7 +3,7 @@
 		<a>{{ $store.state.connection }}</a>
 		<button @click="AddFakeData">Fake Data</button>
 	</div>
-	<casting-layout />
+	<layout/>
 </template>
 
 <script lang="ts">
@@ -11,15 +11,16 @@ import { defineComponent } from "vue";
 import { HOST, PORT } from "./ConstVars";
 import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
-import CastingLayout from "./components/CastingLayout.vue";
+import Layout from "./components/Layout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
+import { matchType } from "./models/matchInfo";
 
 export default defineComponent({
 	name: "App",
 	components: {
 		Player,
-		CastingLayout,
+		Layout,
 	},
 	data() {
 		return {
@@ -71,16 +72,15 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
-			
 			var matchtype = getRandomInt(1, 4),
 					redScore  = getRandomInt(0, 3),
 					blueScore = getRandomInt(0, 3);
 					
-			if ( matchtype == 1 ) {
+			if ( matchtype == matchType.Payload ) {
 				redScore  = getRandomInt(0, 101);
 				blueScore = getRandomInt(0, 101);
 			}
-			else if ( matchtype == 3 ) {
+			else if ( matchtype == matchType.ControlPoint ) {
 				redScore  = getRandomInt(0, 301);
 				blueScore = getRandomInt(0, 301);
 			}
@@ -96,9 +96,9 @@ export default defineComponent({
 				},
 				domination: {
 					countDownTimer: getRandomInt(0, 5),
-					pointA: getRandomInt(0, 4),
-					pointB: getRandomInt(0, 4),
-					pointC: getRandomInt(0, 4),
+					pointA: getRandomInt(0, 3),
+					pointB: getRandomInt(0, 3),
+					pointC: getRandomInt(0, 3),
 					teamCountDown: getRandomInt(0, 3),
 				},
 				payload: {
