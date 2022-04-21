@@ -1,8 +1,17 @@
 export enum matchType {
-	lobby,
-	payload,
-	domination,
-	controlPoint,
+	None,
+	ControlPoint,
+	Payload,
+	Lobby,
+	GameOver,
+	Domination,
+	Sandbox,
+	Deathmatch,
+	TutorialIntro,
+	Ball,
+	CaptureTheFlag,
+	Elimination,
+	TeamDeathmatch,
 }
 
 export enum mapName {

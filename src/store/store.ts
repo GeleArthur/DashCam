@@ -111,6 +111,16 @@ export default createStore({
 			state.matchInfo.mapname = socketData.mapName;
 		},
 
+		timer(state, socketData: any){
+			state.matchInfo.timer = socketData.time;
+		},
+
+		teamScore(state, socketData: any){
+			console.log(socketData)
+			state.matchInfo.blueScore = socketData.blueTeam;
+			state.matchInfo.redScore = socketData.redTeam;
+		},
+
 		// Will not be called by hyperBash
 		init(state, payload) {
 			for (let i = 0; i < 10; i++) {

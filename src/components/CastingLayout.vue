@@ -17,16 +17,16 @@
 			<div class="scoreboard__wrapper">
 				<div class="scoreboard__name scoreboard__name--blue">{{ blueTeamName }}</div>
 				<div class="scoreboard__score scoreboard__score--blue">
-					{{ blueTeamScore }}<span v-if="matchInfo.matchtype === 1">%</span>
+					{{ blueTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 				</div>
 				<div class="scoreboard__mode scoreboard__mode--blue" v-if="matchInfo.matchtype">
-					<div class="mode mode--payload" v-if="matchInfo.matchtype === 1">
+					<div class="mode mode--payload" v-if="matchType.Payload">
 						<div class="rider" v-for="index in matchInfo.payload.amountBlueOnCart">
 							{{index}}
 						</div>
 					</div>
 					
-					<div class="mode mode--domination" v-if="matchInfo.matchtype === 2">
+					<div class="mode mode--domination" v-if="matchInfo.matchtype === matchType.Domination">
 						<div v-if="matchInfo.domination.pointA == teams.blue">
 							A
 						</div>
@@ -38,33 +38,33 @@
 						</div>
 					</div>
 					
-					<div class="mode mode--payload" v-if="matchInfo.matchtype === 3">
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === matchType.ControlPoint">
 						<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.blue">
 							Scoring
 						</div>
 					</div>
 				</div>
 				<div class="scoreboard__time" v-if="matchInfo.matchtype">
-					<div v-if="matchInfo.matchtype === 2 && matchInfo.domination.countDownTimer >= 0">
+					<div v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.countDownTimer >= 0">
 						{{matchInfo.domination.countDownTimer}}
 					</div>
 					
 					<div v-else>
-						{{matchInfo.timer}}
+						{{timer}}
 					</div>
 				</div>
 				<div class="scoreboard__name scoreboard__name--red">{{ redTeamName }}</div>
 				<div class="scoreboard__score scoreboard__score--red">
-					{{ redTeamScore }}<span v-if="matchInfo.matchtype === 1">%</span>
+					{{ redTeamScore }}<span v-if="matchType.Payload">%</span>
 				</div>
 				<div class="scoreboard__mode scoreboard__mode--red">
-					<div class="mode mode--payload" v-if="matchInfo.matchtype === 1">
+					<div class="mode mode--payload" v-if="matchType.Payload">
 						<div v-if="matchInfo.payload.cartBlockedByRed">
 							contested
 						</div>
 					</div>
 					
-					<div v-if="matchInfo.matchtype === 2">
+					<div v-if="matchInfo.matchtype === matchType.Domination">
 						<div v-if="matchInfo.domination.pointA == teams.red">
 							A
 						</div>
@@ -76,16 +76,16 @@
 						</div>
 					</div>
 					
-					<div class="mode mode--payload" v-if="matchInfo.matchtype === 3">
+					<div class="mode mode--payload" v-if="matchInfo.matchtype === matchType.ControlPoint">
 						<div v-if="matchInfo.controlPoint.TeamScoringPoints == teams.red">
 							Scoring
 						</div>
 					</div>
 				</div>
 				<div>
-					<div v-if="matchInfo.matchtype === 1">Payload</div>
-					<div v-else-if="matchInfo.matchtype === 2">Domination</div>
-					<div v-else-if="matchInfo.matchtype === 3">Control Point</div>
+					<div v-if="matchType.Payload">Payload</div>
+					<div v-else-if="matchInfo.matchtype === matchType.Domination">Domination</div>
+					<div v-else-if="matchInfo.matchtype === matchType.ControlPoint">Control Point</div>
 					<div v-else>Lobby</div>
 				</div>
 			</div>
@@ -232,7 +232,7 @@
 	import PlayerDashes from "./PlayerDashes.vue";
 	import Player from "./Player.vue";
 	import KillFeed from "./KillFeed.vue";
-	import { teams } from "../models/matchInfo";
+	import { matchType, teams } from "../models/matchInfo";
 	
 	export default defineComponent({
 		name:"CastingLayout",
@@ -274,6 +274,9 @@
 		computed: mapState({
 			teams() {
 				return teams;
+			},
+			matchType(){
+				return matchType;
 			},
 			redTeam() {
 				if ( this.$store.state.matchInfo.redTeamName ) {

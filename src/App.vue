@@ -13,7 +13,6 @@ import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
 import CastingLayout from "./components/CastingLayout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
-import playerPos from "./models/HyperBashModels/playerPos";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 
 export default defineComponent({
