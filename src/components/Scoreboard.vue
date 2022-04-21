@@ -40,7 +40,7 @@
 				</div>
 				
 				<div v-else>
-					{{matchInfo.timer}}
+					{{timer}}
 				</div>
 			</div>
 			<div class="scoreboard_name scoreboard_name--red">{{ redTeamName }}</div>

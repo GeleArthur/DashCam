@@ -6,11 +6,11 @@ export default defineConfig({
   plugins: [vue()],
   server: {
     proxy: {
-      "/dash":{
+      "/wp-json":{
         target:"https://dashleague.games",
         changeOrigin: true,
         secure: false,
-        rewrite: (path) => path.replace(/^\/dash/, ""),
+        // rewrite: (path) => path.replace(/^\/wp-json/, ""),
       }
     }
   }

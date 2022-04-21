@@ -99,26 +99,33 @@ export default createStore({
 			1 + 1;
 		},
 		dashUpdate(state, socketData: any) {
-			if(state.PlayerData[socketData.playerID] != undefined){
+			if (state.PlayerData[socketData.playerID] != undefined) {
 				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
-				state.PlayerData[socketData.playerID]!.dashPickup = socketData.dashPickUp;
+				state.PlayerData[socketData.playerID]!.dashPickup =
+					socketData.dashPickUp;
 			}
 		},
-		matchStart(state, socketData: any){
+		matchStart(state, socketData: any) {
 			state.matchInfo.blueTeamName = socketData.blueTeamName;
 			state.matchInfo.redTeamName = socketData.redTeamName;
 			state.matchInfo.matchtype = socketData.matchType;
 			state.matchInfo.mapname = socketData.mapName;
 		},
 
-		timer(state, socketData: any){
+		timer(state, socketData: any) {
 			state.matchInfo.timer = socketData.time;
 		},
 
-		teamScore(state, socketData: any){
-			console.log(socketData)
+		teamScore(state, socketData: any) {
 			state.matchInfo.blueScore = socketData.blueTeam;
 			state.matchInfo.redScore = socketData.redTeam;
+		},
+
+		payload(state, socketData: any) {
+			state.matchInfo.payload.amountBlueOnCart = socketData.amountBlueOnCart;
+			state.matchInfo.payload.cartBlockedByRed = socketData.cartBlockedByRed;
+			state.matchInfo.payload.checkPoint = socketData.checkPoint;
+			state.matchInfo.payload.secondRound = socketData.secondRound;
 		},
 
 		// Will not be called by hyperBash
@@ -126,6 +133,12 @@ export default createStore({
 			for (let i = 0; i < 10; i++) {
 				state.PlayerData[i] = undefined;
 			}
+			state.matchInfo.payload = {
+				amountBlueOnCart: 0,
+				cartBlockedByRed: false,
+				checkPoint: false,
+				secondRound: false,
+			};
 		},
 
 		changeConnection(state, connectionType) {
@@ -150,8 +163,8 @@ export default createStore({
 				controlPoint: {
 					TeamScoringPoints: socketData.controlPoint.TeamScoringPoints,
 				},
-				blueScore:socketData.blueScore,
-				redScore:socketData.redScore,
+				blueScore: socketData.blueScore,
+				redScore: socketData.redScore,
 				blueTeamName: socketData.blueTeamName,
 				redTeamName: socketData.redTeamName,
 				mapname: mapName.lauchpad,

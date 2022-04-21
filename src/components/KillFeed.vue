@@ -17,11 +17,11 @@ export default defineComponent({
 	},
 	methods: {
 		onPlayerKilled(payload: killFeedData) {
-			console.log(
-				`${store.state.PlayerData[payload.killer]?.name} killed -> ${
-					store.state.PlayerData[payload.victim]?.name
-				}`
-			);
+			// console.log(
+			// 	`${store.state.PlayerData[payload.killer]?.name} killed -> ${
+			// 		store.state.PlayerData[payload.victim]?.name
+			// 	}`
+			// );
 		},
 	},
 });
