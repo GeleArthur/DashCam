@@ -1,4 +1,4 @@
-export interface killFeed {
+export interface killFeedData {
 	type: string;
 	killer: number;
 	victim: number;
@@ -7,4 +7,4 @@ export interface killFeed {
 	weaponType: string;
 }
 
-export default killFeed;
+export default killFeedData;
