@@ -97,9 +97,6 @@
 					</div>
 				</div>
 			</div>
-			<div>
-				{{matchType[matchInfo.matchtype]}}
-			</div>
 		</div>
 	</div>
 </template>
