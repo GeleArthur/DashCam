@@ -18,19 +18,19 @@
 					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
 						<bar
 							:text="'A'"
-							:index="teams.red"
+							:index="teams.blue"
 							:compare="'='"
 							:value="matchInfo.domination.pointA"
 						/>
 						<bar
 							:text="'B'"
-							:index="teams.red"
+							:index="teams.blue"
 							:compare="'='"
 							:value="matchInfo.domination.pointB"
 						/>
 						<bar
 							:text="'C'"
-							:index="teams.red"
+							:index="teams.blue"
 							:compare="'='"
 							:value="matchInfo.domination.pointC"
 						/>

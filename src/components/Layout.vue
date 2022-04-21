@@ -4,7 +4,7 @@
 		<scoreboard />
 		<team :color="'red'" :team="redTeam" :teamID="1" />
 		<player-bar/>
-		<kill-feed></kill-feed>
+		<!-- <kill-feed/> -->
 	</div>
 </template>
 
@@ -33,7 +33,7 @@
 	import Team from "./Team.vue";
 	
 	export default defineComponent({
-		name:"CastingLayout",
+		name:"Layout",
 		data() {
 			return {
 				redTeam: {},

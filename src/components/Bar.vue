@@ -31,8 +31,6 @@
 		name: "Bar",
 		computed: mapState({
 			bar() {
-				console.log('Compare: ' + this.compare + ' for ' + this.index +' || '+this.value);
-				
 				var width = '0%';
 				
 				if ( this.compare == '<=' && this.index <= this.value ) width = '100%';

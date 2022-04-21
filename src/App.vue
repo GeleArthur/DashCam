@@ -3,7 +3,7 @@
 		<a>{{ $store.state.connection }}</a>
 		<button @click="AddFakeData">Fake Data</button>
 	</div>
-	<casting-layout />
+	<layout/>
 </template>
 
 <script lang="ts">
@@ -11,7 +11,7 @@ import { defineComponent } from "vue";
 import { HOST, PORT } from "./ConstVars";
 import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
-import CastingLayout from "./components/CastingLayout.vue";
+import Layout from "./components/Layout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 import { matchType } from "./models/matchInfo";
@@ -20,7 +20,7 @@ export default defineComponent({
 	name: "App",
 	components: {
 		Player,
-		CastingLayout,
+		Layout,
 	},
 	data() {
 		return {
