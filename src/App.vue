@@ -14,6 +14,7 @@ import { mapMutations } from "vuex";
 import CastingLayout from "./components/CastingLayout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
+import { matchType } from "./models/matchInfo";
 
 export default defineComponent({
 	name: "App",
@@ -71,16 +72,15 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
-			
-			var matchtype = 1,//getRandomInt(1, 4),
+			var matchtype = getRandomInt(1, 4),
 					redScore  = getRandomInt(0, 3),
 					blueScore = getRandomInt(0, 3);
 					
-			if ( matchtype == 1 ) {
+			if ( matchtype == matchType.Payload ) {
 				redScore  = getRandomInt(0, 101);
 				blueScore = getRandomInt(0, 101);
 			}
-			else if ( matchtype == 3 ) {
+			else if ( matchtype == matchType.ControlPoint ) {
 				redScore  = getRandomInt(0, 301);
 				blueScore = getRandomInt(0, 301);
 			}
@@ -96,9 +96,9 @@ export default defineComponent({
 				},
 				domination: {
 					countDownTimer: getRandomInt(0, 5),
-					pointA: getRandomInt(0, 4),
-					pointB: getRandomInt(0, 4),
-					pointC: getRandomInt(0, 4),
+					pointA: getRandomInt(0, 3),
+					pointB: getRandomInt(0, 3),
+					pointC: getRandomInt(0, 3),
 					teamCountDown: getRandomInt(0, 3),
 				},
 				payload: {

@@ -1,6 +1,5 @@
 <template>
 	<div class="container">
-		
 		<team :color="'blue'" :team="blueTeam" :teamID="0" />
 		<scoreboard />
 		<team :color="'red'" :team="redTeam" :teamID="1" />
