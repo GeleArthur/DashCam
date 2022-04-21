@@ -72,7 +72,7 @@ export default defineComponent({
 			});
 			
 			// TODO needs to be like how the game will call it
-			var matchtype = getRandomInt(1, 4),
+			var matchtype = [1,2,5][Math.floor(Math.random() * 3)],
 					redScore  = getRandomInt(0, 3),
 					blueScore = getRandomInt(0, 3);
 					

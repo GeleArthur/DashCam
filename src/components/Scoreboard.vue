@@ -174,31 +174,35 @@
 				return matchType;
 			},
 			timer() {
-				// dont do it like this
-				var min = this.$store.state.matchInfo.timer / 60;
-				var sec = (min % 1) * 60;
+				var date = new Date(0); date.setSeconds(this.$store.state.matchInfo.timer);
+				var timeString = date.toISOString().substr(14, 5);
 				
-				min = Math.floor(min);
-				sec = Math.floor(sec);
-				
-				let minstring : string;
-				let secstring : string;
-				
-				if ( min < 10 ) {
-					minstring = "0" + min;
-				}
-				else {
-					minstring = min.toString();
-				}
-				
-				if ( sec < 10 ) {
-					secstring = "0" + sec;
-				}
-				else {
-					secstring = sec.toString();
-				}
-				
-				return `${minstring}:${secstring}`;
+				return timeString;
+				// // dont do it like this
+				// var min = this.$store.state.matchInfo.timer / 60;
+				// var sec = (min % 1) * 60;
+				//
+				// min = Math.floor(min);
+				// sec = Math.floor(sec);
+				//
+				// let minstring : string;
+				// let secstring : string;
+				//
+				// if ( min < 10 ) {
+				// 	minstring = "0" + min;
+				// }
+				// else {
+				// 	minstring = min.toString();
+				// }
+				//
+				// if ( sec < 10 ) {
+				// 	secstring = "0" + sec;
+				// }
+				// else {
+				// 	secstring = sec.toString();
+				// }
+				//
+				// return `${minstring}:${secstring}`;
 			},
 			matchInfo(){
 				return this.$store.state.matchInfo;

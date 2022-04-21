@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<team :color="'blue'" :team="blueTeam" :teamID="0" />
+		<team :color="'blue'" :team="blueTeam" :teamID="1" />
 		<scoreboard />
-		<team :color="'red'" :team="redTeam" :teamID="1" />
+		<team :color="'red'" :team="redTeam" :teamID="0" />
 		<player-bar/>
 		<!-- <kill-feed/> -->
 	</div>
