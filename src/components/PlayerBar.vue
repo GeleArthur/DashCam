@@ -6,8 +6,8 @@
 		]"
 		v-if="$store.state.selectedIndex >= 0">
 		<div class="playerBar_wrapper">
-			<div class="playerBar__dashes">
-				<div class="player__dashes">
+			<div class="playerBar_dashes">
+				<div class="player_dashes">
 					<div class="dashes">
 						<player-dashes
 							v-for="index in maxDashes"
@@ -17,15 +17,15 @@
 					</div>
 				</div>
 			</div>
-			<div class="playerBar__score">{{selectedPlayer.score}}</div>
-			<div class="playerBar__health">
+			<div class="playerBar_score">{{selectedPlayer.score}}</div>
+			<div class="playerBar_health">
 				<div class="healthBar">
-					<div class="healthBar__life" :style="healthBar"></div>
-					<div class="healthBar__track"></div>
+					<div class="healthBar_life" :style="healthBar"></div>
+					<div class="healthBar_track"></div>
 				</div>
 			</div>
-			<div class="playerBar__kills">{{selectedPlayer.kills}}</div>
-			<div class="playerBar__name">
+			<div class="playerBar_kills">{{selectedPlayer.kills}}</div>
+			<div class="playerBar_name">
 				<svg width="336px" height="37px" viewBox="0 0 336 37" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 					<g transform="translate(-791.000000, -999.000000)">
 						<g transform="translate(-55.708529, -0.000000)">
@@ -37,7 +37,7 @@
 				</svg>
 				<span>{{selectedPlayer.name}}</span>
 			</div>
-			<div class="playerBar__deaths">{{selectedPlayer.deads}}</div>
+			<div class="playerBar_deaths">{{selectedPlayer.deads}}</div>
 		</div>
 	</div>
 </template>
@@ -54,23 +54,24 @@
 		width: 523px;
 	}
 	.playerBar_wrapper > div{align-items:center;display:flex;justify-content:center;}
-	.playerBar__dashes{grid-column:3 / span 2;grid-row:2;}
-	.playerBar__dashes .player__dashes{margin:0 5px;width:100%;}
-	.playerBar__dashes .dash--max{width:21px;}
-	.playerBar__dashes .dash--normal{width:37px;}
-	.playerBar__score{font-size:24px;font-weight:700;grid-column:6;grid-row:2 / span 3;}
-	.playerBar__health{grid-column:8 / span 2;grid-row:2;justify-content:start!important;}
-	.playerBar__kills{font-size:24px;font-weight:700;grid-column:2 / span 2;grid-row:4 / span 3;}
-	.playerBar__deaths{font-size:24px;font-weight:700;grid-column:9 / span 2;grid-row:4 / span 3;}
-	.playerBar__name{font-size:30px;font-weight:800;grid-column:4 / span 5;grid-row:6 / span 2;position:relative;}
-	.playerBar__name span{position:relative;z-index:10;}
-	.playerBar__name svg{position:absolute;left:0;}
+	.playerBar_dashes{grid-column:3 / span 2;grid-row:2;}
+	.playerBar_dashes .player_dashes{margin:0 5px;width:100%;}
+	.playerBar_dashes .dash--max{width:21px;}
+	.playerBar_dashes .dash--normal{width:37px;}
+	.playerBar_score{font-size:24px;font-weight:700;grid-column:6;grid-row:2 / span 3;}
+	.playerBar_health{grid-column:8 / span 2;grid-row:2;justify-content:start!important;}
+	.playerBar_kills{font-size:24px;font-weight:700;grid-column:2 / span 2;grid-row:4 / span 3;}
+	.playerBar_deaths{font-size:24px;font-weight:700;grid-column:9 / span 2;grid-row:4 / span 3;}
+	.playerBar_name{font-size:30px;font-weight:800;grid-column:4 / span 5;grid-row:6 / span 2;position:relative;}
+	.playerBar_name span{position:relative;z-index:10;}
+	.playerBar_name svg{position:absolute;left:0;}
 	.playerBar--red polygon{fill:#FF0000;}
 </style>
 
 <script lang="ts">
 	import { defineComponent } from "vue";
 	import { mapState } from "vuex";
+	import playerInfo from "../models/playerInfo";
 	import PlayerDashes from "./PlayerDashes.vue";
 	
 	export default defineComponent({
