@@ -9,10 +9,10 @@
 			'player--alive' : !playerData.isDead
 		}"
 	>
-		<div class="player__name">{{ playerData.name }}</div>
-		<div class="player__kills">{{ playerData.kills }}</div>
-		<div class="player__deaths">{{ playerData.deads }}</div>
-		<div class="player__dashes">
+		<div class="player_name">{{ playerData.name }}</div>
+		<div class="player_kills">{{ playerData.kills }}</div>
+		<div class="player_deaths">{{ playerData.deads }}</div>
+		<div class="player_dashes">
 			<div class="dashes">
 				<player-dashes
 					v-for="index in maxDashes"
@@ -21,10 +21,10 @@
 				/>
 			</div>
 		</div>
-		<div class="player__health">
+		<div class="player_health">
 			<div class="healthBar">
-				<div class="healthBar__life" :style="healthBar"></div>
-				<div class="healthBar__track"></div>
+				<div class="healthBar_life" :style="healthBar"></div>
+				<div class="healthBar_track"></div>
 			</div>
 		</div>
 	</div>
@@ -32,18 +32,18 @@
 
 <style scoped lang="css">
 	.player{align-items:center;display:grid;font-size:20px;font-weight:700;grid-column-gap:20px;grid-template-columns:150px 23px 23px 69px 63px;}
-	.player__name{grid-column-gap:10px;text-align:left;overflow:hidden;white-space:nowrap;}
+	.player_name{grid-column-gap:10px;text-align:left;overflow:hidden;white-space:nowrap;}
 	
-	.player__dashes .dashes{height:13px;}
+	.player_dashes .dashes{height:13px;}
 	
-	.player__health{justify-content:start!important;}
-	.player__health .healthBar{height:10px;}
-	.player__health .healthBar .healthBar__life{transform:skew(0deg);}
-	.player__health .healthBar .healthBar__track{transform:skew(0deg);}
+	.player_health{justify-content:start!important;}
+	.player_health .healthBar{height:10px;}
+	.player_health .healthBar .healthBar_life{transform:skew(0deg);}
+	.player_health .healthBar .healthBar_track{transform:skew(0deg);}
 	
-	.player--dead .player__name,
-	.player--dead .player__kills,
-	.player--dead .player__deaths{opacity:0.5;}
+	.player--dead .player_name,
+	.player--dead .player_kills,
+	.player--dead .player_deaths{opacity:0.5;}
 </style>
 
 <script lang="ts">

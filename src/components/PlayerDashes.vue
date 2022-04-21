@@ -5,8 +5,8 @@
 		  playerData.dashPickup ? 'dash--max' : 'dash--normal'
 		]"
 	>
-		<div class="dashes__fill" :style="dashesLeft"></div>
-		<div class="dashes__track"></div>
+		<div class="dashes_fill" :style="dashesLeft"></div>
+		<div class="dashes_track"></div>
 	</div>
 </template>
 
