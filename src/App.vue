@@ -2,8 +2,10 @@
 	<div id="admin" v-if="$store.state.connection">
 		<a>{{ $store.state.connection }}</a>
 		<button @click="AddFakeData">Fake Data</button>
+		<button @click="showHelp">Help</button>
 	</div>
 	<layout/>
+	<instructions v-if="openHelp"/>
 </template>
 
 <script lang="ts">
@@ -15,15 +17,18 @@ import Layout from "./components/Layout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 import { matchType } from "./models/matchInfo";
+import Instructions from "./components/Instructions.vue";
 
 export default defineComponent({
 	name: "App",
 	components: {
 		Player,
 		Layout,
+		Instructions
 	},
 	data() {
 		return {
+			openHelp: false,
 			websocket: null as unknown as WebSocket,
 			fakeDataInterval: 0,
 		};
@@ -33,6 +38,10 @@ export default defineComponent({
 			var socketData = JSON.parse(data);
 			this.$store.commit(socketData.type, socketData);
 		},
+		showHelp(){
+			this.openHelp = !this.openHelp;
+		},
+
 		AddFakeData() {
 			clearInterval(this.fakeDataInterval);
 			
@@ -230,7 +239,7 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px;
+	grid-template-columns: auto 100px 100px;
 	left: 0;
 	padding: 1em;
 	position: fixed;
