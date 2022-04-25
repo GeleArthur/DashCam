@@ -128,19 +128,26 @@ export default createStore({
 			state.matchInfo.payload.secondRound = socketData.secondRound;
 		},
 
-		domination(state, socketData: any){
+		domination(state, socketData: any) {
 			state.matchInfo.domination.countDownTimer = socketData.countDownTimer;
 			state.matchInfo.domination.pointA = socketData.scores[0];
 			state.matchInfo.domination.pointB = socketData.scores[1];
 			state.matchInfo.domination.pointC = socketData.scores[2];
-			state.matchInfo.domination.teamCountDown = socketData.isScoring ? socketData.scores[0] : teams.none;
+			state.matchInfo.domination.teamCountDown = socketData.isScoring
+				? socketData.scores[0]
+				: teams.none;
+		},
+
+		controlPoint(state, socketData: any) {
+			state.matchInfo.controlPoint.TeamScoringPoints =
+				socketData.controllingTeam;
 		},
 
 		// Will not be called by hyperBash
 		init(state, payload) {
 			for (let i = 0; i < 10; i++) {
 				state.PlayerData[i] = undefined;
-			};
+			}
 
 			state.matchInfo.payload = {
 				amountBlueOnCart: 0,
@@ -155,6 +162,10 @@ export default createStore({
 				pointA: teams.none,
 				pointB: teams.none,
 				pointC: teams.none,
+			};
+
+			state.matchInfo.controlPoint = {
+				TeamScoringPoints: teams.none,
 			};
 		},
 
