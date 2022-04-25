@@ -128,16 +128,33 @@ export default createStore({
 			state.matchInfo.payload.secondRound = socketData.secondRound;
 		},
 
+		domination(state, socketData: any){
+			state.matchInfo.domination.countDownTimer = socketData.countDownTimer;
+			state.matchInfo.domination.pointA = socketData.scores[0];
+			state.matchInfo.domination.pointB = socketData.scores[1];
+			state.matchInfo.domination.pointC = socketData.scores[2];
+			state.matchInfo.domination.teamCountDown = socketData.isScoring ? socketData.scores[0] : teams.none;
+		},
+
 		// Will not be called by hyperBash
 		init(state, payload) {
 			for (let i = 0; i < 10; i++) {
 				state.PlayerData[i] = undefined;
-			}
+			};
+
 			state.matchInfo.payload = {
 				amountBlueOnCart: 0,
 				cartBlockedByRed: false,
 				checkPoint: false,
 				secondRound: false,
+			};
+
+			state.matchInfo.domination = {
+				countDownTimer: 0,
+				teamCountDown: teams.none,
+				pointA: teams.none,
+				pointB: teams.none,
+				pointC: teams.none,
 			};
 		},
 

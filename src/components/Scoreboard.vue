@@ -46,8 +46,8 @@
 				</div>
 			</div>
 			<div class="scoreboard_time" v-if="matchInfo.matchtype">
-				<div v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.countDownTimer >= 0">
-					{{matchInfo.domination.countDownTimer}}
+				<div v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.teamCountDown != teams.none">
+					{{matchInfo.domination.countDownTimer.toPrecision(3)}}
 				</div>
 				
 				<div v-else>

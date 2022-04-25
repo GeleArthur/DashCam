@@ -25,9 +25,9 @@ export enum mapName {
 }
 
 export enum teams {
-	none,
-	blue,
-	red,
+	none = -1,
+	red = 0,
+	blue = 1,
 }
 
 export interface payloadInfo {
