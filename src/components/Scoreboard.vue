@@ -119,7 +119,7 @@
 	.bars{display:flex;flex-direction:row;height:21px;justify-content:space-between;position:relative;width:102px;}
 	
 	.mode--controlpoint .bars{width:51px;}
-	.mode--domination .bars{flex-direction:row;}
+	.mode--domination .bars{flex-direction:row;height:28px;}
 	
 	.mode--blue{padding-right:22px;}
 	.mode--blue.mode--domination{padding-right:28px;}
