@@ -51,10 +51,10 @@
 			this.scoreTimer(11000);
 		},
 		watch:{
-			"$store.state.matchInfo.redTeamName"(val){
+			"$store.getters.redTeamName"(val){
 				this.getTeamInfo();
 			},
-			"$store.state.matchInfo.blueTeamName"(val){
+			"$store.getters.blueTeamName"(val){
 				this.getTeamInfo();
 			}
 		},
