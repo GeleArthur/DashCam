@@ -209,7 +209,7 @@ export default createStore({
 
 					for (let i = 0; i < state.PlayerData.length; i++) {
 						if(state.PlayerData[i] != undefined) {
-							if(state.PlayerData[i]?.team == teams.blue && state.PlayerData[i]?.clan != ""){
+							if(state.PlayerData[i]?.team == teams.blue && state.PlayerData[i]?.clan != "" && state.PlayerData[i]?.clan != "BOT"){
 								return state.PlayerData[i]?.clan;
 							}
 						}
@@ -228,7 +228,7 @@ export default createStore({
 
 					for (let i = 0; i < state.PlayerData.length; i++) {
 						if(state.PlayerData[i] != undefined) {
-							if(state.PlayerData[i]?.team == teams.red && state.PlayerData[i]?.clan != ""){
+							if(state.PlayerData[i]?.team == teams.red && state.PlayerData[i]?.clan != "" && state.PlayerData[i]?.clan != "BOT"){
 								return state.PlayerData[i]?.clan;
 							}
 						}
