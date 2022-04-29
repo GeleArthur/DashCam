@@ -36,6 +36,7 @@
 		name:"Layout",
 		data() {
 			return {
+				timer: 0,
 				redTeam: {},
 				blueTeam: {},
 			};
@@ -65,6 +66,22 @@
 					let blueJson = await blueTeam.json();
 					this.blueTeam = blueJson.data;
 				});
+			},
+			scoreTimer( seconds: number ) {
+				var container = document.querySelector('.container') as HTMLDivElement;
+				
+				if ( this.timer ) clearInterval(this.timer);
+				
+				this.timer = setInterval(() => {
+					if ( container.classList.contains('container--scores') ) {
+						container.classList.remove('container--scores');
+						this.scoreTimer(11000);
+					}
+					else {
+						container.classList.add('container--scores');
+						this.scoreTimer(6000);
+					}
+				}, seconds);
 			}
 		},
 		computed: mapState({
@@ -72,5 +89,10 @@
 				return this.$store.state.matchInfo;
 			},
 		}),
+		mounted() {
+			var container = document.querySelector('.container'), timer = false;
+			
+			this.scoreTimer(11000);
+		}
 	});
 </script>

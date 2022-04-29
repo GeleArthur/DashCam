@@ -1,5 +1,8 @@
 <template>
-	<div class="team" :class="'team--'+color">
+	<div class="team" :class="[
+		'team--'+color,
+		team.name ? 'team--dln' : ''
+	]">
 		<div class="team_players" :class="'team_players--'+color" v-if="players">
 			<player
 				v-for="(item, index) in players"
@@ -18,9 +21,11 @@
 	.team_logo{grid-row:2 / span 2;}
 	
 	.team--blue{background:transparent url('../assets/dln-ui-team-blue.png') no-repeat scroll top left;grid-column:1;grid-template-columns:20px auto 94px;}
+	.team--blue.team--dln{background-image:url('../assets/dln-ui-team-blue-dln.png');}
 	.team--blue .team_logo{grid-column:3;}
 	
 	.team--red{background:transparent url('../assets/dln-ui-team-red.png') no-repeat scroll top right;grid-column:3;grid-template-columns:94px auto 20px;}
+	.team--red.team--dln{background-image:url('../assets/dln-ui-team-red-dln.png');}
 	.team--red .team_logo{grid-column:1;}
 	
 	.team_players{display:grid;grid-row:3;grid-template-columns:repeat(1,1fr);grid-template-rows:repeat(5,1fr);height:150px;row-gap:8px;width:402px;}

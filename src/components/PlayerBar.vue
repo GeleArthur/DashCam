@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="playerBar_score">{{selectedPlayer.score}}</div>
+			<div class="playerBar_score">{{score}}</div>
 			<div class="playerBar_health">
 				<div class="healthBar">
 					<div class="healthBar_life" :style="healthBar"></div>
@@ -68,6 +68,11 @@
 	.playerBar--red polygon{fill:#FF0000;}
 </style>
 
+<style>
+	.playerBar_dashes .player_dashes .dashes_fill{background-color:rgba(34,192,255,0.8);}
+	.playerBar_health .healthBar .healthBar_life{background-color:rgb(0,255,111,0.8);}
+</style>
+
 <script lang="ts">
 	import { defineComponent } from "vue";
 	import { mapState } from "vuex";
@@ -102,6 +107,11 @@
 				
 				return player.dashPickup ? 5 : 3;
 			},
+			score() {
+				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				
+				return player.score.toLocaleString('en-US');
+			}
 		}),
 		// props: {
 		// 	matchInfo: {
