@@ -101,8 +101,7 @@ export default createStore({
 		dashUpdate(state, socketData: any) {
 			if (state.PlayerData[socketData.playerID] != undefined) {
 				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
-				state.PlayerData[socketData.playerID]!.dashPickup =
-					socketData.dashPickUp;
+				state.PlayerData[socketData.playerID]!.dashPickup = socketData.hasDashUpgrade;
 			}
 		},
 		matchStart(state, socketData: any) {

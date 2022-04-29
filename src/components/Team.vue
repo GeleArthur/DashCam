@@ -46,9 +46,7 @@
 		},
 		computed: mapState({
 			players() {
-				if ( this.$store.state.PlayerData[0] == undefined ) return false;
-				
-				let data = this.$store.state.PlayerData as playerInfo[];
+				let data = this.$store.state.PlayerData;
 				
 				return data.filter((e: playerInfo) => e?.team == this.teamID);
 			},
