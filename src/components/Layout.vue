@@ -48,12 +48,17 @@
 			PlayerBar
 		},
 		mounted() {
-			this.$store.subscribe((mutation, state) => {
-				if (mutation.type == "matchStart") {
-					this.getTeamInfo();
-				}
-			});
+			this.scoreTimer(11000);
 		},
+		watch:{
+			"$store.state.matchInfo.redTeamName"(val){
+				this.getTeamInfo();
+			},
+			"$store.state.matchInfo.blueTeamName"(val){
+				this.getTeamInfo();
+			}
+		},
+
 		methods:{
 			getTeamInfo(){
 				if ( this.$store.state.matchInfo.redTeamName == undefined || this.$store.state.matchInfo.blueTeamName == undefined ) return;
@@ -89,10 +94,6 @@
 				return this.$store.state.matchInfo;
 			},
 		}),
-		mounted() {
-			var container = document.querySelector('.container'), timer = false;
-			
-			this.scoreTimer(11000);
-		}
+
 	});
 </script>
