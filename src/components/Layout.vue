@@ -46,10 +46,12 @@
 			Scoreboard,
 			PlayerBar
 		},
-		watch:{
-			matchInfo(newValue, oldValue){
-				this.getTeamInfo();
-			}
+		mounted() {
+			this.$store.subscribe((mutation, state) => {
+				if (mutation.type == "matchStart") {
+					this.getTeamInfo();
+				}
+			});
 		},
 		methods:{
 			getTeamInfo(){

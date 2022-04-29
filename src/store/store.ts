@@ -139,8 +139,7 @@ export default createStore({
 		},
 
 		controlPoint(state, socketData: any) {
-			state.matchInfo.controlPoint.TeamScoringPoints =
-				socketData.controllingTeam;
+			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 		},
 
 		// Will not be called by hyperBash
