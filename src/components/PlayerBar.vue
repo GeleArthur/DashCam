@@ -68,6 +68,11 @@
 	.playerBar--red polygon{fill:#FF0000;}
 </style>
 
+<style>
+	.playerBar_dashes .player_dashes .dashes_fill{background-color:rgba(34,192,255,0.8);}
+	.playerBar_health .healthBar .healthBar_life{background-color:rgb(0,255,111,0.8);}
+</style>
+
 <script lang="ts">
 	import { defineComponent } from "vue";
 	import { mapState } from "vuex";
