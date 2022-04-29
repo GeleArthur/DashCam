@@ -10,8 +10,13 @@
 		}"
 	>
 		<div class="player_name">{{ playerData.name }}</div>
-		<div class="player_kills">{{ playerData.kills }}</div>
-		<div class="player_deaths">{{ playerData.deads }}</div>
+		<div class="player_info">
+			<div class="player_score"> {{ playerScore }} </div>
+			<div class="player_kd">
+				<div class="player_kills">{{ playerData.kills }}</div>
+				<div class="player_deaths">{{ playerData.deads }}</div>
+			</div>
+		</div>
 		<div class="player_dashes">
 			<div class="dashes">
 				<player-dashes
@@ -34,6 +39,15 @@
 	.player{align-items:center;display:grid;font-size:20px;font-weight:700;grid-column-gap:20px;grid-template-columns:150px 23px 23px 69px 63px;}
 	.player_name{grid-column-gap:10px;text-align:left;overflow:hidden;white-space:nowrap;}
 	
+	.player_info{display:grid;grid-column:2/ span 2;grid-template-column:auto;grid-template-row:auto;}
+	.player_info > div{transition:opacity 0.5s linear;}
+	
+	.player_score{grid-column:1/span 2;grid-row:1;opacity:0;text-align:right;}
+	.container--scores .player_score{opacity:1;}
+	
+	.player_kd{display:grid;grid-column-gap:20px;grid-column:1;grid-row:1;grid-template-columns:23px 23px;opacity:1;}
+	.container--scores .player_kd{opacity:0;}
+	
 	.player_dashes .dashes{height:13px;}
 	
 	.player_health{justify-content:start!important;}
@@ -43,6 +57,7 @@
 	
 	.player--dead .player_name,
 	.player--dead .player_kills,
+	.container--scores .player--dead .player_score,
 	.player--dead .player_deaths{opacity:0.5;}
 </style>
 
@@ -64,6 +79,11 @@
 			},
 			playerData() {
 				return this.$store.state.PlayerData[this.playerID];
+			},
+			playerScore() {
+				var score = this.$store.state.PlayerData[this.playerID].score;
+				
+				return score.toLocaleString('en-US');
 			},
 			maxDashes() {
 				return this.$store.state.PlayerData[this.playerID].dashPickup ? 5 : 3;

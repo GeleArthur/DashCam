@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="playerBar_score">{{selectedPlayer.score}}</div>
+			<div class="playerBar_score">{{score}}</div>
 			<div class="playerBar_health">
 				<div class="healthBar">
 					<div class="healthBar_life" :style="healthBar"></div>
@@ -107,6 +107,11 @@
 				
 				return player.dashPickup ? 5 : 3;
 			},
+			score() {
+				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				
+				return player.score.toLocaleString('en-US');
+			}
 		}),
 		// props: {
 		// 	matchInfo: {
