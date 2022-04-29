@@ -202,4 +202,44 @@ export default createStore({
 	},
 	actions: {},
 	modules: {},
+	getters: {
+		blueTeamName(state){
+			if(state.matchInfo.blueTeamName != undefined){
+				if(state.matchInfo.blueTeamName == "Blue"){
+
+					for (let i = 0; i < state.PlayerData.length; i++) {
+						if(state.PlayerData[i] != undefined) {
+							if(state.PlayerData[i]?.team == teams.blue && state.PlayerData[i]?.clan != ""){
+								return state.PlayerData[i]?.clan;
+							}
+						}
+					}
+
+				}else{
+					return state.matchInfo.blueTeamName;
+				}
+			}
+
+			return 'Blue';
+		},
+		redTeamName(state){
+			if(state.matchInfo.redTeamName != undefined){
+				if(state.matchInfo.redTeamName == "Red"){
+
+					for (let i = 0; i < state.PlayerData.length; i++) {
+						if(state.PlayerData[i] != undefined) {
+							if(state.PlayerData[i]?.team == teams.red && state.PlayerData[i]?.clan != ""){
+								return state.PlayerData[i]?.clan;
+							}
+						}
+					}
+					
+				}else{
+					return state.matchInfo.redTeamName;
+				}
+			}
+
+			return 'Red';
+		}
+	}
 });

@@ -62,12 +62,12 @@
 		methods:{
 			getTeamInfo(){
 				if ( this.$store.state.matchInfo.redTeamName == undefined || this.$store.state.matchInfo.blueTeamName == undefined ) return;
-				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.state.matchInfo.redTeamName}`).then(async (redTeam)=>{
+				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.redTeamName}`).then(async (redTeam)=>{
 					let redJson = await redTeam.json();
 					this.redTeam = redJson.data;
 				});
 				
-				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.state.matchInfo.blueTeamName}`).then(async (blueTeam)=>{
+				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.blueTeamName}`).then(async (blueTeam)=>{
 					let blueJson = await blueTeam.json();
 					this.blueTeam = blueJson.data;
 				});

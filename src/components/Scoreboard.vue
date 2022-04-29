@@ -1,7 +1,7 @@
 <template>
 	<div class="scoreboard">
 		<div class="scoreboard_wrapper">
-			<div class="scoreboard_name scoreboard_name--blue">{{ blueTeamName }}</div>
+			<div class="scoreboard_name scoreboard_name--blue">{{  $store.getters.blueTeamName }}</div>
 			<div class="scoreboard_score scoreboard_score--blue">
 				{{ blueTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 			</div>
@@ -54,7 +54,7 @@
 					{{timer}}
 				</div>
 			</div>
-			<div class="scoreboard_name scoreboard_name--red">{{ redTeamName }}</div>
+			<div class="scoreboard_name scoreboard_name--red">{{ $store.getters.redTeamName }}</div>
 			<div class="scoreboard_score scoreboard_score--red">
 				{{ redTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 			</div>
@@ -153,15 +153,44 @@
 			redTeamScore() {
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
 			},
-			redTeamName() {
-				return this.$store.state.matchInfo.redTeamName ? this.$store.state.matchInfo.redTeamName : 'RED';
-			},
+			// redTeamName() {
+			// 	if(this.$store.state.matchInfo.redTeamName != undefined){
+			// 		if(this.$store.state.matchInfo.redTeamName == "Red"){
+			// 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+			// 				if(this.$store.state.PlayerData[i] != undefined) {
+			// 					if(this.$store.state.PlayerData[i].team == teams.red && this.$store.state.PlayerData[i].clan != ""){
+			// 						return this.$store.state.PlayerData[i].clan;
+			// 					}
+			// 				}
+			// 			}
+			// 		}else{
+			// 			return this.$store.state.matchInfo.redTeamName;
+			// 		}
+			// 	}
+
+			// 	return 'Red';
+			// },
 			blueTeamScore() {
 				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 			},
-			blueTeamName() {
-				return this.$store.state.matchInfo.blueTeamName ? this.$store.state.matchInfo.blueTeamName : 'BLUE';
-			},
+			// blueTeamName() {
+			// 	console.log("WAL")
+			// 	if(this.$store.state.matchInfo.blueTeamName != undefined){
+			// 		if(this.$store.state.matchInfo.blueTeamName == "Blue"){
+			// 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+			// 				if(this.$store.state.PlayerData[i] != undefined) {
+			// 					if(this.$store.state.PlayerData[i].team == teams.blue && this.$store.state.PlayerData[i].clan != ""){
+			// 						return this.$store.state.PlayerData[i].clan;
+			// 					}
+			// 				}
+			// 			}
+			// 		}else{
+			// 			return this.$store.state.matchInfo.blueTeamName;
+			// 		}
+			// 	}
+
+			// 	return 'Blue';
+			// },
 			teams() {
 				return teams;
 			},
