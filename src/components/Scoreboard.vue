@@ -174,7 +174,18 @@
 				return matchType;
 			},
 			timer() {
-				var date = new Date(0); date.setSeconds(this.$store.state.matchInfo.timer);
+				var timer = this.$store.state.matchInfo.timer,
+						date  = new Date(0),
+						mill  = timer % 1,
+						mins  = (timer - mill) / 60,
+						secs  = mins % 1;
+						
+				mins = mins - secs;
+				secs = secs * 60;
+				
+				date.setMinutes(mins);
+				date.setSeconds(secs, mill);
+				
 				var timeString = date.toISOString().substr(14, 5);
 				
 				return timeString;
