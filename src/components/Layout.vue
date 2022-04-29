@@ -36,7 +36,7 @@
 		name:"Layout",
 		data() {
 			return {
-				timer: false,
+				timer: 0,
 				redTeam: {},
 				blueTeam: {},
 			};
@@ -65,19 +65,19 @@
 					this.blueTeam = blueJson.data;
 				});
 			},
-			scoreTimer( seconds ) {
-				var container = document.querySelector('.container');
+			scoreTimer( seconds: number ) {
+				var container = document.querySelector('.container') as HTMLDivElement;
 				
 				if ( this.timer ) clearInterval(this.timer);
 				
 				this.timer = setInterval(() => {
 					if ( container.classList.contains('container--scores') ) {
 						container.classList.remove('container--scores');
-						this.scoreTimer(10000);
+						this.scoreTimer(11000);
 					}
 					else {
 						container.classList.add('container--scores');
-						this.scoreTimer(5000);
+						this.scoreTimer(6000);
 					}
 				}, seconds);
 			}
@@ -90,7 +90,7 @@
 		mounted() {
 			var container = document.querySelector('.container'), timer = false;
 			
-			this.scoreTimer(10000);
+			this.scoreTimer(11000);
 		}
 	});
 </script>
