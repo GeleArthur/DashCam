@@ -6,7 +6,6 @@
 					<span class="name">{{ kill.killer }}</span>
 				</div>
 				<div class="feed_weapon">
-					<div>{{ kill.weapons }}</div>
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
 					<img class="headshot" v-if="kill.headShot" v-bind:src="getHeadshotSvg(kill)" alt="image">
 				</div>
