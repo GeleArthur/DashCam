@@ -203,6 +203,7 @@
 				return matchType;
 			},
 			timer() {
+				if(this.$store.state.matchInfo.timer == undefined) return "00:00"
 				var timer = this.$store.state.matchInfo.timer,
 						date  = new Date(0),
 						mill  = timer % 1,

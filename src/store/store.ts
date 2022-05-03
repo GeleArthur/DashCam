@@ -141,6 +141,10 @@ export default createStore({
 			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 		},
 
+		version(state, socketData: any){
+			console.log(`HyperBash: ${socketData.HyperBashVersion} Websocket: ${socketData.WebSocketVersion}`)
+		},
+
 		// Will not be called by hyperBash
 		init(state, payload) {
 			for (let i = 0; i < 10; i++) {
