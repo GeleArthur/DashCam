@@ -41,6 +41,7 @@
 							:index="index"
 							:compare="'<='"
 							:value="matchInfo.payload.amountBlueOnCart"
+							v-bind:key="index"
 						/>
 					</div>
 				</div>
