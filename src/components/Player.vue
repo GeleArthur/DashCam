@@ -23,6 +23,7 @@
 					v-for="index in maxDashes"
 					:index="index"
 					:playerData="playerData"
+					v-bind:key="index"
 				/>
 			</div>
 		</div>
