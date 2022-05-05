@@ -47,8 +47,9 @@
 		computed: mapState({
 			players() {
 				let data = this.$store.state.PlayerData;
-				
-				return data.filter((e: playerInfo) => e?.team == this.teamID);
+				return data
+					.filter((e: playerInfo) => e?.team == this.teamID)
+					.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
 			},
 		}),
 		props: {
