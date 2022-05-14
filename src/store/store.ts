@@ -14,6 +14,10 @@ export default createStore({
 		selectedIndex: -1,
 		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
+		versions:{
+			HyperBash:"",
+			WebSocket:""
+		}
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -60,6 +64,10 @@ export default createStore({
 		},
 		switchTeam(state, socketData: any) {
 			state.PlayerData[socketData.playerID]!.team = socketData.team;
+			state.PlayerData[socketData.playerID]!.dash = 3;
+			state.PlayerData[socketData.playerID]!.health = 100;
+			state.PlayerData[socketData.playerID]!.dashPickup = false;
+			state.PlayerData[socketData.playerID]!.isDead = false;
 		},
 		killFeed(state, socketData: killFeedData) {
 			state.PlayerData[socketData.victim]!.isDead = true;
@@ -143,6 +151,8 @@ export default createStore({
 
 		version(state, socketData: any){
 			console.log(`HyperBash: ${socketData.HyperBashVersion} Websocket: ${socketData.WebSocketVersion}`)
+			state.versions.HyperBash = socketData.HyperBashVersion;
+			state.versions.WebSocket = socketData.WebSocketVersion;
 		},
 
 		// Will not be called by hyperBash
