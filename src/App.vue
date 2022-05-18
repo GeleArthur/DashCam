@@ -10,7 +10,7 @@
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import { HOST, PORT } from "./ConstVars";
+import { HOST, PORT } from "./Util/ConstVars";
 import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
 import Layout from "./components/Layout.vue";
@@ -186,11 +186,18 @@ export default defineComponent({
 			// }, 10);
 
 		},
+		displayVersionError(){
+
+		},
 		...mapMutations(["changeConnection"]),
+	},
+	watch: {
+		"$this.$store.state.version"(val){
+			console.log(val)
+		}
 	},
 	mounted() {
 		this.$store.commit("init");
-
 		const StartWebSocket = () => {
 			if (this.websocket != null) {
 				this.websocket.removeEventListener("error", failed);

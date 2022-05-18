@@ -7,6 +7,7 @@ export interface State {
 	connection: string;
 	selectedIndex: number;
 	matchInfo: matchInfo;
+	version: string;
 }
 
 declare module "@vue/runtime-core" {

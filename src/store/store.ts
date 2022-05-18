@@ -14,10 +14,7 @@ export default createStore({
 		selectedIndex: -1,
 		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
-		versions:{
-			HyperBash:"",
-			WebSocket:""
-		}
+		version:""
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -150,9 +147,8 @@ export default createStore({
 		},
 
 		version(state, socketData: any){
-			console.log(`HyperBash: ${socketData.HyperBashVersion} Websocket: ${socketData.WebSocketVersion}`)
-			state.versions.HyperBash = socketData.HyperBashVersion;
-			state.versions.WebSocket = socketData.WebSocketVersion;
+			console.log(`HyperBash: ${socketData.HyperBashVersion}`)
+			state.version = socketData.HyperBashVersion;
 		},
 
 		// Will not be called by hyperBash

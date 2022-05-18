@@ -2,3 +2,5 @@
 
 export const HOST = "127.0.0.1";
 export const PORT = "46646";
+
+export const lastestHyperBashVersion = "2.0.0";
