@@ -3,9 +3,11 @@
 		<a>{{ $store.state.connection }}</a>
 		<button @click="AddFakeData">Fake Data</button>
 		<button @click="showHelp">Help</button>
+		<button @click="switchTeam">switchTeams</button>
 	</div>
 	<layout/>
 	<instructions v-if="openHelp"/>
+	<versionCheck/>
 </template>
 
 <script lang="ts">
@@ -18,13 +20,15 @@ import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
+import versionCheck from "./components/VersionCheck.vue";
 
 export default defineComponent({
 	name: "App",
 	components: {
 		Player,
 		Layout,
-		Instructions
+		Instructions,
+		versionCheck
 	},
 	data() {
 		return {
@@ -40,6 +44,11 @@ export default defineComponent({
 		},
 		showHelp(){
 			this.openHelp = !this.openHelp;
+		},
+		switchTeam(){
+			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+				this.$store.commit("switchTeam", {playerID:i, team:!this.$store.state.PlayerData[i].team })
+			}
 		},
 
 		AddFakeData() {
@@ -186,15 +195,7 @@ export default defineComponent({
 			// }, 10);
 
 		},
-		displayVersionError(){
-
-		},
 		...mapMutations(["changeConnection"]),
-	},
-	watch: {
-		"$this.$store.state.version"(val){
-			console.log(val)
-		}
 	},
 	mounted() {
 		this.$store.commit("init");
@@ -246,7 +247,7 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px 100px;
+	grid-template-columns: auto 100px 100px 100px;
 	left: 0;
 	padding: 1em;
 	position: fixed;

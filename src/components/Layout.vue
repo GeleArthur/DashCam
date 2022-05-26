@@ -49,13 +49,20 @@
 		},
 		mounted() {
 			this.scoreTimer(11000);
+			this.$store.watch
 		},
 		watch:{
-			"$store.getters.redTeamName"(val){
-				this.getTeamInfo();
+			"$store.getters.redTeamName":{
+				handler(){
+					this.getTeamInfo();
+				},
+				deep:true,
 			},
-			"$store.getters.blueTeamName"(val){
-				this.getTeamInfo();
+			"$store.getters.blueTeamName":{
+				handler(){
+					this.getTeamInfo();
+				},
+				deep:true,
 			}
 		},
 
