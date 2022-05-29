@@ -92,24 +92,28 @@
 					// Not good error prevting should be something better
 					return {dash:0, score:0, kills:0, name:"", deads:0} as playerInfo
 				} else {
-					return this.$store.state.PlayerData[this.$store.state.selectedIndex];
+					return player;
 				}
 			},
 			healthBar() {
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
 				
+				if(player == undefined) return {width: `100%`}
+
 				return {
 					width: `${player.health}%`
 				};
 			},
 			maxDashes() {
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
-				
+				if(player == undefined) return 3;
+
 				return player.dashPickup ? 5 : 3;
 			},
 			score() {
 				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
-				
+				if(player == undefined) return "0";
+
 				return player.score.toLocaleString('en-US');
 			}
 		}),
