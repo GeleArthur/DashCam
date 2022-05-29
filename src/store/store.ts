@@ -14,7 +14,7 @@ export default createStore({
 		selectedIndex: -1,
 		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
-		version:""
+		version: "",
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -61,10 +61,6 @@ export default createStore({
 		},
 		switchTeam(state, socketData: any) {
 			state.PlayerData[socketData.playerID]!.team = socketData.team;
-			state.PlayerData[socketData.playerID]!.dash = 3;
-			state.PlayerData[socketData.playerID]!.health = 100;
-			state.PlayerData[socketData.playerID]!.dashPickup = false;
-			state.PlayerData[socketData.playerID]!.isDead = false;
 		},
 		killFeed(state, socketData: killFeedData) {
 			state.PlayerData[socketData.victim]!.isDead = true;
@@ -106,12 +102,11 @@ export default createStore({
 		dashUpdate(state, socketData: any) {
 			if (state.PlayerData[socketData.playerID] != undefined) {
 				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
-				state.PlayerData[socketData.playerID]!.dashPickup = socketData.hasDashUpgrade;
+				state.PlayerData[socketData.playerID]!.dashPickup =
+					socketData.hasDashUpgrade;
 			}
 		},
 		matchStart(state, socketData: any) {
-			state.matchInfo.blueTeamName = socketData.blueTeamName;
-			state.matchInfo.redTeamName = socketData.redTeamName;
 			state.matchInfo.matchtype = socketData.matchType;
 			state.matchInfo.mapname = socketData.mapName;
 		},
@@ -146,8 +141,8 @@ export default createStore({
 			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 		},
 
-		version(state, socketData: any){
-			console.log(`HyperBash: ${socketData.HyperBashVersion}`)
+		version(state, socketData: any) {
+			console.log(`HyperBash: ${socketData.HyperBashVersion}`);
 			state.version = socketData.HyperBashVersion;
 		},
 
@@ -201,8 +196,6 @@ export default createStore({
 				},
 				blueScore: socketData.blueScore,
 				redScore: socketData.redScore,
-				blueTeamName: socketData.blueTeamName,
-				redTeamName: socketData.redTeamName,
 				mapname: mapName.lauchpad,
 				matchtype: socketData.matchtype,
 				timer: socketData.timer,
@@ -212,43 +205,35 @@ export default createStore({
 	actions: {},
 	modules: {},
 	getters: {
-		blueTeamName(state){
-			if(state.matchInfo.blueTeamName != undefined){
-				if(state.matchInfo.blueTeamName == "Blue"){
-
-					for (let i = 0; i < state.PlayerData.length; i++) {
-						if(state.PlayerData[i] != undefined) {
-							if(state.PlayerData[i]?.team == teams.blue && state.PlayerData[i]?.clan != "" && state.PlayerData[i]?.clan != "BOT"){
-								return state.PlayerData[i]?.clan;
-							}
-						}
+		blueTeamName(state) {
+			for (let i = 0; i < state.PlayerData.length; i++) {
+				if (state.PlayerData[i] != undefined) {
+					if (
+						state.PlayerData[i]?.team == teams.blue &&
+						state.PlayerData[i]?.clan != "" &&
+						state.PlayerData[i]?.clan != "BOT"
+					) {
+						return state.PlayerData[i]?.clan;
 					}
-
-				}else{
-					return state.matchInfo.blueTeamName;
 				}
 			}
 
-			return 'Blue';
+			return "Blue";
 		},
-		redTeamName(state){
-			if(state.matchInfo.redTeamName != undefined){
-				if(state.matchInfo.redTeamName == "Red"){
-
-					for (let i = 0; i < state.PlayerData.length; i++) {
-						if(state.PlayerData[i] != undefined) {
-							if(state.PlayerData[i]?.team == teams.red && state.PlayerData[i]?.clan != "" && state.PlayerData[i]?.clan != "BOT"){
-								return state.PlayerData[i]?.clan;
-							}
-						}
+		redTeamName(state) {
+			for (let i = 0; i < state.PlayerData.length; i++) {
+				if (state.PlayerData[i] != undefined) {
+					if (
+						state.PlayerData[i]?.team == teams.red &&
+						state.PlayerData[i]?.clan != "" &&
+						state.PlayerData[i]?.clan != "BOT"
+					) {
+						return state.PlayerData[i]?.clan;
 					}
-					
-				}else{
-					return state.matchInfo.redTeamName;
 				}
 			}
 
-			return 'Red';
-		}
-	}
+			return "Red";
+		},
+	},
 });

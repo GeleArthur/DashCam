@@ -47,10 +47,6 @@
 			Scoreboard,
 			PlayerBar
 		},
-		mounted() {
-			this.scoreTimer(11000);
-			this.$store.watch
-		},
 		watch:{
 			"$store.getters.redTeamName":{
 				handler(){
@@ -68,7 +64,6 @@
 
 		methods:{
 			getTeamInfo(){
-				if ( this.$store.state.matchInfo.redTeamName == undefined || this.$store.state.matchInfo.blueTeamName == undefined ) return;
 				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.redTeamName}`).then(async (redTeam)=>{
 					let redJson = await redTeam.json();
 					this.redTeam = !!redJson.data ? redJson.data : {};
