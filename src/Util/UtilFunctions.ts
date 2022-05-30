@@ -1,4 +1,4 @@
-const weaponSvgIcons : {headshot:string, weapons:any,altWeapons:any} = {
+const weaponSvgIcons: {[key: string]: any} = {
 	headshot: "src/assets/weapons/head-shot.svg",
 	weapons: {
 		0: "src/assets/weapons/pistols.svg",
