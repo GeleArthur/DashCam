@@ -1,4 +1,4 @@
-const weaponSvgIcons = {
+const weaponSvgIcons : {headshot:string, weapons:any,altWeapons:any} = {
 	headshot: "src/assets/weapons/head-shot.svg",
 	weapons: {
 		0: "src/assets/weapons/pistols.svg",
@@ -61,6 +61,7 @@ export function getWeaponIcon(weaponType: string, isAltFire: boolean): string {
 	if (weaponType === "-1") {
 		return weaponSvgIcons.headshot;
 	}
+
 	return (isAltFire)
 		? weaponSvgIcons.altWeapons[weaponType]
 		: weaponSvgIcons.weapons[weaponType];

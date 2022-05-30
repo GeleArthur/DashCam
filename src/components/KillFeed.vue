@@ -1,13 +1,13 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item hide-after-seconds" v-for="kill in killsQueue" :key="kill">
+		<div class="feed_item hide-after-seconds" v-for="(kill, index) in killsQueue" :key="index">
 			<div class="feed_players">
 				<div class="feed_killer" :class="getTeamColor(kill.killerTeam)">
 					<span class="name">{{ kill.killer }}</span>
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
-					<img class="headshot" v-if="kill.headShot" v-bind:src="getHeadshotSvg(kill)" alt="image">
+					<img class="headshot" v-if="kill.headShot" v-bind:src="getHeadshotSvg()" alt="image">
 				</div>
 				<div class="feed_victim" :class="getTeamColor(kill.victimTeam)">
 					<span class="name">{{ kill.victim }}</span>
@@ -129,11 +129,12 @@ import killFeedData from "../models/HyperBashModels/killFeedData";
 import store from "../store/store";
 import { teams } from "../models/matchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
+import KillData from "../models/killDataInfo";
 
 export default defineComponent({
 	data() {
 		return {
-			killsQueue: [],
+			killsQueue: [] as KillData[],
 			killsQueueSize: 8
 		};
 	},
@@ -146,21 +147,30 @@ export default defineComponent({
 	},
 	methods: {
 		onPlayerKilled(payload: killFeedData) {
-			let kill: any = {
-				...payload,
-				...this.getPlayersTeamAndName(payload)
-			};
+			let kill = this.getPlayersTeamAndName(payload);
+
+			if(kill == undefined) return;
+
 			if (this.killsQueue.length >= this.killsQueueSize) {
 				this.killsQueue.splice(0, 1);
 			}
 			this.killsQueue.push(kill);
 		},
-		getPlayersTeamAndName(payload: killFeedData) {
+		getPlayersTeamAndName(payload: killFeedData): KillData | undefined {
+			let killer = store.state.PlayerData[payload.killer];
+			let victim = store.state.PlayerData[payload.victim];
+
+			if(killer == undefined || victim == undefined)
+				return undefined;
+
 			return {
-				killer: store.state.PlayerData[payload.killer]?.name,
-				killerTeam: store.state.PlayerData[payload.killer]?.team,
-				victim: store.state.PlayerData[payload.victim]?.name,
-				victimTeam: store.state.PlayerData[payload.victim]?.team
+				killer: killer.name,
+				killerTeam: killer.team,
+				victim: victim.name,
+				victimTeam: victim.team,
+				headShot: payload.headShot,
+				isAltFire: payload.isAltFire,
+				weaponType: payload.weaponType
 			};
 		},
 		// TODO manage deathmatch colors
@@ -168,7 +178,7 @@ export default defineComponent({
 			return teams[team];
 		},
 		// TODO suicide show headshot svg but should be better svg icon
-		getWeaponSvg(kill: killFeedData): string {
+		getWeaponSvg(kill: KillData): string {
 			return getWeaponIcon(kill.weaponType, kill.isAltFire);
 		},
 		getHeadshotSvg() {
