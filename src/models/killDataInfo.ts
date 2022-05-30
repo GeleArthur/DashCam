@@ -1,4 +1,5 @@
 export default interface KillData{
+    id: string;
     killerTeam:number,
     killer:string,
     headShot:boolean,

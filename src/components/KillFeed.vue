@@ -1,6 +1,6 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item hide-after-seconds" v-for="(kill, index) in killsQueue" :key="index">
+		<div class="feed_item hide-after-seconds" v-for="kill in killsQueue" :key="kill.id">
 			<div class="feed_players">
 				<div class="feed_killer" :class="getTeamColor(kill.killerTeam)">
 					<span class="name">{{ kill.killer }}</span>
@@ -157,13 +157,14 @@ export default defineComponent({
 			this.killsQueue.push(kill);
 		},
 		getPlayersTeamAndName(payload: killFeedData): KillData | undefined {
-			let killer = store.state.PlayerData[payload.killer];
-			let victim = store.state.PlayerData[payload.victim];
-
+			const randomId = Math.random().toString(36).substring(2,7)
+			const killer = store.state.PlayerData[payload.killer];
+			const victim = store.state.PlayerData[payload.victim];
 			if(killer == undefined || victim == undefined)
 				return undefined;
 
 			return {
+				id: randomId,
 				killer: killer.name,
 				killerTeam: killer.team,
 				victim: victim.name,
