@@ -90,7 +90,7 @@ div {
 	width: auto;
 }
 
-.default {
+.none {
 	color: white;
 }
 
@@ -127,25 +127,8 @@ div {
 import { defineComponent } from "vue";
 import killFeedData from "../models/HyperBashModels/killFeedData";
 import store from "../store/store";
-
-const weaponsImage = {
-	headshot: "src/assets/weapons/head-shot.svg",
-	weapons: {
-		0: "src/assets/weapons/pistols.svg",
-		1: "src/assets/weapons/smg.svg",
-		2: "src/assets/weapons/rockets.svg",
-		7: "src/assets/weapons/shotgun.svg",
-		8: "src/assets/weapons/staples.svg",
-		9: "src/assets/weapons/sniper.svg",
-		11: "src/assets/weapons/shocks.svg",
-		12: "src/assets/weapons/shocks.svg",
-		14: "src/assets/weapons/shocks.svg"
-	},
-	altWeapons: {
-		0: "src/assets/weapons/pistols-charged.svg",
-		11: "src/assets/weapons/shocks-charged.svg"
-	}
-};
+import { teams } from "../models/matchInfo";
+import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
 
 export default defineComponent({
 	data() {
@@ -182,24 +165,14 @@ export default defineComponent({
 		},
 		// TODO manage deathmatch colors
 		getTeamColor(team: number = -1) {
-			switch (team) {
-				case 0:
-					return "red";
-				case 1:
-					return "blue";
-				default:
-					return "default";
-			}
+			return teams[team];
 		},
 		// TODO suicide show headshot svg but should be better svg icon
 		getWeaponSvg(kill: killFeedData): string {
-			if (kill.weaponType === "-1") return weaponsImage.headshot;
-			return (kill.isAltFire)
-				? weaponsImage.altWeapons[kill.weaponType]
-				: weaponsImage.weapons[kill.weaponType];
+			return getWeaponIcon(kill.weaponType, kill.isAltFire);
 		},
 		getHeadshotSvg() {
-			return weaponsImage.headshot;
+			return getHeadshotIcon();
 		}
 	}
 });

@@ -1,3 +1,22 @@
+const weaponSvgIcons = {
+	headshot: "src/assets/weapons/head-shot.svg",
+	weapons: {
+		0: "src/assets/weapons/pistols.svg",
+		1: "src/assets/weapons/smg.svg",
+		2: "src/assets/weapons/rockets.svg",
+		7: "src/assets/weapons/shotgun.svg",
+		8: "src/assets/weapons/staples.svg",
+		9: "src/assets/weapons/sniper.svg",
+		11: "src/assets/weapons/shocks.svg",
+		12: "src/assets/weapons/shocks.svg",
+		14: "src/assets/weapons/shocks.svg"
+	},
+	altWeapons: {
+		0: "src/assets/weapons/pistols-charged.svg",
+		11: "src/assets/weapons/shocks-charged.svg"
+	}
+};
+
 export function getImage(gunName: string): string {
 	// Something else for require
 	switch (gunName) {
@@ -36,4 +55,17 @@ export function getRandomInt(min: number, max: number) {
 	min = Math.ceil(min);
 	max = Math.floor(max);
 	return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
+}
+
+export function getWeaponIcon(weaponType: string, isAltFire: boolean): string {
+	if (weaponType === "-1") {
+		return weaponSvgIcons.headshot;
+	}
+	return (isAltFire)
+		? weaponSvgIcons.altWeapons[weaponType]
+		: weaponSvgIcons.weapons[weaponType];
+}
+
+export function getHeadshotIcon() {
+	return weaponSvgIcons.headshot;
 }
