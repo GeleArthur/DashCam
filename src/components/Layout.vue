@@ -4,7 +4,7 @@
 		<scoreboard />
 		<team :color="'red'" :team="redTeam" :teamID="0" />
 		<player-bar/>
-		<!-- <kill-feed/> -->
+		 <kill-feed/>
 	</div>
 </template>
 
