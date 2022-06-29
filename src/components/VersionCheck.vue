@@ -42,7 +42,10 @@ export default defineComponent({
 	},
 	methods: {
 		checkVersion() {
-			if (this.$store.state.version != lastestHyperBashVersion) {
+			var currentVersion = this.$store.state.version.replaceAll("\.","");
+			var highestVersion = lastestHyperBashVersion.replaceAll("\.","");
+
+			if (highestVersion > currentVersion) {
 				this.display = true;
 				this.timeleft = 20;
 				this.startCountDown();
