@@ -5,10 +5,19 @@
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
 	</div>
+	<div id="admin2">
+		<a id='a' download='SaveToLocalStorage' type='text'>LocalStorage</a>
+		<button @click="writeDataToLocalStorage">LocalStorage</button>
+	</div>
+	<!-- <div id="PayloadTracker">
+		<canvas id="myChart" width="400" height="400"></canvas>
+    </div> -->
+	<!-- <BarChart width="50" height="50" /> -->
 	<layout />
 	<instructions v-if="openHelp" />
 	<versionCheck />
 </template>
+
 
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -21,20 +30,30 @@ import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
+import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
+import PayloadTracker from "./components/PayloadTracker.vue";
+//import BarChart from "./components/charts/BarChart.vue";
+//import testChart from "./components/charts/testChart";
+
 
 export default defineComponent({
 	name: "App",
 	components: {
-		Player,
-		Layout,
-		Instructions,
-		versionCheck,
-	},
-	data() {
+    Player,
+    Layout,
+    Instructions,
+    versionCheck,
+	PayloadTracker,
+	//BarChart,
+	//testChart,
+},
+	data() {		
 		return {
 			openHelp: false,
 			websocket: null as unknown as WebSocket,
 			fakeDataInterval: 0,
+			writeData: [],
+			payloadTrackingData: {} as payloadTrackingData,
 		};
 	},
 	methods: {
@@ -42,6 +61,28 @@ export default defineComponent({
 			var socketData = JSON.parse(data);
 			this.$store.commit(socketData.type, socketData);
 		},
+		writeDataToLocalStorage() {
+			// single player data, one instance for each player
+			for (let i = 0; i < this.$store.state.PlayerData.length; i++) 
+			{
+				if (this.$store.state.PlayerData[i] != undefined)
+				{	
+					localStorage.setItem(JSON.stringify(this.$store.state.PlayerData[i]), "playerData");
+				}
+			}		
+
+			//only need one of these two blocks 
+			if (this.$store.state.payloadTrackBlueTime.length > 0 && this.$store.state.payloadTrackBlueProgress.length > 0){
+				
+				localStorage.setItem("blue data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueTime))
+				localStorage.setItem("blue data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueProgress))
+			}
+			if (this.$store.state.payloadTrackRedTime.length > 0 && this.$store.state.payloadTrackRedProgress.length > 0){
+				localStorage.setItem("red data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedTime))
+				localStorage.setItem("red data progress values(arr), ", JSON.stringify(this.$store.state.payloadTrackRedProgress))
+			}
+		},
+
 		showHelp() {
 			this.openHelp = !this.openHelp;
 		},
@@ -257,6 +298,30 @@ export default defineComponent({
 	right: 0;
 	z-index: 10;
 }
+#admin2 {
+	background-color: rgba(0, 0, 0, 0.5);
+	bottom: 0;
+	color: #fff;
+	display: grid;
+	grid-template-columns: auto 100px 100px 100px;
+	left: 0;
+	padding: 1em;
+	position: relative;
+	right: 0;
+	z-index: 10;
+}
+/* #PayloadTracker {
+	background-color: rgba(255, 169, 169, 0.5);
+	bottom: 0;
+	color: #fff;
+	display: grid;
+	grid-template-columns: auto 100px 100px 100px;
+	left: 0;
+	padding: 1em;
+	position: relative;
+	right: 0;
+	z-index: 10;
+} */
 body {
 	background: rgba(100, 100, 100, 1);
 	margin: 0px;

@@ -22,8 +22,8 @@
 	.mode--blue .bar .bar_fill{background-color:#72aeff;}
 	.mode--red .bar .bar_fill{background-color:#ff7272;}
 	
-	.mode--blue.mode--domination .bar .bar_fill{background-color:#0045ff;}
-	.mode--red.mode--domination .bar .bar_fill{background-color:#ff0000;}
+	.mode--blue.mode--domination .bar .bar_fill{background-color:#824CAA;}
+	.mode--red.mode--domination .bar .bar_fill{background-color:#C97033;}
 	
 	.mode--domination .bar{line-height:28px;width:28px;}
 </style>
