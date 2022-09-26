@@ -19,10 +19,10 @@
 
 <style scoped lang="css">
 div {
-	--color-background-dark: #1e1e1e;
+	--color-background-dark: #1f1f1f;
 	--color-text-white: white;
-	--color-team-blue: #0045ff;
-	--color-team-red: #ff0000;
+	--color-team-blue: #a7a7a7;
+	--color-team-red: #C97033;
 	--padding-base: 2px;
 	--font-size: 20px;
 

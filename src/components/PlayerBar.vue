@@ -30,7 +30,7 @@
 					<g transform="translate(-791.000000, -999.000000)">
 						<g transform="translate(-55.708529, -0.000000)">
 							<g transform="translate(754.000000, 947.992966)">
-								<polygon fill="#C97033" transform="translate(260.622744, 69.507034) scale(1, -1) translate(-260.622744, -69.507034) " points="93 61.8724816 105.024286 51.0070335 416.332343 51.0070335 428.245488 61.8724816 417.32872 88.0070335 103.956467 88.0070335"></polygon>
+								<polygon fill="#a7a7a7" transform="translate(260.622744, 69.507034) scale(1, -1) translate(-260.622744, -69.507034) " points="93 61.8724816 105.024286 51.0070335 416.332343 51.0070335 428.245488 61.8724816 417.32872 88.0070335 103.956467 88.0070335"></polygon>
 							</g>
 						</g>
 					</g>
@@ -65,7 +65,7 @@
 	.playerBar_name{font-size:30px;font-weight:800;grid-column:4 / span 5;grid-row:6 / span 2;position:relative;}
 	.playerBar_name span{position:relative;z-index:10;}
 	.playerBar_name svg{position:absolute;left:0;}
-	.playerBar--red polygon{fill:#313131;}
+	.playerBar--red polygon{fill:#C97033;}
 </style>
 
 <style>
