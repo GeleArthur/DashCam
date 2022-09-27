@@ -19,10 +19,10 @@
 	.mode--blue.mode--controlpoint .bar,
 	.mode--blue.mode--payload .bar{transform: scaleX(-1);}
 	
-	.mode--blue .bar .bar_fill{background-color:#72aeff;}
-	.mode--red .bar .bar_fill{background-color:#ff7272;}
+	.mode--blue .bar .bar_fill{background-color:#7E47A7;}
+	.mode--red .bar .bar_fill{background-color:#C97033;}
 	
-	.mode--blue.mode--domination .bar .bar_fill{background-color:#824CAA;}
+	.mode--blue.mode--domination .bar .bar_fill{background-color:#7E47A7;}
 	.mode--red.mode--domination .bar .bar_fill{background-color:#C97033;}
 	
 	.mode--domination .bar{line-height:28px;width:28px;}

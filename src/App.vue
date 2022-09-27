@@ -72,14 +72,17 @@ export default defineComponent({
 			}		
 
 			//only need one of these two blocks 
-			if (this.$store.state.payloadTrackBlueTime.length > 0 && this.$store.state.payloadTrackBlueProgress.length > 0){
-				
-				localStorage.setItem("blue data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueTime))
-				localStorage.setItem("blue data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueProgress))
+			if (this.$store.state.payloadTrackBlueTime.length > 0){
+				if (this.$store.state.payloadTrackBlueProgress.length > 0){				
+					localStorage.setItem("blue data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueTime))
+					localStorage.setItem("blue data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueProgress))
+				}
 			}
-			if (this.$store.state.payloadTrackRedTime.length > 0 && this.$store.state.payloadTrackRedProgress.length > 0){
-				localStorage.setItem("red data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedTime))
-				localStorage.setItem("red data progress values(arr), ", JSON.stringify(this.$store.state.payloadTrackRedProgress))
+			if (this.$store.state.payloadTrackRedTime.length > 0) { 
+				if (this.$store.state.payloadTrackRedProgress.length > 0){
+					localStorage.setItem("red data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedTime))
+					localStorage.setItem("red data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedProgress))
+				}
 			}
 		},
 

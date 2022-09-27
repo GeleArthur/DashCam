@@ -127,12 +127,12 @@ export default createStore({
 
 			// gman added
 			if (state.matchInfo.payload.secondRound){
-				var shortNum = state.matchInfo.timer.toFixed(1)
+				var shortNum = state.matchInfo.timer.toFixed(0)
 				state.payloadTrackRedTime.push(parseFloat(shortNum))
 				state.payloadTrackRedProgress.push(state.matchInfo.blueScore);
 			}
 			else {
-				var shortNum = state.matchInfo.timer.toFixed(1)
+				var shortNum = state.matchInfo.timer.toFixed(0)
 				state.payloadTrackBlueTime.push(parseFloat(shortNum))
 				state.payloadTrackBlueProgress.push(state.matchInfo.blueScore);
 			}
