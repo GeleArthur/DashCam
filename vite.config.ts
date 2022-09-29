@@ -1,5 +1,5 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
+import { defineConfig } from 'vite'
+import vue from '@vitejs/plugin-vue'
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -17,7 +17,7 @@ export default defineConfig({
         // rewrite: (path) => path.replace(/^\/wp-json/, ""),
       },
       "/dashcam":{
-        target:"https://hyperdashcup.com",
+        target:"https://www.hyperdashcup.com",
         changeOrigin: true,
         secure: false,
       }
