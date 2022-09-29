@@ -4,9 +4,6 @@
 		<button @click="AddFakeData">Fake Data</button>
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
-	</div>
-	<div id="admin2">
-		<a id='a' download='SaveToLocalStorage' type='text'>LocalStorage</a>
 		<button @click="writeDataToLocalStorage">LocalStorage</button>
 	</div>
 	<!-- <div id="PayloadTracker">
@@ -294,22 +291,10 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px 100px 100px;
+	grid-template-columns: auto 100px 100px 100px 100px;
 	left: 0;
 	padding: 1em;
 	position: fixed;
-	right: 0;
-	z-index: 10;
-}
-#admin2 {
-	background-color: rgba(0, 0, 0, 0.5);
-	bottom: 0;
-	color: #fff;
-	display: grid;
-	grid-template-columns: auto 100px 100px 100px;
-	left: 0;
-	padding: 1em;
-	position: relative;
 	right: 0;
 	z-index: 10;
 }
