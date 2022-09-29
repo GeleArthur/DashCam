@@ -15,6 +15,11 @@ export default defineConfig({
         changeOrigin: true,
         secure: false,
         // rewrite: (path) => path.replace(/^\/wp-json/, ""),
+      },
+      "/dashcam":{
+        target:"https://hyperdashcup.com",
+        changeOrigin: true,
+        secure: false,
       }
     }
   }

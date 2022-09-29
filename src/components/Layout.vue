@@ -63,16 +63,23 @@
 		},
 
 		methods:{
+			// There should be an easy way to switch logo 
 			getTeamInfo(){
-				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.redTeamName}`).then(async (redTeam)=>{
-					let redJson = await redTeam.json();
-					this.redTeam = !!redJson.data ? redJson.data : {};
-				});
-				
-				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.blueTeamName}`).then(async (blueTeam)=>{
-					let blueJson = await blueTeam.json();
-					this.blueTeam = !!blueJson.data ? blueJson.data : {};
-				});
+				let urlRed = `/dashcam/logos/${this.$store.getters.redTeamName}.png`;
+
+				fetch(urlRed).then(async (redTeam)=>{
+					if(redTeam.ok){
+						this.redTeam = {logo:urlRed, name:this.$store.getters.redTeamName}
+					}
+				})
+
+				let urlBlue = `/dashcam/logos/${this.$store.getters.blueTeamName}.png`;
+
+				fetch(urlBlue).then(async (blueTeam)=>{
+					if(blueTeam.ok){
+						this.blueTeam = {logo:urlBlue, name:this.$store.getters.blueTeamName}
+					}
+				})
 			},
 			scoreTimer( seconds: number ) {
 				var container = document.querySelector('.container') as HTMLDivElement;
