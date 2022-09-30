@@ -302,12 +302,13 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px 100px 100px 100px 100px 100px;
+	grid-template-columns: auto repeat(6, 100px) ;
 	left: 0;
 	padding: 1em;
 	position: fixed;
 	right: 0;
 	z-index: 10;
+	white-space: nowrap;
 }
 /* #PayloadTracker {
 	background-color: rgba(255, 169, 169, 0.5);
