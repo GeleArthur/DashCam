@@ -5,7 +5,10 @@
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
 		<button @click="writeDataToLocalStorage">LocalStorage</button>
+		<button @click="writeDataToLocalStorage">Save in Local Storage</button>
+		<button @click="writeDataToLocalStorage">Write data to file</button>
 	</div>
+
 	<!-- <div id="PayloadTracker">
 		<canvas id="myChart" width="400" height="400"></canvas>
     </div> -->
@@ -15,6 +18,13 @@
 	<versionCheck />
 </template>
 
+<!-- <a id='a' download='Download.csv' type='text'>Download CSV</a>
+<script>
+    var csv = 'Big json data';
+    var data = new Blob([csv]);
+    var a = document.getElementById('a');
+    a.href = URL.createObjectURL(data);
+</script> -->
 
 <script lang="ts">
 import { defineComponent } from "vue";
@@ -28,9 +38,8 @@ import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
-import PayloadTracker from "./components/PayloadTracker.vue";
-//import BarChart from "./components/charts/BarChart.vue";
-//import testChart from "./components/charts/testChart";
+
+
 
 
 export default defineComponent({
@@ -39,8 +48,7 @@ export default defineComponent({
     Player,
     Layout,
     Instructions,
-    versionCheck,
-	PayloadTracker,
+    versionCheck
 	//BarChart,
 	//testChart,
 },
@@ -67,20 +75,23 @@ export default defineComponent({
 					localStorage.setItem(JSON.stringify(this.$store.state.PlayerData[i]), "playerData");
 				}
 			}		
+			
+			//localStorage.setItem("Blue data time: " + JSON.stringify(this.$store.state.payloadTrackBlueTime), JSON.stringify(this.$store.state.payloadTrackBlueProgress))			
+			//localStorage.setItem("Red data time: " + JSON.stringify(this.$store.state.payloadTrackRedTime), JSON.stringify(this.$store.state.payloadTrackRedProgress))		
 
-			//only need one of these two blocks 
-			if (this.$store.state.payloadTrackBlueTime.length > 0){
-				if (this.$store.state.payloadTrackBlueProgress.length > 0){				
-					localStorage.setItem("blue data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueTime))
-					localStorage.setItem("blue data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueProgress))
-				}
-			}
-			if (this.$store.state.payloadTrackRedTime.length > 0) { 
-				if (this.$store.state.payloadTrackRedProgress.length > 0){
-					localStorage.setItem("red data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedTime))
-					localStorage.setItem("red data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedProgress))
-				}
-			}
+			// //only need one of these two blocks 
+			// if (this.$store.state.payloadTrackBlueTime.length > 0){
+			// 	if (this.$store.state.payloadTrackBlueProgress.length > 0){				
+			// 		localStorage.setItem("blue data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueTime))
+			// 		localStorage.setItem("blue data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackBlueProgress))
+			// 	}
+			// }
+			// if (this.$store.state.payloadTrackRedTime.length > 0) { 
+			// 	if (this.$store.state.payloadTrackRedProgress.length > 0){
+			// 		localStorage.setItem("red data time values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedTime))
+			// 		localStorage.setItem("red data progress values (arr), ", JSON.stringify(this.$store.state.payloadTrackRedProgress))
+			// 	}
+			// }
 		},
 
 		showHelp() {
@@ -291,7 +302,7 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px 100px 100px 100px;
+	grid-template-columns: auto 100px 100px 100px 100px 100px 100px;
 	left: 0;
 	padding: 1em;
 	position: fixed;

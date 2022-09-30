@@ -3,6 +3,7 @@ import { playerInfo } from "./models/playerInfo";
 import { matchInfo } from "./models/matchInfo";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
 
+
 export interface State {
 	PlayerData: playerInfo[];
 	connection: string;
