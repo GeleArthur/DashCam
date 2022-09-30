@@ -40,7 +40,7 @@ import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
-import PayloadTracker from "./components/PayloadTracker.vue";
+
 
 
 
@@ -50,8 +50,7 @@ export default defineComponent({
     Player,
     Layout,
     Instructions,
-    versionCheck,
-	PayloadTracker,
+    versionCheck
 	//BarChart,
 	//testChart,
 },
