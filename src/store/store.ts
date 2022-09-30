@@ -1,13 +1,16 @@
 import { playerInfo } from "../models/playerInfo";
 import { createStore, Store } from "vuex";
 import { getImage } from "../Util/UtilFunctions";
+import { payloadTrackingData } from "../models/HyperBashModels/payloadTrackingData";
 
 import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
 import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
-import payloadTrackingData, { payloadTrackingTeam0, payloadTrackingTeam1} from "../models/HyperBashModels/payloadTrackingData";
+//import payloadTrackingData from "../models/HyperBashModels/payloadTrackingData";
+//import payloadTrackingTeam0 from "../models/HyperBashModels/payloadTrackingData";
+//import payloadTrackingTeam1 from "../models/HyperBashModels/payloadTrackingData";
 
 export default createStore({
 	state: {
@@ -16,11 +19,12 @@ export default createStore({
 		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
 		version: "",
-		payloadTrackingData: {} as payloadTrackingData,
-		payloadTrackBlueTime: [] as ( number )[],
-		payloadTrackRedTime: [] as ( number )[],
-		payloadTrackBlueProgress: [] as ( number )[],
-		payloadTrackRedProgress: [] as ( number )[]
+		//payloadTrackingData: {} as (payloadTrackingTeam0 | payloadTrackingTeam1),
+		previousTime: 0
+		// payloadTrackBlueTime: [] as ( number )[],
+		// payloadTrackRedTime: [] as ( number )[],
+		// payloadTrackBlueProgress: [] as ( number )[],
+		// payloadTrackRedProgress: [] as ( number )[]
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -49,12 +53,13 @@ export default createStore({
 				feetPosition: { X: 0, Y: 0, Z: 0 },
 				feetRotation: 0,
 			};
-			localStorage.setItem("player joined: ", JSON.stringify(state.PlayerData[socketData.playerID]?.playerID))
+			//localStorage.setItem("player joined: ", JSON.stringify(state.PlayerData[socketData.playerID]?.))
 		},
 		playerLeaves(state, socketData: any) {
 			state.PlayerData[socketData.playerID] = undefined;
-			localStorage.setItem("player left: ", JSON.stringify(state.PlayerData[socketData.playerID]?.playerID))
+			//localStorage.setItem("player left: ", JSON.stringify(state.PlayerData[socketData.playerID]?.playerID))
 		},
+
 
 		loadoutUpdate(state, socketData: LoadoutUpdate) {
 			state.PlayerData[socketData.playerID]!.leftWeapon = {
@@ -74,7 +79,7 @@ export default createStore({
 			state.PlayerData[socketData.victim]!.isDead = true;		
 			
 			// gman added
-			localStorage.setItem(JSON.stringify(socketData), "killFeedData");
+			//localStorage.setItem(JSON.stringify(socketData), "killFeedData");
 		},
 		respawn(state, socketData: any) {
 			state.PlayerData[socketData.playerID]!.isDead = false;
@@ -117,25 +122,36 @@ export default createStore({
 					socketData.hasDashUpgrade;
 			}
 		},
+
 		matchStart(state, socketData: any) {
 			state.matchInfo.matchtype = socketData.matchType;
 			state.matchInfo.mapname = socketData.mapName;
 		},
 
 		timer(state, socketData: any) {
-			state.matchInfo.timer = socketData.time;
-
-			// gman added
-			if (state.matchInfo.payload.secondRound){
-				var shortNum = state.matchInfo.timer.toFixed(0)
-				state.payloadTrackRedTime.push(parseFloat(shortNum))
-				state.payloadTrackRedProgress.push(state.matchInfo.blueScore);
-			}
-			else {
-				var shortNum = state.matchInfo.timer.toFixed(0)
-				state.payloadTrackBlueTime.push(parseFloat(shortNum))
-				state.payloadTrackBlueProgress.push(state.matchInfo.blueScore);
-			}
+			state.matchInfo.timer = socketData.time;			
+			var shortNum = state.matchInfo.timer.toFixed(0)
+			var timeNow = Number.parseInt(shortNum)
+			
+			// if (state.previousTime != timeNow){
+			// 	state.previousTime = timeNow;
+			// 	console.log(timeNow)
+			// }
+			// // gman added
+			// if (state.matchInfo.payload.secondRound){
+			// 	var shortNum = state.matchInfo.timer.toFixed(0)
+			// 	//state.payloadTrackRedAll.push(Number.parseInt(shortNum), state.matchInfo.blueScore)
+			// 	//localStorage.setItem("red time " + shortNum, JSON.stringify(state.matchInfo.blueScore));
+			// 	state.payloadTrackRedTime.push(parseFloat(shortNum))
+			// 	state.payloadTrackRedProgress.push(state.matchInfo.blueScore);
+			// }
+			// else {
+			// 	var shortNum = state.matchInfo.timer.toFixed(0)
+			// 	//state.payloadTrackBlueAll.push(Number.parseInt(shortNum), state.matchInfo.blueScore)
+			// 	//localStorage.setItem("blue time " + shortNum, JSON.stringify(state.matchInfo.blueScore));
+			// 	state.payloadTrackBlueTime.push(parseFloat(shortNum))
+			// 	state.payloadTrackBlueProgress.push(state.matchInfo.blueScore);
+			// }
 		},
 
 		teamScore(state, socketData: any) {

@@ -1,12 +1,11 @@
-<!-- <template>
+<template>
     <div class="Payload Tracker">
         <h1>{{ msg }}</h1>
         <canvas id="myChart" width="400" height="400"></canvas>
     </div>
 </template>
- -->
 
-<!-- <script>
+<script lang="ts">
 
 import { Chart, registerables } from 'chart.js';
 
@@ -59,4 +58,4 @@ export default {
     }
 };
 
-</script> -->
+</script>
