@@ -8,19 +8,20 @@ import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
+import { State } from "vue";
 //import payloadTrackingData from "../models/HyperBashModels/payloadTrackingData";
 //import payloadTrackingTeam0 from "../models/HyperBashModels/payloadTrackingData";
 //import payloadTrackingTeam1 from "../models/HyperBashModels/payloadTrackingData";
 
-export default createStore({
+export default createStore<State>({
 	state: {
 		connection: "Failed",
 		selectedIndex: -1,
 		PlayerData: [] as (playerInfo | undefined)[],
 		matchInfo: {} as matchInfo,
 		version: "",
-		//payloadTrackingData: {} as (payloadTrackingTeam0 | payloadTrackingTeam1),
 		previousTime: 0
+		//payloadTrackingData: {} as (payloadTrackingTeam0 | payloadTrackingTeam1),
 		// payloadTrackBlueTime: [] as ( number )[],
 		// payloadTrackRedTime: [] as ( number )[],
 		// payloadTrackBlueProgress: [] as ( number )[],
