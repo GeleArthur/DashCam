@@ -27,9 +27,9 @@ const weaponSvgIcons: {[key: string]: any} = {
 	}
 };
 
-import shield from "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7.png?url"
-import hand from "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand.jpg?url"
-import cup from "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg?url"
+const shield = "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7.png"
+const hand = "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand.jpg"
+const cup = "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg"
 
 
 export function getImage(gunName: string): string {

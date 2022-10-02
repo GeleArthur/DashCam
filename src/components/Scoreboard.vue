@@ -104,7 +104,7 @@
 
 <style scoped lang="css">
 	.scoreboard{display:flex;grid-column:2;grid-row:1;justify-content:center;}
-	.scoreboard_wrapper{background:transparent url('../assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;color:#fff;display:grid;grid-column-start:2;grid-template-columns:122px 12px 70px 7px 105px 71px 12px auto;grid-template-rows:17px 9px 29px 11px 4px auto;height:107px;margin-top:1em;width:523px;}
+	.scoreboard_wrapper{background:transparent url('@/assets/dln-ui-scoreboard.png') no-repeat scroll 0 0;color:#fff;display:grid;grid-column-start:2;grid-template-columns:122px 12px 70px 7px 105px 71px 12px auto;grid-template-rows:17px 9px 29px 11px 4px auto;height:107px;margin-top:1em;width:523px;}
 	.scoreboard_wrapper > div{align-items:center;display:flex;justify-content:center;}
 	.scoreboard_name{font-size:30px;font-weight:800;grid-row:3 / span 3;}
 	.scoreboard_name--blue{grid-column:1;}

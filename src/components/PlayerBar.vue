@@ -45,7 +45,7 @@
 <style scoped lang="css">
 	.playerBar{align-items:end;display:flex;grid-column:2;grid-row:-1;justify-content:center;margin-bottom:1em;}
 	.playerBar_wrapper {
-		background: transparent url('../assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
+		background: transparent url('@/assets/dln-ui-player-bar.png') no-repeat scroll 0 0;
 		color: #fff;
 		display: grid;
 		grid-template-columns: 45px 5px 43px 83px 16px 138px 19px 80px 36px 11px auto;

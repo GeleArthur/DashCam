@@ -50,26 +50,26 @@
 		watch:{
 			"$store.getters.redTeamName":{
 				handler(){
-					this.getTeamInfo();
+					this.getRedTeamInfo();
 				},
 				deep:true,
 			},
 			"$store.getters.blueTeamName":{
 				handler(){
-					this.getTeamInfo();
+					this.getBlueTeamInfo();
 				},
 				deep:true,
 			}
 		},
 
 		methods:{
-			// There should be an easy way to switch logo 
-			getTeamInfo(){
+			getRedTeamInfo(){
 				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.redTeamName}`).then(async (redTeam)=>{
 					let redJson = await redTeam.json();
 					this.redTeam = !!redJson.data ? redJson.data : {};
 				});
-				
+			},
+			getBlueTeamInfo(){
 				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.blueTeamName}`).then(async (blueTeam)=>{
 					let blueJson = await blueTeam.json();
 					this.blueTeam = !!blueJson.data ? blueJson.data : {};

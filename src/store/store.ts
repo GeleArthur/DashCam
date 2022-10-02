@@ -241,11 +241,11 @@ export default createStore<State>({
 			for (let i = 0; i < state.PlayerData.length; i++) {
 				if (state.PlayerData[i].isActive == true) {
 					if (
-						state.PlayerData[i]?.team == teams.blue &&
-						state.PlayerData[i]?.clan != "" &&
-						state.PlayerData[i]?.clan != "BOT"
+						state.PlayerData[i].team == teams.blue &&
+						state.PlayerData[i].clan != "" &&
+						state.PlayerData[i].clan != "BOT"
 					) {
-						return state.PlayerData[i]?.clan;
+						return state.PlayerData[i].clan;
 					}
 				}
 			}
@@ -256,11 +256,11 @@ export default createStore<State>({
 			for (let i = 0; i < state.PlayerData.length; i++) {
 				if (state.PlayerData[i].isActive == true) {
 					if (
-						state.PlayerData[i]?.team == teams.red &&
-						state.PlayerData[i]?.clan != "" &&
-						state.PlayerData[i]?.clan != "BOT"
+						state.PlayerData[i].team == teams.red &&
+						state.PlayerData[i].clan != "" &&
+						state.PlayerData[i].clan != "BOT"
 					) {
-						return state.PlayerData[i]?.clan;
+						return state.PlayerData[i].clan;
 					}
 				}
 			}
