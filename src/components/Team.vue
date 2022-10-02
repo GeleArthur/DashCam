@@ -19,7 +19,6 @@
 <style scoped lang="css">
 	.team{color:rgba(255,255,255,0.95);display:grid;grid-template-rows:20px 17px 77px auto;height:231px;width:538px;}
 	.team_logo{grid-row:2 / span 2;}
-	
 	.team--blue{background:transparent url('../assets/dln-ui-team-blue.png') no-repeat scroll top left;grid-column:1;grid-template-columns:20px auto 94px;}
 	.team--blue.team--dln{background-image:url('../assets/dln-ui-team-blue-dln.png');}
 	.team--blue .team_logo{grid-column:3;}
@@ -48,7 +47,7 @@
 			players() {
 				let data = this.$store.state.PlayerData;
 				return data
-					.filter((e: playerInfo) => e?.team == this.teamID)
+					.filter((e: playerInfo) => {return e.isActive == true && e.team == this.teamID})
 					.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
 			},
 		}),

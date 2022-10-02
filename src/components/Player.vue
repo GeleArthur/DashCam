@@ -6,7 +6,7 @@
 			'player--red': playerData.team == 0,
 			'player--blue': playerData.team == 1,
 			'player--dead' : playerData.isDead,
-			'player--alive' : !playerData.isDead
+			'player--alive' : playerData.isDead
 		}"
 	>
 		<div class="player_name">{{ playerData.name }}</div>

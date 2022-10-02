@@ -47,7 +47,7 @@ export default defineComponent({
 		},
 		switchTeam() {
 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-				if (this.$store.state.PlayerData[i] != null) {
+				if (this.$store.state.PlayerData[i].isActive) {
 					this.$store.commit("switchTeam", {
 						playerID: i,
 						team: !this.$store.state.PlayerData[i].team, // Invert
@@ -252,7 +252,7 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto repeat(6, 100px) ;
+	grid-template-columns: auto repeat(3, 100px) ;
 	left: 0;
 	padding: 1em;
 	position: fixed;

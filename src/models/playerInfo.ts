@@ -1,6 +1,8 @@
 import { teams } from "./matchInfo";
 
 export interface playerInfo {
+	isActive: boolean;
+
 	playerID: number;
 	name: string;
 	clan: string;

@@ -7,18 +7,21 @@ import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
+import { State } from "vue";
 
 export default createStore<State>({
 	state: {
 		connection: "Failed",
 		selectedIndex: -1,
-		PlayerData: [] as (playerInfo | undefined)[],
+		PlayerData: [] as playerInfo[],
 		matchInfo: {} as matchInfo,
 		version: "",
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
 			state.PlayerData[socketData.playerID] = {
+				isActive: true,
+
 				playerID: socketData.playerID,
 				name: socketData.name,
 				clan: socketData.clanTag,
@@ -45,54 +48,54 @@ export default createStore<State>({
 			};
 		},
 		playerLeaves(state, socketData: any) {
-			state.PlayerData[socketData.playerID] = undefined;
+			state.PlayerData[socketData.playerID].isActive = false;
 		},
 
 		loadoutUpdate(state, socketData: LoadoutUpdate) {
-			state.PlayerData[socketData.playerID]!.leftWeapon = {
+			state.PlayerData[socketData.playerID].leftWeapon = {
 				imageSource: getImage(socketData.leftHand),
 				weaponName: socketData.leftHand,
 			};
 
-			state.PlayerData[socketData.playerID]!.rightWeapon = {
+			state.PlayerData[socketData.playerID].rightWeapon = {
 				imageSource: getImage(socketData.rightHand),
 				weaponName: socketData.rightHand,
 			};
 		},
 		switchTeam(state, socketData: any) {
-			state.PlayerData[socketData.playerID]!.team = socketData.team;
+			state.PlayerData[socketData.playerID].team = socketData.team;
 		},
 		killFeed(state, socketData: killFeedData) {
-			state.PlayerData[socketData.victim]!.isDead = true;
+			state.PlayerData[socketData.victim].isDead = true;
 		},
 		respawn(state, socketData: any) {
-			state.PlayerData[socketData.playerID]!.isDead = false;
+			state.PlayerData[socketData.playerID].isDead = false;
 		},
 		healthUpdate(state, socketData: any) {
-			state.PlayerData[socketData.playerID]!.health = socketData.health;
+			state.PlayerData[socketData.playerID].health = socketData.health;
 		},
 		CurrentlySpectating(state, socketData: any) {
 			state.selectedIndex = socketData.playerID;
 		},
 		scoreboard(state, socketData: any) {
 			for (let i = 0; i < state.PlayerData.length; i++) {
-				if (state.PlayerData[i] != undefined) {
-					state.PlayerData[i]!.deads = socketData.deads[i];
-					state.PlayerData[i]!.kills = socketData.kills[i];
-					state.PlayerData[i]!.score = socketData.scores[i];
+				if (state.PlayerData[i].isActive == true) {
+					state.PlayerData[i].deads = socketData.deads[i];
+					state.PlayerData[i].kills = socketData.kills[i];
+					state.PlayerData[i].score = socketData.scores[i];
 				}
 			}
 		},
 		playerPos(state, socketData: playerPos) {
 			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
-				if (state.PlayerData[i] != undefined) {
-					state.PlayerData[i]!.feetPosition = {
+				if (state.PlayerData[i].isActive == true) {
+					state.PlayerData[i].feetPosition = {
 						X: socketData.feetPos[i * 3 + 0],
 						Y: socketData.feetPos[i * 3 + 1],
 						Z: socketData.feetPos[i * 3 + 2],
 					};
 
-					state.PlayerData[i]!.feetRotation = socketData.feetDirection[i];
+					state.PlayerData[i].feetRotation = socketData.feetDirection[i];
 				}
 			}
 		},
@@ -100,9 +103,9 @@ export default createStore<State>({
 			1 + 1;
 		},
 		dashUpdate(state, socketData: any) {
-			if (state.PlayerData[socketData.playerID] != undefined) {
-				state.PlayerData[socketData.playerID]!.dash = socketData.dashAmount;
-				state.PlayerData[socketData.playerID]!.dashPickup =
+			if (state.PlayerData[socketData.playerID].isActive == true) {
+				state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
+				state.PlayerData[socketData.playerID].dashPickup =
 					socketData.hasDashUpgrade;
 			}
 		},
@@ -138,7 +141,8 @@ export default createStore<State>({
 		},
 
 		controlPoint(state, socketData: any) {
-			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
+			state.matchInfo.controlPoint.TeamScoringPoints =
+				socketData.controllingTeam;
 		},
 
 		version(state, socketData: any) {
@@ -149,7 +153,35 @@ export default createStore<State>({
 		// Will not be called by hyperBash
 		init(state, payload) {
 			for (let i = 0; i < 10; i++) {
-				state.PlayerData[i] = undefined;
+				state.PlayerData[i] = {
+					isActive: false,
+					playerID: 0,
+					name: "",
+					clan: "",
+					team: teams.none,
+					leftWeapon:{
+						imageSource:"",
+						weaponName:""
+					},
+					rightWeapon:{
+						imageSource:"",
+						weaponName:""
+					},
+					health:0,
+					dash:0,
+					dashPickup:false,
+					isDead: false,
+					deads: 0,
+					kills: 0,
+					score: 0,
+					ping: 0,
+					feetPosition:{
+						X:0,
+						Y:0,
+						Z:0
+					},
+					feetRotation:0
+				};
 			}
 
 			state.matchInfo.payload = {
@@ -207,7 +239,7 @@ export default createStore<State>({
 	getters: {
 		blueTeamName(state) {
 			for (let i = 0; i < state.PlayerData.length; i++) {
-				if (state.PlayerData[i] != undefined) {
+				if (state.PlayerData[i].isActive == true) {
 					if (
 						state.PlayerData[i]?.team == teams.blue &&
 						state.PlayerData[i]?.clan != "" &&
@@ -222,7 +254,7 @@ export default createStore<State>({
 		},
 		redTeamName(state) {
 			for (let i = 0; i < state.PlayerData.length; i++) {
-				if (state.PlayerData[i] != undefined) {
+				if (state.PlayerData[i].isActive == true) {
 					if (
 						state.PlayerData[i]?.team == teams.red &&
 						state.PlayerData[i]?.clan != "" &&
