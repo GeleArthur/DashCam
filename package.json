@@ -1,7 +1,7 @@
 {
-  "name": "dashcamviteupdate",
+  "name": "dashcam",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -9,9 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "chart.js": "^3.9.1",
     "vue": "^3.2.37",
-    "vue-chartjs": "^4.1.2",
     "vuex": "^4.0.2"
   },
   "devDependencies": {

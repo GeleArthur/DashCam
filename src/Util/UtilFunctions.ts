@@ -1,45 +1,60 @@
+import pistol from '@/assets/weapons/pistols.svg'
+import smg from '@/assets/weapons/smg.svg'
+import rockets from '@/assets/weapons/rockets.svg'
+import shotgun from '@/assets/weapons/shotgun.svg'
+import staples from '@/assets/weapons/staples.svg'
+import snipers from '@/assets/weapons/sniper.svg'
+import shocks from '@/assets/weapons/shocks.svg'
+import pistolsCharged from '@/assets/weapons/shocks.svg'
+import shocksCharged from '@/assets/weapons/shocks-charged.svg'
+
 const weaponSvgIcons: {[key: string]: any} = {
 	headshot: "src/assets/weapons/head-shot.svg",
 	weapons: {
-		0: "src/assets/weapons/pistols.svg",
-		1: "src/assets/weapons/smg.svg",
-		2: "src/assets/weapons/rockets.svg",
-		7: "src/assets/weapons/shotgun.svg",
-		8: "src/assets/weapons/staples.svg",
-		9: "src/assets/weapons/sniper.svg",
-		11: "src/assets/weapons/shocks.svg",
-		12: "src/assets/weapons/shocks.svg",
-		14: "src/assets/weapons/shocks.svg"
+		0: pistol,
+		1: smg,
+		2: rockets,
+		7: shotgun,
+		8: staples,
+		9: snipers,
+		11: shocks,
+		12: shocks,
+		14: shocks
 	},
 	altWeapons: {
-		0: "src/assets/weapons/pistols-charged.svg",
-		11: "src/assets/weapons/shocks-charged.svg"
+		0: pistolsCharged,
+		11: shocksCharged
 	}
 };
+
+import shield from "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7.png?url"
+import hand from "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand.jpg?url"
+import cup from "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg?url"
+
 
 export function getImage(gunName: string): string {
 	// Something else for require
 	switch (gunName) {
 		case "DefaultPistol":
-			return "/assets/gun-pistol.png";
+			return pistol;
 		case "ShockPistol":
-			return "/assets/gun-shock.png";
+			return shocks;
 		case "Shotgun":
-			return "/assets/gun-shotgun.png";
+			return shotgun;
 		case "BurstRifle":
-			return "/assets/gun-burst.png";
+			return staples;
 		case "Rocket":
-			return "/assets/gun-rocket.png";
+			return rockets;
 		case "Sniper":
-			return "/assets/gun-sniper.png";
+			return snipers;
 		case "Shield":
-			return "https://thevrdimension.com/wp-content/uploads/2021/03/Hyper-Dash-1.7-1024x576.png";
+			return shield;
 		case "Uzi":
-			return "/assets/gun-smg.png";
+			return smg;
 		case "Cup":
-			return "https://static.vecteezy.com/system/resources/previews/000/510/619/original/cup-winner-gold-stock-vector-illustration.jpg";
+			return cup;
 		case "Hand":
-			return "https://orsblog.com/wp-content/uploads/2020/04/Dry-skin-on-hand-1536x2048.jpg";
+			return hand;
 
 		default:
 			console.error("Unkown gun " + gunName);
