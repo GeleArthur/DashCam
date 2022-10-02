@@ -8,7 +8,7 @@ import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
 
-export default createStore({
+export default createStore<State>({
 	state: {
 		connection: "Failed",
 		selectedIndex: -1,

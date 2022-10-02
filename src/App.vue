@@ -159,44 +159,46 @@ export default defineComponent({
 				}
 			}
 
-			// this.fakeDataInterval = setInterval(() => {
-			// 	let feetArray = [];
-			// 	for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-			// 		feetArray.push(
-			// 			this.$store.state.PlayerData[i].feetPosition.X +
-			// 				getRandomArbitrary(-1, 1)
-			// 		);
-			// 		feetArray.push(
-			// 			this.$store.state.PlayerData[i].feetPosition.Y +
-			// 				getRandomArbitrary(-1, 1)
-			// 		);
-			// 		feetArray.push(
-			// 			this.$store.state.PlayerData[i].feetPosition.Z +
-			// 				getRandomArbitrary(-1, 1)
-			// 		);
+			this.fakeDataInterval = setInterval(() => {
+				
 
-			// 		var dash = this.$store.state.PlayerData[i].dash * .7;
+				// let feetArray = [];
+				// for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+				// 	feetArray.push(
+				// 		this.$store.state.PlayerData[i].feetPosition.X +
+				// 			getRandomArbitrary(-1, 1)
+				// 	);
+				// 	feetArray.push(
+				// 		this.$store.state.PlayerData[i].feetPosition.Y +
+				// 			getRandomArbitrary(-1, 1)
+				// 	);
+				// 	feetArray.push(
+				// 		this.$store.state.PlayerData[i].feetPosition.Z +
+				// 			getRandomArbitrary(-1, 1)
+				// 	);
 
-			// 		// this.$store.commit("dashUpdate", {
-			// 		// 	type:"dashUpdate",
-			// 		// 	playerID:i,
-			// 		// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
-			// 		// 	dashPickUp: dashPickup
-			// 		// })
+				// 	var dash = this.$store.state.PlayerData[i].dash * .7;
 
-			// 		// this.$store.commit("healthUpdate", {
-			// 		// 	type:"healthUpdate",
-			// 		// 	playerID:i,
-			// 		// 	health: getRandomArbitrary(0, 101)
-			// 		// })
-			// 	}
+				// 	// this.$store.commit("dashUpdate", {
+				// 	// 	type:"dashUpdate",
+				// 	// 	playerID:i,
+				// 	// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
+				// 	// 	dashPickUp: dashPickup
+				// 	// })
 
-			// 	this.$store.commit("playerPos", {
-			// 		type: "playerPos",
-			// 		feetDirection: [...Array(10).keys()].map(() => 0),
-			// 		feetPos: feetArray,
-			// 	} as playerPos);
-			// }, 10);
+				// 	// this.$store.commit("healthUpdate", {
+				// 	// 	type:"healthUpdate",
+				// 	// 	playerID:i,
+				// 	// 	health: getRandomArbitrary(0, 101)
+				// 	// })
+				// }
+
+				// this.$store.commit("playerPos", {
+				// 	type: "playerPos",
+				// 	feetDirection: [...Array(10).keys()].map(() => 0),
+				// 	feetPos: feetArray,
+				// } as playerPos);
+			}, 10);
 		},
 		...mapMutations(["changeConnection"]),
 	},
@@ -250,12 +252,13 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto 100px 100px 100px;
+	grid-template-columns: auto repeat(6, 100px) ;
 	left: 0;
 	padding: 1em;
 	position: fixed;
 	right: 0;
 	z-index: 10;
+	white-space: nowrap;
 }
 body {
 	background: rgba(100, 100, 100, 1);

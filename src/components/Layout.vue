@@ -63,6 +63,7 @@
 		},
 
 		methods:{
+			// There should be an easy way to switch logo 
 			getTeamInfo(){
 				fetch(`/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.redTeamName}`).then(async (redTeam)=>{
 					let redJson = await redTeam.json();
