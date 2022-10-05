@@ -16,6 +16,7 @@ export default createStore<State>({
 		PlayerData: [] as playerInfo[],
 		matchInfo: {} as matchInfo,
 		version: "",
+		matchHistory:{}
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
