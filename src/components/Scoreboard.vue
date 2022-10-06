@@ -154,44 +154,9 @@
 			redTeamScore() {
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
 			},
-			// redTeamName() {
-			// 	if(this.$store.state.matchInfo.redTeamName != undefined){
-			// 		if(this.$store.state.matchInfo.redTeamName == "Red"){
-			// 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-			// 				if(this.$store.state.PlayerData[i] != undefined) {
-			// 					if(this.$store.state.PlayerData[i].team == teams.red && this.$store.state.PlayerData[i].clan != ""){
-			// 						return this.$store.state.PlayerData[i].clan;
-			// 					}
-			// 				}
-			// 			}
-			// 		}else{
-			// 			return this.$store.state.matchInfo.redTeamName;
-			// 		}
-			// 	}
-
-			// 	return 'Red';
-			// },
 			blueTeamScore() {
 				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 			},
-			// blueTeamName() {
-			// 	console.log("WAL")
-			// 	if(this.$store.state.matchInfo.blueTeamName != undefined){
-			// 		if(this.$store.state.matchInfo.blueTeamName == "Blue"){
-			// 			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-			// 				if(this.$store.state.PlayerData[i] != undefined) {
-			// 					if(this.$store.state.PlayerData[i].team == teams.blue && this.$store.state.PlayerData[i].clan != ""){
-			// 						return this.$store.state.PlayerData[i].clan;
-			// 					}
-			// 				}
-			// 			}
-			// 		}else{
-			// 			return this.$store.state.matchInfo.blueTeamName;
-			// 		}
-			// 	}
-
-			// 	return 'Blue';
-			// },
 			teams() {
 				return teams;
 			},
