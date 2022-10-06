@@ -8,6 +8,7 @@ import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
 import { State } from "vue";
+import matchReplay from "@/models/matchReplay/matchReplay";
 
 export default createStore<State>({
 	state: {
@@ -16,6 +17,7 @@ export default createStore<State>({
 		PlayerData: [] as playerInfo[],
 		matchInfo: {} as matchInfo,
 		version: "",
+		matchReplayData: {} as matchReplay,
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {

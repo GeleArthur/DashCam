@@ -14,6 +14,7 @@ export enum matchType {
 	TeamDeathmatch,
 }
 
+//TODO Should reflect scene id
 export enum mapName {
 	lobby,
 	lauchpad,

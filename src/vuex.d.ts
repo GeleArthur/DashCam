@@ -2,6 +2,7 @@ import { Store } from "vuex";
 import { playerInfo } from "./models/playerInfo";
 import { matchInfo } from "./models/matchInfo";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
+import matchReplay from "./models/matchReplay/matchReplay";
 
 declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
@@ -12,6 +13,8 @@ declare module "@vue/runtime-core" {
 		selectedIndex: number;
 		matchInfo: matchInfo;
 		version: string;
+
+		matchReplayData: matchReplay;
 	}
 
 	interface ComponentCustomProperties {
