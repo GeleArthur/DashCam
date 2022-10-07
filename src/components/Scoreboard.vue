@@ -171,11 +171,11 @@
 			timer() {
 				if(this.$store.state.matchInfo.timer == undefined) return "00:00"
 				var timer = this.$store.state.matchInfo.timer,
-						date  = new Date(0),
-						mill  = timer % 1,
-						mins  = (timer - mill) / 60,
-						secs  = mins % 1;
-						
+					date  = new Date(0),
+					mill  = timer % 1,
+					mins  = (timer - mill) / 60,
+					secs  = mins % 1;
+				
 				mins = mins - secs;
 				secs = secs * 60;
 				

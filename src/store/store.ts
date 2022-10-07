@@ -118,6 +118,7 @@ export default createStore<State>({
 
 		timer(state, socketData: any) {
 			state.matchInfo.timer = socketData.time;
+			console.log(socketData.time)
 		},
 
 		teamScore(state, socketData: any) {
@@ -143,8 +144,7 @@ export default createStore<State>({
 		},
 
 		controlPoint(state, socketData: any) {
-			state.matchInfo.controlPoint.TeamScoringPoints =
-				socketData.controllingTeam;
+			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 		},
 
 		version(state, socketData: any) {
