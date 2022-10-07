@@ -1,62 +1,74 @@
-import { mapName, matchType } from "../matchInfo";
+import { mapName, matchType, teams } from "../matchInfo";
 
 export default interface matchReplay {
-    version: string;
-    matchID: string;
-    matchType: matchType;
-    mapName: mapName;
+	version: string;
+	matchID: string;
+	matchType: matchType;
+	mapName: mapName;
 
-    payload: payloadReplay;
-    domination: dominationReplay;
-    controllPoint: controllPointReplay;
+	players: PlayerReplay;
 
-    matchScore: matchScoreReplay[];
-    playerKills: KillFeedReplay[];
-    timer: matchTimerReplay[];
+
+	payload: payloadReplay;
+	domination: dominationReplay;
+	controllPoint: controllPointReplay;
+
+	matchScore: matchScoreReplay[];
+	playerKills: KillFeedReplay[];
+	timer: matchTimerReplay[];
 }
 
-interface matchTimerReplay extends timeStamp{
-    matchTimer: number;
+interface PlayerReplay {
+    playersJoinsOrLeaves: playerJoinsOrLeaves[];
+    playerScoreBoard: {}
 }
 
-interface controllPointReplay extends timeStamp{
-    ScoringTeam: number;
+interface playerJoinsOrLeaves extends timeStamp {
+    isJoining: boolean;
+    playerID: number;
 }
 
-interface matchScoreReplay extends timeStamp{
-    redScore: number;
-    blueScore: number;
+interface matchTimerReplay extends timeStamp {
+	matchTimer: number;
+}
+
+interface controllPointReplay extends timeStamp {
+	ScoringTeam: teams;
+}
+
+interface matchScoreReplay extends timeStamp {
+	redScore: number;
+	blueScore: number;
 }
 
 interface payloadReplay {
-    cart: payloadCart[];
-    firstRoundTimeStamp:  number;
-    secondRoundTimeStamp:  number;
+	cart: payloadCart[];
+	firstRoundTimeStamp: number;
+	secondRoundTimeStamp: number;
 }
 
-interface dominationReplay{
-    countDownTimer: number;
-    pointA: number;
-    pointB: number;
-    pointC: number;
+interface dominationReplay {
+	countDownTimer: number;
+	pointA: number;
+	pointB: number;
+	pointC: number;
 }
 
-
-interface payloadCart extends timeStamp{
-    percentage: number;
-    amountBlueOnCart: number;
-    cartBlockedByRed: boolean;
+interface payloadCart extends timeStamp {
+	percentage: number;
+	amountBlueOnCart: number;
+	cartBlockedByRed: boolean;
 }
 
 interface KillFeedReplay extends timeStamp {
-    killer: number;
-    victim: number;
+	killer: number;
+	victim: number;
 
-    headShot: boolean;
-    isAltFire: boolean;
-    weaponType: string; // TODO should be an enum
+	headShot: boolean;
+	isAltFire: boolean;
+	weaponType: string; // TODO should be an enum
 }
 
 interface timeStamp {
-    time: number; // This is the browser timer!!!
+	time: number; // This is the browser timer!!!
 }
