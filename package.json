@@ -10,13 +10,13 @@
   },
   "dependencies": {
     "d3": "^7.6.1",
-    "vue": "^3.2.37",
+    "vue": "^3.2.40",
     "vuex": "^4.0.2"
   },
   "devDependencies": {
-    "@vitejs/plugin-vue": "^3.1.0",
-    "typescript": "^4.6.4",
-    "vite": "^3.1.0",
-    "vue-tsc": "^0.40.4"
+    "@vitejs/plugin-vue": "^3.1.2",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.6",
+    "vue-tsc": "^1.0.3"
   }
 }
