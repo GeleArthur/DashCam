@@ -8,6 +8,7 @@
 	<layout />
 	<instructions v-if="openHelp" />
 	<versionCheck />
+	<Settings />
 </template>
 
 <script lang="ts">
@@ -21,15 +22,17 @@ import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
 import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
+import Settings from "./components/Settings.vue";
 
 export default defineComponent({
 	name: "App",
 	components: {
-		Player,
-		Layout,
-		Instructions,
-		versionCheck,
-	},
+    Player,
+    Layout,
+    Instructions,
+    versionCheck,
+    Settings
+},
 	data() {
 		return {
 			openHelp: false,

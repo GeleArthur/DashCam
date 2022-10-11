@@ -6,12 +6,13 @@
         <p>Welcome, this is a HyperDash overylay of HyperDash made by <b>GeleArthur</b> &amp; <b>Styledev</b></p>
         <h2>How to use</h2>
         <ol>
-          <li>First install hyperbash you can get it from the <a href="https://discord.gg/GzUzBU5czj" target="_blank">HyperBash</a> Discord server.</li>
+          <li>First install hyperbash you can get it from the <a href="https://discord.gg/GzUzBU5czj"
+              target="_blank">HyperBash</a> Discord server.</li>
           <li>
-              Enable websocket in hyperbash
-              <br/><br/>
-              <img src="../assets/EnableWebSockets.png">
-              <br/>
+            Enable websocket in hyperbash
+            <br /><br />
+            <img src="../assets/EnableWebSockets.png">
+            <br />
           </li>
           <li>Restart hyperdash and see the magic :)</li>
         </ol>
@@ -21,8 +22,8 @@
 </template>
 
 <script lang="ts">
-  import { defineComponent } from "vue";
-  export default defineComponent({});
+import { defineComponent } from "vue";
+export default defineComponent({});
 </script>
 
 <style scoped lang="css">

@@ -3,6 +3,7 @@ import { playerInfo } from "./models/playerInfo";
 import { matchInfo } from "./models/matchInfo";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
 import matchReplay from "./models/matchReplay/matchReplay";
+import settings from "./models/settings";
 
 declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
@@ -15,6 +16,7 @@ declare module "@vue/runtime-core" {
 		version: string;
 
 		matchReplayData: matchReplay;
+		settings: settings;
 	}
 
 	interface ComponentCustomProperties {
