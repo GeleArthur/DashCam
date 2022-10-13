@@ -1,3 +1,9 @@
 export default interface settings {
-    iconURL: string;
+    iconURL: teamIcon;
+}
+
+enum teamIcon{
+    dashleague,
+    hypercup,
+    custom
 }
