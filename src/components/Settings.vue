@@ -2,14 +2,19 @@
     <div class="modal">
         <div class="modal_wrapper">
             <div class="modal_content">
-                <h1>Settings</h1>
+                <h1>Settings {{iconURLSetting}}</h1>
                 <h2>TeamIcon</h2>
                 <div id="iconURL">
-                    <select v-model="iconURLSetting">
-                        <option value="DashLeague">DashLeague</option>
-                        <option value="HyperCup">HyperCup</option>
-                        <option value="Custom">Custom</option>
-                    </select>
+                    <div>
+                        <label for="TeamIconDashLeague">DashLeague</label>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="DashLeague" id="TeamIconDashLeague"/><br>
+
+                        <label for="TeamIconHyperCup">HyperCup</label>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="HyperCup" id="TeamIconHyperCup"/><br>
+
+                        <label for="TeamIconCustom">Custom</label>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="Custom" id="TeamIconCustom"/><br>
+                    </div>
                     <div v-if="iconURLSetting == 'Custom'" id="inputForm">
                         <label for="redInput">RedTeam:</label>
                         <input type="url" name="redInput" class="inputURL inputRed">
@@ -17,7 +22,10 @@
                         <input type="url" name="blueInput" class="inputURL inputBlue">
                     </div>
                 </div>
+                <!-- <h2>Something else</h2>
                 <h2>Something else</h2>
+                <h2>Something else</h2>
+                <h2>Something else</h2> -->
 
             </div>
         </div>
@@ -52,10 +60,6 @@ export default defineComponent({
     z-index: 5;
 }
 
-.modal h1 {
-    margin-top: 0;
-}
-
 .modal:before {
     background-color: rgba(0, 0, 0, 0.3);
     bottom: 0;
@@ -68,15 +72,16 @@ export default defineComponent({
 }
 
 .modal_wrapper {
-    height: 90vh;
-    overflow: scroll;
+    height: 50vh;
+    overflow: hidden;
+    overflow-y: scroll;
     position: relative;
     width: 800px;
     z-index: 1;
+    background-color: #fff;
 }
 
 .modal_content {
-    background-color: #fff;
     padding: 2em;
 
     select {
@@ -87,7 +92,6 @@ export default defineComponent({
 .inputURL {
     width: 100%;
     font-size: 1.5em;
-
 }
 
 #iconURL {
