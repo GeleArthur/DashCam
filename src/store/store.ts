@@ -237,6 +237,16 @@ export default createStore<State>({
 				timer: socketData.timer,
 			};
 		},
+
+		settingsChangeIcon(state, teamIconSetting: number /*would use enum but vue :(*/){
+			state.settings.iconMode = teamIconSetting;
+		},
+		settingsRedIcon(state, redIconURL:string){
+			state.settings.redTeamIconURLCustom = redIconURL;
+		},
+		settingsBlueIcon(state, blueIconURL:string){
+			state.settings.blueTeamIconURLCustom = blueIconURL;
+		}
 	},
 	actions: {},
 	modules: {},

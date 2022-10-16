@@ -2,30 +2,32 @@
     <div class="modal">
         <div class="modal_wrapper">
             <div class="modal_content">
-                <h1>Settings {{iconURLSetting}}</h1>
+                <h1>Settings</h1>
                 <h2>TeamIcon</h2>
                 <div id="iconURL">
                     <div>
                         <label for="TeamIconDashLeague">DashLeague</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="DashLeague" id="TeamIconDashLeague"/><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="0"
+                            id="TeamIconDashLeague" /><br>
 
                         <label for="TeamIconHyperCup">HyperCup</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="HyperCup" id="TeamIconHyperCup"/><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="1"
+                            id="TeamIconHyperCup" /><br>
 
                         <label for="TeamIconCustom">Custom</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="Custom" id="TeamIconCustom"/><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="2"
+                            id="TeamIconCustom" /><br>
                     </div>
-                    <div v-if="iconURLSetting == 'Custom'" id="inputForm">
+                    <div v-if="iconURLSetting == 2" id="inputForm">
                         <label for="redInput">RedTeam:</label>
-                        <input type="url" name="redInput" class="inputURL inputRed">
+                        <input type="url" name="redInput" class="inputURL inputRed" v-model="redIconURLSetting">
+                        <img :src="redIconURLSetting" alt="unable to load image">
+
                         <label for="blueInput">BlueTeam:</label>
-                        <input type="url" name="blueInput" class="inputURL inputBlue">
+                        <input type="url" name="blueInput" class="inputURL inputBlue" v-model="blueIconURLSetting">
+                        <img :src="blueIconURLSetting" alt="unable to load image">
                     </div>
                 </div>
-                <!-- <h2>Something else</h2>
-                <h2>Something else</h2>
-                <h2>Something else</h2>
-                <h2>Something else</h2> -->
 
             </div>
         </div>
@@ -38,11 +40,25 @@ import { defineComponent } from "vue";
 export default defineComponent({
     data() {
         return {
-            iconURLSetting: "DashLeague",
+
         }
     },
     methods: {
 
+    },
+    computed: {
+        iconURLSetting: {
+            get() { return this.$store.state.settings.iconMode },
+            set(value: string) { this.$store.commit("settingsChangeIcon", value) }
+        },
+        redIconURLSetting: {
+            get() { return this.$store.state.settings.redTeamIconURLCustom },
+            set(value: string) { this.$store.commit("settingsRedIcon", value) }
+        },
+        blueIconURLSetting: {
+            get() { return this.$store.state.settings.blueTeamIconURLCustom },
+            set(value: string) { this.$store.commit("settingsBlueIcon", value) }
+        }
     }
 });
 </script>
@@ -90,7 +106,6 @@ export default defineComponent({
 }
 
 .inputURL {
-    width: 100%;
     font-size: 1.5em;
 }
 
@@ -105,7 +120,7 @@ export default defineComponent({
 
     #inputForm {
         display: grid;
-        grid-template-columns: min-content 2fr;
+        grid-template-columns: min-content 1fr 1fr;
         grid-template-rows: 1fr 1fr;
         gap: 0px 0px;
         grid-template-areas:
@@ -114,6 +129,11 @@ export default defineComponent({
         grid-area: inputForm;
 
         align-items: center;
+    }
+
+    img {
+        height: 94px;
+        width: 94px;
     }
 }
 </style>

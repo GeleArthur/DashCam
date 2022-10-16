@@ -1,8 +1,8 @@
 <template>
 	<div class="container">
-		<team :color="'blue'" :team="blueTeam" :teamID="1" />
+		<team :team="1" /> <!-- blue -->
 		<scoreboard />
-		<team :color="'red'" :team="redTeam" :teamID="0" />
+		<team :team="0" /> <!-- red -->
 		<player-bar/>
 		<!-- <kill-feed/> -->
 	</div>
@@ -25,7 +25,8 @@
 </style>
 
 <script lang="ts">
-	import { defineComponent } from "vue";
+	import { teams } from "@/models/matchInfo";
+import { defineComponent } from "vue";
 	import { mapMutations, mapState } from "vuex";
 	import KillFeed from "./KillFeed.vue";
 	import PlayerBar from "./PlayerBar.vue";
