@@ -1,4 +1,4 @@
-export interface playerPos {
+export default interface playerPos {
 	type: string;
 
 	feetPos: number[];
@@ -14,4 +14,3 @@ export interface playerPos {
 	rightHandRot: number[];
 }
 
-export default playerPos;

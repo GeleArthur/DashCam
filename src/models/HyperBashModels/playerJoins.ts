@@ -1,4 +1,4 @@
-export interface playerJoins {
+export default interface playerJoins {
 	type: string;
 	name: string;
 	clanTag: string;
@@ -8,4 +8,3 @@ export interface playerJoins {
 	id: string;
 }
 
-export default playerJoins;

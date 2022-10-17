@@ -1,4 +1,4 @@
-export interface killFeedData {
+export default interface killFeedData {
 	type: string;
 	killer: number;
 	victim: number;
@@ -6,5 +6,3 @@ export interface killFeedData {
 	isAltFire: boolean;
 	weaponType: string;
 }
-
-export default killFeedData;
