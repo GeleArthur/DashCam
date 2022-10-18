@@ -3,8 +3,10 @@
 export default interface teamInfo {
     name: string;
     
-    logofound:boolean;
+    logoFound:boolean;
     logo: string;
+
+    extrasFound:boolean;
     matches: number;
     wins: number;
     losses: number;
