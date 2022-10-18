@@ -208,6 +208,8 @@ export default createStore<State>({
 			state.matchInfo.controlPoint = {
 				TeamScoringPoints: teams.none,
 			};
+
+			state.settings.iconMode = 0;
 		},
 
 		changeConnection(state, connectionType) {
@@ -248,6 +250,14 @@ export default createStore<State>({
 		},
 		settingsBlueIcon(state, blueIconURL: string) {
 			state.settings.blueTeamIconURLCustom = blueIconURL;
+		},
+
+		setTeamData(state, payload: {isRedTeam:boolean, teamData: teamInfo}){
+			if(payload.isRedTeam){
+				state.teamData.red = payload.teamData;
+			}else{
+				state.teamData.blue = payload.teamData;
+			}
 		}
 	},
 	actions: {},

@@ -66,7 +66,7 @@ export default defineComponent({
 		players(): playerInfo[] {
 			let data = this.$store.state.PlayerData;
 			return data
-				.filter((e: playerInfo) => e.isActive == true && e.team == this.teamID)
+				.filter((e: playerInfo) => e.isActive == true && e.team == this.team)
 				.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
 		},
 		teamColor(): string {

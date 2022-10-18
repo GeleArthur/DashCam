@@ -94,6 +94,7 @@
 
 <script lang="ts">
 import { teams } from "@/models/matchInfo";
+import teamInfo from "@/models/teamInfo";
 import { defineComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
 import KillFeed from "./KillFeed.vue";
@@ -125,31 +126,55 @@ export default defineComponent({
 		},
 		"$store.getters.blueTeamName": {
 			handler() {
-				this.getBlueTeamInfo();
+				this.getTeamInfo(false);
 			},
 			deep: true,
 		}
 	},
 
 	methods: {
-		getTeamInfo(updateRed: boolean) {
+		async getTeamInfo(updateRed: boolean) {
 			const teamName: string = updateRed ? this.$store.getters.redTeamName : this.$store.getters.blueTeamName;
+			let teamData = { name: teamName } as teamInfo
 
 			// dashleague
 			if (this.$store.state.settings.iconMode == 0) {
-				fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`).then(async (team) => {
-					let redJson = await team.json();
-					console.log(redJson);
-				});
+				let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
+				let teamjson = await team.json();
+				if (teamjson.data == false) {
+					teamData.logoFound = false;
+					teamData.extrasFound = false;
+				}
+				else {
+					teamData.logoFound = true;
+					teamData.logo = teamjson.data.logo;
+
+					try {
+						teamData.extrasFound = true;
+						teamData.matches = teamjson.data.stats[0].matches;
+						teamData.wins = teamjson.data.stats[0].wins;
+						teamData.losses = teamjson.data.stats[0].losses;
+
+						teamData.players = [];
+
+						for (const player in teamjson.data.roster.players) {
+							if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
+								teamData.players.push(teamjson.data.roster.players[player].name)
+							}
+						}
+					}
+					catch (error) {
+						teamData.extrasFound = false;
+						console.log(`Failed to load extras for ${teamName}`)
+					}
+
+
+				}
+
 			}
+			console.log(teamData)
 
-
-		},
-		getBlueTeamInfo() {
-			// fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${this.$store.getters.blueTeamName}`).then(async (blueTeam)=>{
-			// 	let blueJson = await blueTeam.json();
-			// 	this.blueTeam = !!blueJson.data ? blueJson.data : {};
-			// });
+			this.$store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
 		},
 		scoreTimer(seconds: number) {
 			var container = document.querySelector('.container') as HTMLDivElement;

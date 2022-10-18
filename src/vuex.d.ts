@@ -4,6 +4,7 @@ import { matchInfo } from "./models/matchInfo";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
 import matchReplay from "./models/matchReplay/matchReplay";
 import settings from "./models/settings";
+import teamInfo from "./models/teamInfo";
 
 declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
