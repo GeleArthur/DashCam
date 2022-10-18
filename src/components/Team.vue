@@ -11,9 +11,17 @@
 </template>
 
 <style scoped lang="css">
-.team {	color: rgba(255, 255, 255, 0.95);	display: grid; grid-template-rows: 20px 17px 77px auto;	height: 231px; width: 538px; }
+.team {
+	color: rgba(255, 255, 255, 0.95);
+	display: grid;
+	grid-template-rows: 20px 17px 77px auto;
+	height: 231px;
+	width: 538px;
+}
 
-.team_logo {grid-row: 2 / span 2;}
+.team_logo {
+	grid-row: 2 / span 2;
+}
 
 .team--blue {
 	background: transparent url('@/assets/dln-ui-team-blue.png') no-repeat scroll top left;
@@ -21,9 +29,13 @@
 	grid-template-columns: 20px auto 94px;
 }
 
-.team--blue.team--dln {	background-image: url('@/assets/dln-ui-team-blue-dln.png'); }
+.team--blue.team--dln {
+	background-image: url('@/assets/dln-ui-team-blue-dln.png');
+}
 
-.team--blue .team_logo {grid-column: 3;}
+.team--blue .team_logo {
+	grid-column: 3;
+}
 
 .team--red {
 	background: transparent url('@/assets/dln-ui-team-red.png') no-repeat scroll top right;
@@ -31,9 +43,13 @@
 	grid-template-columns: 94px auto 20px;
 }
 
-.team--red.team--dln {	background-image: url('@/assets/dln-ui-team-red-dln.png');}
+.team--red.team--dln {
+	background-image: url('@/assets/dln-ui-team-red-dln.png');
+}
 
-.team--red .team_logo {	grid-column: 1;}
+.team--red .team_logo {
+	grid-column: 1;
+}
 
 .team_players {
 	display: grid;
@@ -45,9 +61,14 @@
 	width: 402px;
 }
 
-.team_players--blue { grid-column: 2;}
+.team_players--blue {
+	grid-column: 2;
+}
 
-.team_players--red { grid-column: 2; justify-self: end; }
+.team_players--red {
+	grid-column: 2;
+	justify-self: end;
+}
 </style>
 
 <script lang="ts">
@@ -81,26 +102,19 @@ export default defineComponent({
 		enabledTeam(): boolean {
 			return this.team != teams.none;
 		},
-		teamLogo() {
+		teamLogo(): string {
 			if (this.team == teams.none) return "";
-
-			// DashLeague
-			if (this.$store.state.settings.iconMode == 0) {
-
+			else if (this.team == teams.red) {
+				return this.$store.state.teamData.red.logoFound ?
+					this.$store.state.teamData.red.logo :
+					""
 			}
-			// HyperCup
-			else if (this.$store.state.settings.iconMode == 1) {
-
+			else {
+				return this.$store.state.teamData.blue.logoFound ?
+					this.$store.state.teamData.blue.logo :
+					""
 			}
-			// Custom
-			else if (this.$store.state.settings.iconMode == 2) {
-				if (this.team == teams.red) {
-					return this.$store.state.settings.redTeamIconURLCustom;
-				} else if (this.team == teams.blue) {
-					return this.$store.state.settings.blueTeamIconURLCustom;
-				}
-			}
-
+			// Could this be better???
 		}
 	}),
 	props: {

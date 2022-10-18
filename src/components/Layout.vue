@@ -172,6 +172,30 @@ export default defineComponent({
 				}
 
 			}
+			else if (this.$store.state.settings.iconMode == 1) {
+				teamData.extrasFound = false;
+
+				let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
+
+				// Sucks that we have to request twice any other way?
+				if ((await fetch(logoURL)).ok) {
+					teamData.logoFound = true;
+					teamData.logo = logoURL;
+				}
+				else {
+					teamData.logoFound = false;
+				}
+			}
+			else if (this.$store.state.settings.iconMode == 2) {
+				teamData.extrasFound = false;
+
+				if (updateRed) {
+					teamData.logoFound = this.$store.state.teamData.red.logoFound ?? false;
+				}else{
+					teamData.logoFound = this.$store.state.teamData.blue.logoFound ?? false;
+				}
+
+			}
 			console.log(teamData)
 
 			this.$store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
