@@ -17,6 +17,7 @@ declare module "@vue/runtime-core" {
 
 		matchReplayData: matchReplay;
 		settings: settings;
+		teamData:{red:teamInfo, blue:teamInfo}
 	}
 
 	interface ComponentCustomProperties {

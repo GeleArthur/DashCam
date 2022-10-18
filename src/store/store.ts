@@ -10,6 +10,7 @@ import killFeedData from "../models/HyperBashModels/killFeedData";
 import { State } from "vue";
 import matchReplay from "@/models/matchReplay/matchReplay";
 import settings from "@/models/settings";
+import teamInfo from "@/models/teamInfo";
 
 export default createStore<State>({
 	state: {
@@ -19,7 +20,8 @@ export default createStore<State>({
 		matchInfo: {} as matchInfo,
 		version: "",
 		matchReplayData: {} as matchReplay,
-		settings: {} as settings
+		settings: {} as settings,
+		teamData: { red: {} as teamInfo, blue: {} as teamInfo }
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -31,7 +33,7 @@ export default createStore<State>({
 				clan: socketData.clanTag,
 				team: socketData.team,
 				leftWeapon: {
-					imageSource: "./assets/gun-pistol.png",
+					imageSource: "./assets/gun-pistol.png", // This doesnt work should be removed
 					weaponName: "DefaultPistol",
 				},
 				rightWeapon: {
@@ -163,28 +165,28 @@ export default createStore<State>({
 					name: "",
 					clan: "",
 					team: teams.none,
-					leftWeapon:{
-						imageSource:"",
-						weaponName:""
+					leftWeapon: {
+						imageSource: "",
+						weaponName: ""
 					},
-					rightWeapon:{
-						imageSource:"",
-						weaponName:""
+					rightWeapon: {
+						imageSource: "",
+						weaponName: ""
 					},
-					health:0,
-					dash:0,
-					dashPickup:false,
+					health: 0,
+					dash: 0,
+					dashPickup: false,
 					isDead: false,
 					deads: 0,
 					kills: 0,
 					score: 0,
 					ping: 0,
-					feetPosition:{
-						X:0,
-						Y:0,
-						Z:0
+					feetPosition: {
+						X: 0,
+						Y: 0,
+						Z: 0
 					},
-					feetRotation:0
+					feetRotation: 0
 				};
 			}
 
@@ -238,13 +240,13 @@ export default createStore<State>({
 			};
 		},
 
-		settingsChangeIcon(state, teamIconSetting: number /*would use enum but vue :(*/){
+		settingsChangeIcon(state, teamIconSetting: number /*would use enum but vue :(*/) {
 			state.settings.iconMode = teamIconSetting;
 		},
-		settingsRedIcon(state, redIconURL:string){
+		settingsRedIcon(state, redIconURL: string) {
 			state.settings.redTeamIconURLCustom = redIconURL;
 		},
-		settingsBlueIcon(state, blueIconURL:string){
+		settingsBlueIcon(state, blueIconURL: string) {
 			state.settings.blueTeamIconURLCustom = blueIconURL;
 		}
 	},
