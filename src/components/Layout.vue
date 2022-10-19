@@ -105,11 +105,7 @@ import Team from "./Team.vue";
 export default defineComponent({
 	name: "Layout",
 	data() {
-		return {
-			timer: 0,
-			// redTeam: {},
-			// blueTeam: {},
-		};
+		return {};
 	},
 	components: {
 		KillFeed,
@@ -129,6 +125,12 @@ export default defineComponent({
 				this.getTeamInfo(false);
 			},
 			deep: true,
+		},
+		"$store.state.settings.iconMode": {
+			handler() {
+				this.getTeamInfo(true);
+				this.getTeamInfo(false);
+			}
 		}
 	},
 
@@ -139,51 +141,61 @@ export default defineComponent({
 
 			// dashleague
 			if (this.$store.state.settings.iconMode == 0) {
-				let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
-				let teamjson = await team.json();
-				if (teamjson.data == false) {
-					teamData.logoFound = false;
-					teamData.extrasFound = false;
-				}
-				else {
-					teamData.logoFound = true;
-					teamData.logo = teamjson.data.logo;
+				try {
+					let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
+					let teamjson = await team.json();
+					if (teamjson.data == false) {
+						teamData.logoFound = false;
+						teamData.extrasFound = false;
+					}
+					else {
+						teamData.logoFound = true;
+						teamData.logo = teamjson.data.logo;
 
-					try {
-						teamData.extrasFound = true;
-						teamData.matches = teamjson.data.stats[0].matches;
-						teamData.wins = teamjson.data.stats[0].wins;
-						teamData.losses = teamjson.data.stats[0].losses;
+						try {
+							teamData.extrasFound = true;
+							teamData.matches = teamjson.data.stats[0].matches;
+							teamData.wins = teamjson.data.stats[0].wins;
+							teamData.losses = teamjson.data.stats[0].losses;
 
-						teamData.players = [];
+							teamData.players = [];
 
-						for (const player in teamjson.data.roster.players) {
-							if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
-								teamData.players.push(teamjson.data.roster.players[player].name)
+							for (const player in teamjson.data.roster.players) {
+								if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
+									teamData.players.push(teamjson.data.roster.players[player].name)
+								}
 							}
 						}
+						catch (error) {
+							teamData.extrasFound = false;
+							console.log(`Failed to load extras for ${teamName}`)
+						}
 					}
-					catch (error) {
-						teamData.extrasFound = false;
-						console.log(`Failed to load extras for ${teamName}`)
-					}
-
-
 				}
-
+				catch (e) {
+					teamData.logoFound = false;
+					teamData.extrasFound = false;
+					console.error("Failed to get logo falling back " + e);
+				}
 			}
 			else if (this.$store.state.settings.iconMode == 1) {
 				teamData.extrasFound = false;
 
-				let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
+				try {
+					let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
 
-				// Sucks that we have to request twice any other way?
-				if ((await fetch(logoURL)).ok) {
-					teamData.logoFound = true;
-					teamData.logo = logoURL;
-				}
-				else {
+					// Sucks that we have to request twice any other way?
+					if ((await fetch(logoURL)).ok) {
+						teamData.logoFound = true;
+						teamData.logo = logoURL;
+					}
+					else {
+						teamData.logoFound = false;
+					}
+				} 
+				catch (e) {
 					teamData.logoFound = false;
+					console.log("Failed to get logo falling back " + e)
 				}
 			}
 			else if (this.$store.state.settings.iconMode == 2) {
@@ -191,7 +203,7 @@ export default defineComponent({
 
 				if (updateRed) {
 					teamData.logoFound = this.$store.state.teamData.red.logoFound ?? false;
-				}else{
+				} else {
 					teamData.logoFound = this.$store.state.teamData.blue.logoFound ?? false;
 				}
 
@@ -199,22 +211,6 @@ export default defineComponent({
 			console.log(teamData)
 
 			this.$store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
-		},
-		scoreTimer(seconds: number) {
-			var container = document.querySelector('.container') as HTMLDivElement;
-
-			if (this.timer) clearInterval(this.timer);
-
-			this.timer = setInterval(() => {
-				if (container.classList.contains('container--scores')) {
-					container.classList.remove('container--scores');
-					this.scoreTimer(11000);
-				}
-				else {
-					container.classList.add('container--scores');
-					this.scoreTimer(6000);
-				}
-			}, seconds);
 		}
 	},
 	computed: mapState({
