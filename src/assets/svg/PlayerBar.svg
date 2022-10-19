@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="523px" height="93px" viewBox="0 0 523 93" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Combined Shape</title>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" fill-opacity="0.7">
+        <g id="dln-ui" transform="translate(-698.000000, -947.000000)" fill="#000000">
+            <g id="UI" transform="translate(-55.708529, -0.000000)">
+                <g id="Player-Bar" transform="translate(754.000000, 947.992966)">
+                    <path d="M344,56 L330.909091,92.0070335 L191.090909,92.0070335 L178,56.001949 L344,56 Z M417.53268,0 L430.693,12 L522,12 L512,56 L10,56 L0,12 L90.306,12 L103.46732,0 L417.53268,0 Z" id="Combined-Shape" transform="translate(261.000000, 46.003517) scale(1, -1) translate(-261.000000, -46.003517) "></path>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

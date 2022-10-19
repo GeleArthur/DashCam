@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="521px" height="231px" viewBox="0 0 521 231" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>DLN Cut Out</title>
+    <defs>
+        <radialGradient cx="96.0213531%" cy="67.7131336%" fx="96.0213531%" fy="67.7131336%" r="228.530827%" gradientTransform="translate(0.960214,0.677131),scale(0.439922,1.000000),rotate(-162.764637),translate(-0.960214,-0.677131)" id="radialGradient-1">
+            <stop stop-color="#C40000" stop-opacity="0.8" offset="0%"></stop>
+            <stop stop-color="#910000" stop-opacity="0.8" offset="100%"></stop>
+        </radialGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" stroke-opacity="0.2">
+        <g id="dln-ui" transform="translate(-1399.000000, 0.000000)" fill="url(#radialGradient-1)" stroke="#FFFFFF" stroke-width="4">
+            <g id="UI" transform="translate(-55.708529, -0.000000)">
+                <g id="Teams---Top" transform="translate(55.708529, -0.000000)">
+                    <g id="Team---Red" transform="translate(1382.000000, 0.000000)">
+                        <path d="M540.925811,-2 L531.693951,21.6916629 C525.933359,19.3120615 519.6199,18 513,18 C499.469024,18 487.219024,23.4845118 478.351768,32.3517677 C469.484512,41.2190236 464,53.4690236 464,67 C464,77.061545 467.032042,86.4150553 472.233377,94.1957722 C477.952483,102.751025 486.292561,109.405839 496.106006,113.010355 L459.503076,206.932247 L20,229.103435 L20,-2 L540.925811,-2 Z" id="DLN-Cut-Out" transform="translate(280.000000, 113.500000) scale(-1, 1) translate(-280.000000, -113.500000) "></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
