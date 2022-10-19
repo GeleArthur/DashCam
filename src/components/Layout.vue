@@ -200,13 +200,7 @@ export default defineComponent({
 			}
 			else if (this.$store.state.settings.iconMode == 2) {
 				teamData.extrasFound = false;
-
-				if (updateRed) {
-					teamData.logoFound = this.$store.state.teamData.red.logoFound ?? false;
-				} else {
-					teamData.logoFound = this.$store.state.teamData.blue.logoFound ?? false;
-				}
-
+				teamData.logoFound = true;
 			}
 			console.log(teamData)
 

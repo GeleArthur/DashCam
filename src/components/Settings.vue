@@ -1,5 +1,5 @@
 <template>
-    <div class="modal">
+    <div class="modal" v-if="showSettings">
         <div class="modal_wrapper">
             <div class="modal_content">
                 <h1>Settings</h1>
@@ -40,11 +40,16 @@ import { defineComponent } from "vue";
 export default defineComponent({
     data() {
         return {
-
+            showSettings: false,
         }
     },
-    methods: {
-
+    mounted(){
+        document.addEventListener("keypress", e=>{
+            if(e.repeat) return;
+            if(e.key == "s"){
+                this.showSettings = !this.showSettings;
+            }
+        })
     },
     computed: {
         iconURLSetting: {
@@ -52,12 +57,12 @@ export default defineComponent({
             set(value: string) { this.$store.commit("settingsChangeIcon", value) }
         },
         redIconURLSetting: {
-            get() { return this.$store.state.settings.redTeamIconURLCustom },
-            set(value: string) { this.$store.commit("settingsRedIcon", value) }
+            get() { return this.$store.state.teamData.red.logo },
+            set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:true, imageURL: value}) }
         },
         blueIconURLSetting: {
-            get() { return this.$store.state.settings.blueTeamIconURLCustom },
-            set(value: string) { this.$store.commit("settingsBlueIcon", value) }
+            get() { return this.$store.state.teamData.blue.logo },
+            set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:false, imageURL: value}) }
         }
     }
 });

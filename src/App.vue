@@ -217,7 +217,7 @@ export default defineComponent({
 
 			this.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
-
+			
 			this.websocket.addEventListener("error", failed);
 			this.websocket.addEventListener("close", failed);
 			this.websocket.addEventListener("open", onConnected);

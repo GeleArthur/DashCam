@@ -245,11 +245,13 @@ export default createStore<State>({
 		settingsChangeIcon(state, teamIconSetting: number /*would use enum but vue :(*/) {
 			state.settings.iconMode = teamIconSetting;
 		},
-		settingsRedIcon(state, redIconURL: string) {
-			state.settings.redTeamIconURLCustom = redIconURL;
-		},
-		settingsBlueIcon(state, blueIconURL: string) {
-			state.settings.blueTeamIconURLCustom = blueIconURL;
+
+		setCustomLogo(state, payload:{isRedTeam: boolean, imageURL: string}){
+			if (payload.isRedTeam) {
+				state.teamData.red.logo = payload.imageURL;
+			} else {
+				state.teamData.blue.logo = payload.imageURL;
+			}
 		},
 
 		setTeamData(state, payload: { isRedTeam: boolean, teamData: teamInfo }) {
