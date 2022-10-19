@@ -1,10 +1,10 @@
 <template>
-	<div class="team" :class="'team--'+teamColor, enabledTeam ? 'team--dln' : ''">
+	<div class="team" :class="'team--'+teamColor, teamHasLogo ? 'team--dln' : ''">
 
 		<div class="team_players" :class="'team_players--'+teamColor" v-if="players">
 			<player v-for="(item, index) in players" :key="index" :playerID="$store.state.PlayerData.indexOf(item)" />
 		</div>
-		<div class="team_logo" v-if="enabledTeam">
+		<div class="team_logo" v-if="teamHasLogo">
 			<img :src="teamLogo" width="94" height="94">
 		</div>
 	</div>
@@ -73,6 +73,7 @@
 
 <script lang="ts">
 import { teams } from "@/models/matchInfo";
+import teamInfo from "@/models/teamInfo";
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
 import playerInfo from "../models/playerInfo";
@@ -99,22 +100,26 @@ export default defineComponent({
 				return "blue"
 			}
 		},
-		enabledTeam(): boolean {
-			return this.team != teams.none;
+		teamHasLogo(): boolean {
+			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
+			if(teamInfo == undefined){
+				return false;
+			}
+			else{
+				return teamInfo.logoFound;
+			}
 		},
 		teamLogo(): string {
-			if (this.team == teams.none) return "";
-			else if (this.team == teams.red) {
-				return this.$store.state.teamData.red.logoFound ?
-					this.$store.state.teamData.red.logo :
-					""
+			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
+
+			if (teamInfo == undefined) {
+				return "";
 			}
 			else {
-				return this.$store.state.teamData.blue.logoFound ?
-					this.$store.state.teamData.blue.logo :
+				return teamInfo.logoFound ?
+					teamInfo.logo :
 					""
 			}
-			// Could this be better???
 		}
 	}),
 	props: {

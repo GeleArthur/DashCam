@@ -252,10 +252,10 @@ export default createStore<State>({
 			state.settings.blueTeamIconURLCustom = blueIconURL;
 		},
 
-		setTeamData(state, payload: {isRedTeam:boolean, teamData: teamInfo}){
-			if(payload.isRedTeam){
+		setTeamData(state, payload: { isRedTeam: boolean, teamData: teamInfo }) {
+			if (payload.isRedTeam) {
 				state.teamData.red = payload.teamData;
-			}else{
+			} else {
 				state.teamData.blue = payload.teamData;
 			}
 		}
@@ -293,5 +293,15 @@ export default createStore<State>({
 
 			return "Red";
 		},
+		getTeam: (state) => (team: teams) => {
+			switch (team) {
+				case teams.none:
+					return undefined;
+				case teams.red:
+					return state.teamData.red;
+				case teams.blue:
+					return state.teamData.blue;
+			}
+		}
 	},
 });
