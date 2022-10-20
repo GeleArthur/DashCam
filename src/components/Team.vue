@@ -92,9 +92,7 @@ export default defineComponent({
 				.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
 		},
 		teamColor(): string {
-			if (this.team == teams.none) {
-				return "none"
-			} else if (this.team == teams.red) {
+			if (this.team == teams.red) {
 				return "red"
 			} else {
 				return "blue"
@@ -102,24 +100,27 @@ export default defineComponent({
 		},
 		teamHasLogo(): boolean {
 			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
-			if(teamInfo == undefined){
+			if (teamInfo == undefined) {
 				return false;
 			}
-			else{
+			else {
 				return teamInfo.logoFound;
 			}
 		},
 		teamLogo(): string {
+			if (this.$store.state.settings.iconMode == 2) {
+				return this.team == teams.blue ? this.$store.state.settings.customBlueIcon : this.$store.state.settings.customRedIcon;
+			}
+
 			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
 
 			if (teamInfo == undefined) {
 				return "";
 			}
-			else {
-				return teamInfo.logoFound ?
-					teamInfo.logo :
-					""
-			}
+
+			return teamInfo.logoFound ?
+				teamInfo.logo :
+				""
 		}
 	}),
 	props: {

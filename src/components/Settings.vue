@@ -3,6 +3,7 @@
         <div class="modal_wrapper">
             <div class="modal_content">
                 <h1>Settings</h1>
+                <p>Press <b>S</b> to close</p>
                 <h2>TeamIcon</h2>
                 <div id="iconURL">
                     <div>
@@ -57,11 +58,11 @@ export default defineComponent({
             set(value: string) { this.$store.commit("settingsChangeIcon", value) }
         },
         redIconURLSetting: {
-            get() { return this.$store.state.teamData.red.logo },
+            get() { return this.$store.state.settings.customRedIcon },
             set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:true, imageURL: value}) }
         },
         blueIconURLSetting: {
-            get() { return this.$store.state.teamData.blue.logo },
+            get() { return this.$store.state.settings.customBlueIcon },
             set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:false, imageURL: value}) }
         }
     }

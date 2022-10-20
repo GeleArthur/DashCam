@@ -246,11 +246,11 @@ export default createStore<State>({
 			state.settings.iconMode = teamIconSetting;
 		},
 
-		setCustomLogo(state, payload:{isRedTeam: boolean, imageURL: string}){
+		setCustomLogo(state, payload: { isRedTeam: boolean, imageURL: string }) {
 			if (payload.isRedTeam) {
-				state.teamData.red.logo = payload.imageURL;
+				state.settings.customRedIcon = payload.imageURL;
 			} else {
-				state.teamData.blue.logo = payload.imageURL;
+				state.settings.customBlueIcon = payload.imageURL;
 			}
 		},
 

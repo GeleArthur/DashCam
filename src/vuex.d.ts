@@ -10,7 +10,7 @@ declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
 
 	interface State {
-		PlayerData: (playerInfo)[]; //There should be an isactive bool
+		PlayerData: (playerInfo)[];
 		connection: string;
 		selectedIndex: number;
 		matchInfo: matchInfo;
