@@ -20,11 +20,14 @@ export default createStore<State>({
 		matchInfo: {} as matchInfo,
 		version: "",
 		matchReplayData: {} as matchReplay,
+		matchReplayRaw: [],
+
 		settings: {} as settings,
 		teamData: { red: {} as teamInfo, blue: {} as teamInfo }
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID] = {
 				isActive: true,
 
@@ -54,10 +57,12 @@ export default createStore<State>({
 			};
 		},
 		playerLeaves(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID].isActive = false;
 		},
 
 		loadoutUpdate(state, socketData: LoadoutUpdate) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID].leftWeapon = {
 				imageSource: getImage(socketData.leftHand),
 				weaponName: socketData.leftHand,
@@ -69,21 +74,27 @@ export default createStore<State>({
 			};
 		},
 		switchTeam(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID].team = socketData.team;
 		},
 		killFeed(state, socketData: killFeedData) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.victim].isDead = true;
 		},
 		respawn(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID].isDead = false;
 		},
 		healthUpdate(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.PlayerData[socketData.playerID].health = socketData.health;
 		},
 		CurrentlySpectating(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.selectedIndex = socketData.playerID;
 		},
 		scoreboard(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			for (let i = 0; i < state.PlayerData.length; i++) {
 				if (state.PlayerData[i].isActive == true) {
 					state.PlayerData[i].deads = socketData.deads[i];
@@ -93,6 +104,7 @@ export default createStore<State>({
 			}
 		},
 		playerPos(state, socketData: playerPos) {
+			state.matchReplayRaw.push(socketData);
 			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
 				if (state.PlayerData[i].isActive == true) {
 					state.PlayerData[i].feetPosition = {
@@ -106,9 +118,10 @@ export default createStore<State>({
 			}
 		},
 		status(state, socketData: any) {
-			1 + 1;
+			state.matchReplayRaw.push(socketData);
 		},
 		dashUpdate(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			if (state.PlayerData[socketData.playerID].isActive == true) {
 				state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
 				state.PlayerData[socketData.playerID].dashPickup =
@@ -116,21 +129,25 @@ export default createStore<State>({
 			}
 		},
 		matchStart(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.matchtype = socketData.matchType;
 			state.matchInfo.mapname = socketData.mapName;
 		},
 
 		timer(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.timer = socketData.time;
 			console.log(socketData.time)
 		},
 
 		teamScore(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.blueScore = socketData.blueTeam;
 			state.matchInfo.redScore = socketData.redTeam;
 		},
 
 		payload(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.payload.amountBlueOnCart = socketData.amountBlueOnCart;
 			state.matchInfo.payload.cartBlockedByRed = socketData.cartBlockedByRed;
 			state.matchInfo.payload.checkPoint = socketData.checkPoint;
@@ -138,6 +155,7 @@ export default createStore<State>({
 		},
 
 		domination(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.domination.countDownTimer = socketData.countDownTimer;
 			state.matchInfo.domination.pointA = socketData.scores[0];
 			state.matchInfo.domination.pointB = socketData.scores[1];
@@ -148,10 +166,12 @@ export default createStore<State>({
 		},
 
 		controlPoint(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 		},
 
 		version(state, socketData: any) {
+			state.matchReplayRaw.push(socketData);
 			console.log(`HyperBash: ${socketData.HyperBashVersion}`);
 			state.version = socketData.HyperBashVersion;
 		},
