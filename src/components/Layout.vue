@@ -105,7 +105,9 @@ import Team from "./Team.vue";
 export default defineComponent({
 	name: "Layout",
 	data() {
-		return {};
+		return {
+			fetchAndFlashNonce: {}, // If we where already requesting cancel the old one
+		};
 	},
 	components: {
 		KillFeed,
@@ -136,6 +138,9 @@ export default defineComponent({
 
 	methods: {
 		async getTeamInfo(updateRed: boolean) {
+			this.fetchAndFlashNonce = new Object();
+			const localNonce = this.fetchAndFlashNonce;
+
 			const teamName: string = updateRed ? this.$store.getters.redTeamName : this.$store.getters.blueTeamName;
 			let teamData = { name: teamName } as teamInfo
 
@@ -144,6 +149,8 @@ export default defineComponent({
 				try {
 					let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
 					let teamjson = await team.json();
+
+					if (localNonce !== this.fetchAndFlashNonce) { return; }
 					if (teamjson.data == false) {
 						teamData.logoFound = false;
 						teamData.extrasFound = false;
@@ -184,8 +191,12 @@ export default defineComponent({
 				try {
 					let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
 
+					const logoRequest = await fetch(logoURL);
+					if (localNonce !== this.fetchAndFlashNonce) { return; }
+					console.log(localNonce !== this.fetchAndFlashNonce)
+
 					// Sucks that we have to request twice any other way?
-					if ((await fetch(logoURL)).ok) {
+					if (logoRequest.ok) {
 						teamData.logoFound = true;
 						teamData.logo = logoURL;
 					}
@@ -194,6 +205,7 @@ export default defineComponent({
 					}
 				} 
 				catch (e) {
+					if (localNonce !== this.fetchAndFlashNonce) { return; }
 					teamData.logoFound = false;
 					console.log("Failed to get logo falling back " + e)
 				}
