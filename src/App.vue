@@ -4,6 +4,7 @@
 		<button @click="AddFakeData">Fake Data</button>
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
+		<button @click="SaveMatch">Save Match Replay</button>
 	</div>
 	<layout />
 	<instructions v-if="openHelp" />
@@ -27,12 +28,12 @@ import Settings from "./components/Settings.vue";
 export default defineComponent({
 	name: "App",
 	components: {
-    Player,
-    Layout,
-    Instructions,
-    versionCheck,
-    Settings
-},
+		Player,
+		Layout,
+		Instructions,
+		versionCheck,
+		Settings
+	},
 	data() {
 		return {
 			openHelp: false,
@@ -57,6 +58,14 @@ export default defineComponent({
 					});
 				}
 			}
+		},
+		SaveMatch() {
+			var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.$store.state.matchReplayRaw));
+			var dlAnchorElem = document.createElement('a')
+			dlAnchorElem.setAttribute("href", dataStr);
+			dlAnchorElem.setAttribute("download", "DashCam Replay.json");
+			dlAnchorElem.click();
+			dlAnchorElem.remove();
 		},
 
 		AddFakeData() {
@@ -145,7 +154,7 @@ export default defineComponent({
 			}
 
 			for (let i = 0; i < 10; i++) {
-				if(this.$store.state.PlayerData[i] != null){
+				if (this.$store.state.PlayerData[i] != null) {
 					var dashPickup = getRandomArbitrary(0, 1) > 0.5;
 					this.$store.commit("dashUpdate", {
 						type: "dashUpdate",
@@ -163,7 +172,7 @@ export default defineComponent({
 			}
 
 			this.fakeDataInterval = setInterval(() => {
-				
+
 
 				// let feetArray = [];
 				// for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
@@ -217,7 +226,7 @@ export default defineComponent({
 
 			this.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
-			
+
 			this.websocket.addEventListener("error", failed);
 			this.websocket.addEventListener("close", failed);
 			this.websocket.addEventListener("open", onConnected);
@@ -250,12 +259,13 @@ export default defineComponent({
 #app {
 	font-family: "Roboto", sans-serif;
 }
+
 #admin {
 	background-color: rgba(0, 0, 0, 0.5);
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto repeat(3, 100px) ;
+	grid-template-columns: auto repeat(3, 100px) 150px;
 	left: 0;
 	padding: 1em;
 	position: fixed;
@@ -263,6 +273,7 @@ export default defineComponent({
 	z-index: 10;
 	white-space: nowrap;
 }
+
 body {
 	background: rgba(100, 100, 100, 1);
 	margin: 0px;
