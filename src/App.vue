@@ -138,6 +138,7 @@ export default defineComponent({
 					cartBlockedByRed: getRandomInt(0, 2),
 					checkPoint: getRandomInt(0, 1),
 					secondRound: getRandomInt(0, 1),
+					precisePayloadDistance: getRandomArbitrary(0, 1),
 				},
 				matchtype: matchtype,
 			});

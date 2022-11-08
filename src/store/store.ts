@@ -137,7 +137,6 @@ export default createStore<State>({
 		timer(state, socketData: any) {
 			state.matchReplayRaw.push(socketData);
 			state.matchInfo.timer = socketData.time;
-			console.log(socketData.time)
 		},
 
 		teamScore(state, socketData: any) {
@@ -152,6 +151,7 @@ export default createStore<State>({
 			state.matchInfo.payload.cartBlockedByRed = socketData.cartBlockedByRed;
 			state.matchInfo.payload.checkPoint = socketData.checkPoint;
 			state.matchInfo.payload.secondRound = socketData.secondRound;
+			state.matchInfo.payload.precisePayloadDistance = socketData.precisePayloadDistance;
 		},
 
 		domination(state, socketData: any) {
@@ -215,6 +215,7 @@ export default createStore<State>({
 				cartBlockedByRed: false,
 				checkPoint: false,
 				secondRound: false,
+				precisePayloadDistance: 0,
 			};
 
 			state.matchInfo.domination = {
@@ -243,6 +244,7 @@ export default createStore<State>({
 					cartBlockedByRed: socketData.payload.cartBlockedByRed,
 					checkPoint: socketData.payload.checkPoint,
 					secondRound: socketData.payload.secondRound,
+					precisePayloadDistance: socketData.payload.precisePayloadDistance
 				},
 				domination: {
 					countDownTimer: socketData.domination.countDownTimer,

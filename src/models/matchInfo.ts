@@ -36,6 +36,7 @@ export interface payloadInfo {
 	checkPoint: boolean;
 	cartBlockedByRed: boolean;
 	amountBlueOnCart: number;
+	precisePayloadDistance: number;
 }
 
 export interface dominationInfo {

@@ -1,58 +1,35 @@
 <template>
 	<div class="scoreboard">
 		<div class="scoreboard_wrapper">
-			<div class="scoreboard_name scoreboard_name--blue">{{  $store.getters.blueTeamName }}</div>
+			<div class="scoreboard_name scoreboard_name--blue">{{ $store.getters.blueTeamName }}</div>
 			<div class="scoreboard_score scoreboard_score--blue">
 				{{ blueTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
 			</div>
 			<div class="scoreboard_mode scoreboard_mode--blue" v-if="matchInfo.matchtype">
 				<div class="mode mode--blue" :class="matchTypeClass">
 					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
-						<bar
-							:index="teams.blue"
-							:compare="'='"
-							:value="matchInfo.controlPoint.TeamScoringPoints"
-							:width="'100%'"
-						/>
+						<bar :index="teams.blue" :compare="'='" :value="matchInfo.controlPoint.TeamScoringPoints"
+							:width="'100%'" />
 					</div>
 					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
-						<bar
-							:text="'A'"
-							:index="teams.blue"
-							:compare="'='"
-							:value="matchInfo.domination.pointA"
-						/>
-						<bar
-							:text="'B'"
-							:index="teams.blue"
-							:compare="'='"
-							:value="matchInfo.domination.pointB"
-						/>
-						<bar
-							:text="'C'"
-							:index="teams.blue"
-							:compare="'='"
-							:value="matchInfo.domination.pointC"
-						/>
+						<bar :text="'A'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointA" />
+						<bar :text="'B'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointB" />
+						<bar :text="'C'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointC" />
 					</div>
 					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
-						<bar
-							v-for="index in 3"
-							:index="index"
-							:compare="'<='"
-							:value="matchInfo.payload.amountBlueOnCart"
-							v-bind:key="index"
-						/>
+						<bar v-for="index in 3" :index="index" :compare="'<='"
+							:value="matchInfo.payload.amountBlueOnCart" v-bind:key="index" />
 					</div>
 				</div>
 			</div>
 			<div class="scoreboard_time" v-if="matchInfo.matchtype">
-				<div v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.teamCountDown != teams.none">
-					{{matchInfo.domination.countDownTimer.toPrecision(3)}}
+				<div
+					v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.teamCountDown != teams.none">
+					{{ matchInfo.domination.countDownTimer.toPrecision(3) }}
 				</div>
-				
+
 				<div v-else>
-					{{timer}}
+					{{ timer }}
 				</div>
 			</div>
 			<div class="scoreboard_name scoreboard_name--red">{{ $store.getters.redTeamName }}</div>
@@ -62,39 +39,16 @@
 			<div class="scoreboard_mode scoreboard_mode--red">
 				<div class="mode mode--red" :class="matchTypeClass">
 					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
-						<bar
-							:value="matchInfo.controlPoint.TeamScoringPoints"
-							:compare="'='"
-							:index="teams.red"
-							:width="'100%'"
-						/>
+						<bar :value="matchInfo.controlPoint.TeamScoringPoints" :compare="'='" :index="teams.red"
+							:width="'100%'" />
 					</div>
 					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
-						<bar
-							:text="'A'"
-							:value="matchInfo.domination.pointA"
-							:compare="'='"
-							:index="teams.red"
-						/>
-						<bar
-							:text="'B'"
-							:value="matchInfo.domination.pointB"
-							:compare="'='"
-							:index="teams.red"
-						/>
-						<bar
-							:text="'C'"
-							:value="matchInfo.domination.pointC"
-							:compare="'='"
-							:index="teams.red"
-						/>
+						<bar :text="'A'" :value="matchInfo.domination.pointA" :compare="'='" :index="teams.red" />
+						<bar :text="'B'" :value="matchInfo.domination.pointB" :compare="'='" :index="teams.red" />
+						<bar :text="'C'" :value="matchInfo.domination.pointC" :compare="'='" :index="teams.red" />
 					</div>
 					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
-						<bar
-							:value="matchInfo.payload.cartBlockedByRed"
-							:compare="'boolean'"
-							:width="'100%'"
-						/>
+						<bar :value="matchInfo.payload.cartBlockedByRed" :compare="'boolean'" :width="'100%'" />
 					</div>
 				</div>
 			</div>
@@ -131,64 +85,80 @@
 </style>
 
 <script lang="ts">
-	import { defineComponent } from "vue";
-	import { mapState } from "vuex";
-	import playerInfo from "../models/playerInfo";
-	import { matchType, teams } from "../models/matchInfo";
-	import Player from "./Player.vue";
-	import Bar from "./Bar.vue";
-	
-	export default defineComponent({
-		name: "Scoreboard",
-		components: {
-			Bar,
+import { defineComponent } from "vue";
+import { mapState } from "vuex";
+import playerInfo from "../models/playerInfo";
+import { matchType, teams } from "../models/matchInfo";
+import Bar from "./Bar.vue";
+
+export default defineComponent({
+	name: "Scoreboard",
+	components: {
+		Bar,
+	},
+	computed: {
+		blueTeamScore() {
+
+			if (this.$store.state.matchInfo.matchtype == matchType.Payload) {
+				if (this.$store.state.matchInfo.payload.precisePayloadDistance) {
+
+					let number = this.$store.state.matchInfo.payload.precisePayloadDistance;
+					number *= 100;
+
+
+
+					return number.toFixed(2);
+				}
+			}
+
+			return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 		},
-		computed: mapState({
+
+		...mapState({
 			players() {
-				if ( this.$store.state.PlayerData[0] == undefined ) return false;
-				
+				if (this.$store.state.PlayerData[0] == undefined) return false;
+
 				let data = this.$store.state.PlayerData as playerInfo[];
-				
+
 				return data.filter((e: playerInfo) => e?.team == this.teamID);
 			},
 			redTeamScore() {
 				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
 			},
-			blueTeamScore() {
-				return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
-			},
+
 			teams() {
 				return teams;
 			},
 			matchTypeClass() {
 				var mode = matchType[this.$store.state.matchInfo.matchtype] !== undefined ? matchType[this.$store.state.matchInfo.matchtype].toLowerCase() : false;
-				
+
 				return mode ? 'mode--' + mode : '';
 			},
 			matchType() {
 				return matchType;
 			},
 			timer() {
-				if(this.$store.state.matchInfo.timer == undefined) return "00:00"
+				if (this.$store.state.matchInfo.timer == undefined) return "00:00"
 				var timer = this.$store.state.matchInfo.timer,
-					date  = new Date(0),
-					mill  = timer % 1,
-					mins  = (timer - mill) / 60,
-					secs  = mins % 1;
-				
+					date = new Date(0),
+					mill = timer % 1,
+					mins = (timer - mill) / 60,
+					secs = mins % 1;
+
 				mins = mins - secs;
 				secs = secs * 60;
-				
+
 				date.setMinutes(mins);
 				date.setSeconds(secs, mill);
-				
+
 				var timeString = date.toISOString().substr(14, 5);
-				
+
 				return timeString;
 			},
-			matchInfo(){
+			matchInfo() {
 				return this.$store.state.matchInfo;
 			}
 		})
-	});
+	}
+});
 </script>
