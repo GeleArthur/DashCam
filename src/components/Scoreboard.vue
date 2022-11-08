@@ -87,7 +87,6 @@
 <script lang="ts">
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
-import playerInfo from "../models/playerInfo";
 import { matchType, teams } from "../models/matchInfo";
 import Bar from "./Bar.vue";
 
@@ -98,15 +97,10 @@ export default defineComponent({
 	},
 	computed: {
 		blueTeamScore() {
-
 			if (this.$store.state.matchInfo.matchtype == matchType.Payload) {
 				if (this.$store.state.matchInfo.payload.precisePayloadDistance) {
-
 					let number = this.$store.state.matchInfo.payload.precisePayloadDistance;
 					number *= 100;
-
-
-
 					return number.toFixed(2);
 				}
 			}
@@ -114,51 +108,46 @@ export default defineComponent({
 			return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
 		},
 
+		teams() {
+			return teams;
+		},
+		matchType() {
+			return matchType;
+		},
+		redTeamScore() {
+			return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
+		},
+
+		matchTypeClass() {
+			var mode = matchType[this.$store.state.matchInfo.matchtype] !== undefined ? matchType[this.$store.state.matchInfo.matchtype].toLowerCase() : false;
+
+			return mode ? 'mode--' + mode : '';
+		},
+
+		timer() {
+			if (this.$store.state.matchInfo.timer == undefined) return "00:00"
+			var timer = this.$store.state.matchInfo.timer,
+				date = new Date(0),
+				mill = timer % 1,
+				mins = (timer - mill) / 60,
+				secs = mins % 1;
+
+			mins = mins - secs;
+			secs = secs * 60;
+
+			date.setMinutes(mins);
+			date.setSeconds(secs, mill);
+
+			var timeString = date.toISOString().substr(14, 5);
+
+			return timeString;
+		},
+
 		...mapState({
-			players() {
-				if (this.$store.state.PlayerData[0] == undefined) return false;
-
-				let data = this.$store.state.PlayerData as playerInfo[];
-
-				return data.filter((e: playerInfo) => e?.team == this.teamID);
-			},
-			redTeamScore() {
-				return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
-			},
-
-			teams() {
-				return teams;
-			},
-			matchTypeClass() {
-				var mode = matchType[this.$store.state.matchInfo.matchtype] !== undefined ? matchType[this.$store.state.matchInfo.matchtype].toLowerCase() : false;
-
-				return mode ? 'mode--' + mode : '';
-			},
-			matchType() {
-				return matchType;
-			},
-			timer() {
-				if (this.$store.state.matchInfo.timer == undefined) return "00:00"
-				var timer = this.$store.state.matchInfo.timer,
-					date = new Date(0),
-					mill = timer % 1,
-					mins = (timer - mill) / 60,
-					secs = mins % 1;
-
-				mins = mins - secs;
-				secs = secs * 60;
-
-				date.setMinutes(mins);
-				date.setSeconds(secs, mill);
-
-				var timeString = date.toISOString().substr(14, 5);
-
-				return timeString;
-			},
-			matchInfo() {
+			matchInfo(){
 				return this.$store.state.matchInfo;
 			}
-		})
+		}),
 	}
 });
 </script>
