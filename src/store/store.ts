@@ -11,6 +11,7 @@ import { State } from "vue";
 import matchReplay from "@/models/matchReplay/matchReplay";
 import settings from "@/models/settings";
 import teamInfo from "@/models/teamInfo";
+import annoucerMessage from "@/models/HyperBashModels/announcerMessage";
 
 export default createStore<State>({
 	state: {
@@ -23,7 +24,7 @@ export default createStore<State>({
 		matchReplayRaw: [],
 
 		settings: {} as settings,
-		teamData: { red: {} as teamInfo, blue: {} as teamInfo }
+		teamData: { red: {} as teamInfo, blue: {} as teamInfo },
 	},
 	mutations: {
 		playerJoins(state, socketData: playerJoins) {
@@ -145,13 +146,19 @@ export default createStore<State>({
 			state.matchInfo.redScore = socketData.redTeam;
 		},
 
+		announcer(state, socketData: { type: string; message: annoucerMessage }) {
+			state.matchReplayRaw.push(socketData);
+			console.log(socketData.message);
+		},
+
 		payload(state, socketData: any) {
 			state.matchReplayRaw.push(socketData);
 			state.matchInfo.payload.amountBlueOnCart = socketData.amountBlueOnCart;
 			state.matchInfo.payload.cartBlockedByRed = socketData.cartBlockedByRed;
 			state.matchInfo.payload.checkPoint = socketData.checkPoint;
 			state.matchInfo.payload.secondRound = socketData.secondRound;
-			state.matchInfo.payload.precisePayloadDistance = socketData.precisePayloadDistance;
+			state.matchInfo.payload.precisePayloadDistance =
+				socketData.precisePayloadDistance;
 		},
 
 		domination(state, socketData: any) {
@@ -167,7 +174,8 @@ export default createStore<State>({
 
 		controlPoint(state, socketData: any) {
 			state.matchReplayRaw.push(socketData);
-			state.matchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
+			state.matchInfo.controlPoint.TeamScoringPoints =
+				socketData.controllingTeam;
 		},
 
 		version(state, socketData: any) {
@@ -187,11 +195,11 @@ export default createStore<State>({
 					team: teams.none,
 					leftWeapon: {
 						imageSource: "",
-						weaponName: ""
+						weaponName: "",
 					},
 					rightWeapon: {
 						imageSource: "",
-						weaponName: ""
+						weaponName: "",
 					},
 					health: 0,
 					dash: 0,
@@ -204,9 +212,9 @@ export default createStore<State>({
 					feetPosition: {
 						X: 0,
 						Y: 0,
-						Z: 0
+						Z: 0,
 					},
-					feetRotation: 0
+					feetRotation: 0,
 				};
 			}
 
@@ -244,7 +252,7 @@ export default createStore<State>({
 					cartBlockedByRed: socketData.payload.cartBlockedByRed,
 					checkPoint: socketData.payload.checkPoint,
 					secondRound: socketData.payload.secondRound,
-					precisePayloadDistance: socketData.payload.precisePayloadDistance
+					precisePayloadDistance: socketData.payload.precisePayloadDistance,
 				},
 				domination: {
 					countDownTimer: socketData.domination.countDownTimer,
@@ -264,11 +272,14 @@ export default createStore<State>({
 			};
 		},
 
-		settingsChangeIcon(state, teamIconSetting: number /*would use enum but vue :(*/) {
+		settingsChangeIcon(
+			state,
+			teamIconSetting: number /*would use enum but vue :(*/
+		) {
 			state.settings.iconMode = teamIconSetting;
 		},
 
-		setCustomLogo(state, payload: { isRedTeam: boolean, imageURL: string }) {
+		setCustomLogo(state, payload: { isRedTeam: boolean; imageURL: string }) {
 			if (payload.isRedTeam) {
 				state.settings.customRedIcon = payload.imageURL;
 			} else {
@@ -276,13 +287,13 @@ export default createStore<State>({
 			}
 		},
 
-		setTeamData(state, payload: { isRedTeam: boolean, teamData: teamInfo }) {
+		setTeamData(state, payload: { isRedTeam: boolean; teamData: teamInfo }) {
 			if (payload.isRedTeam) {
 				state.teamData.red = payload.teamData;
 			} else {
 				state.teamData.blue = payload.teamData;
 			}
-		}
+		},
 	},
 	actions: {},
 	modules: {},
@@ -326,6 +337,6 @@ export default createStore<State>({
 				case teams.blue:
 					return state.teamData.blue;
 			}
-		}
+		},
 	},
 });
