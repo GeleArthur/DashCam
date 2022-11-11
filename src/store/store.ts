@@ -15,6 +15,7 @@ import annoucerMessage from "@/models/HyperBashModels/announcerMessage";
 
 export default createStore<State>({
 	state: {
+		websocket: {} as WebSocket,
 		connection: "Failed",
 		selectedIndex: -1,
 		PlayerData: [] as playerInfo[],

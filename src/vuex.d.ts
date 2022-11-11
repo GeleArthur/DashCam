@@ -10,6 +10,7 @@ declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
 
 	interface State {
+		websocket: WebSocket;
 		PlayerData: (playerInfo)[];
 		connection: string;
 		selectedIndex: number;

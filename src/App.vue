@@ -4,7 +4,6 @@
 		<button @click="AddFakeData">Fake Data</button>
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
-		<button @click="SaveMatch">Save Match Replay</button>
 	</div>
 	<layout />
 	<instructions v-if="openHelp" />
@@ -37,7 +36,7 @@ export default defineComponent({
 	data() {
 		return {
 			openHelp: false,
-			websocket: null as unknown as WebSocket,
+			// websocket: null as unknown as WebSocket,
 			fakeDataInterval: 0,
 		};
 	},
@@ -58,14 +57,6 @@ export default defineComponent({
 					});
 				}
 			}
-		},
-		SaveMatch() {
-			var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.$store.state.matchReplayRaw));
-			var dlAnchorElem = document.createElement('a')
-			dlAnchorElem.setAttribute("href", dataStr);
-			dlAnchorElem.setAttribute("download", "DashCam Replay.json");
-			dlAnchorElem.click();
-			dlAnchorElem.remove();
 		},
 
 		AddFakeData() {
@@ -217,25 +208,27 @@ export default defineComponent({
 	},
 	mounted() {
 		this.$store.commit("init");
+
 		const StartWebSocket = () => {
-			if (this.websocket != null) {
-				this.websocket.removeEventListener("error", failed);
-				this.websocket.removeEventListener("close", failed);
-				this.websocket.removeEventListener("open", onConnected);
-				this.websocket.removeEventListener("message", onMessage);
+
+			if (this.$store.state.websocket.CLOSED) {
+				this.$store.state.websocket.removeEventListener("error", failed);
+				this.$store.state.websocket.removeEventListener("close", failed);
+				this.$store.state.websocket.removeEventListener("open", onConnected);
+				this.$store.state.websocket.removeEventListener("message", onMessage);
 			}
 
-			this.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
+			this.$store.state.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
 
-			this.websocket.addEventListener("error", failed);
-			this.websocket.addEventListener("close", failed);
-			this.websocket.addEventListener("open", onConnected);
-			this.websocket.addEventListener("message", onMessage);
+			this.$store.state.websocket.addEventListener("error", failed);
+			this.$store.state.websocket.addEventListener("close", failed);
+			this.$store.state.websocket.addEventListener("open", onConnected);
+			this.$store.state.websocket.addEventListener("message", onMessage);
 		};
 
 		document.body.onfocus = () => {
-			if (this.websocket == null || this.websocket.readyState != 1)
+			if (this.$store.state.websocket == null || this.$store.state.websocket.readyState != 1)
 				StartWebSocket();
 		};
 
