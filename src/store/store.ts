@@ -2,7 +2,7 @@ import { playerInfo } from "../models/playerInfo";
 import { createStore } from "vuex";
 import { getImage } from "../Util/UtilFunctions";
 
-import matchInfo, { mapName, matchType, teams } from "../models/matchInfo";
+import matchInfo, { matchType, teams } from "../models/matchInfo";
 import playerJoins from "../models/HyperBashModels/playerJoins";
 import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
@@ -267,7 +267,7 @@ export default createStore<State>({
 				},
 				blueScore: socketData.blueScore,
 				redScore: socketData.redScore,
-				mapname: mapName.lauchpad,
+				mapname: socketData.mapName,
 				matchtype: socketData.matchtype,
 				timer: socketData.timer,
 			};
