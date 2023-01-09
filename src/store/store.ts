@@ -119,9 +119,15 @@ export default createStore<State>({
 				}
 			}
 		},
+
 		status(state, socketData: any) {
 			state.matchReplayRaw.push(socketData);
 		},
+
+		sceneChange(state, socketData: any){
+			state.matchReplayRaw.push(socketData);
+		},
+
 		dashUpdate(state, socketData: any) {
 			state.matchReplayRaw.push(socketData);
 			if (state.PlayerData[socketData.playerID].isActive == true) {

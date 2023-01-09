@@ -1,10 +1,10 @@
-import { mapName, matchType, teams } from "../matchInfo";
+import { matchType, sceneIds, teams } from "../matchInfo";
 
 export default interface matchReplay {
 	version: string;
 	matchID: string;
 	matchType: matchType;
-	mapName: mapName;
+	mapName: sceneIds;
 
 	players: PlayerReplay;
 

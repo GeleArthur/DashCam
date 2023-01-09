@@ -41,17 +41,6 @@ export enum sceneIds {
 	BallMatch_Arena = 23,
 }
 
-//TODO Should reflect scene id
-// export enum mapName {
-// 	lobby,
-// 	lauchpad,
-// 	canyon,
-// 	abyss,
-// 	waterway,
-// 	quarry,
-// 	stadium,
-// }
-
 export enum teams {
 	none = -1,
 	red = 0,

@@ -36,7 +36,6 @@ export default defineComponent({
 	data() {
 		return {
 			openHelp: false,
-			// websocket: null as unknown as WebSocket,
 			fakeDataInterval: 0,
 		};
 	},
