@@ -38,6 +38,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store/store";
 import { defineComponent } from "vue";
 export default defineComponent({
     data() {
@@ -58,26 +59,26 @@ export default defineComponent({
 
             let objectData = {
                 type:"saveJson",
-                dataToSave: JSON.stringify(this.$store.state.matchReplayRaw),
-                team1: this.$store.state.teamData.blue.name,
-                team2: this.$store.state.teamData.red.name
+                dataToSave: JSON.stringify(store.state.matchReplayRaw),
+                team1: store.state.teamData.blue.name,
+                team2: store.state.teamData.red.name
             }
 
-            this.$store.state.websocket.send(JSON.stringify(objectData));
+            store.state.websocket.send(JSON.stringify(objectData));
 		},
     },
     computed: {
         iconURLSetting: {
-            get() { return this.$store.state.settings.iconMode },
-            set(value: string) { this.$store.commit("settingsChangeIcon", value) }
+            get() { return store.state.settings.iconMode },
+            set(value: string) { store.commit("settingsChangeIcon", value) }
         },
         redIconURLSetting: {
-            get() { return this.$store.state.settings.customRedIcon },
-            set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:true, imageURL: value}) }
+            get() { return store.state.settings.customRedIcon },
+            set(value: string) { store.commit("setCustomLogo", {isRedTeam:true, imageURL: value}) }
         },
         blueIconURLSetting: {
-            get() { return this.$store.state.settings.customBlueIcon },
-            set(value: string) { this.$store.commit("setCustomLogo", {isRedTeam:false, imageURL: value}) }
+            get() { return store.state.settings.customBlueIcon },
+            set(value: string) { store.commit("setCustomLogo", {isRedTeam:false, imageURL: value}) }
         }
     }
 });

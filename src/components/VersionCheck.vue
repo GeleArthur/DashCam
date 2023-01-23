@@ -19,6 +19,7 @@
 </template>
 
 <script lang="ts">
+import store from "@/store/store";
 import { defineComponent } from "vue";
 import { lastestHyperBashVersion } from "../Util/ConstVars";
 
@@ -42,7 +43,7 @@ export default defineComponent({
 	},
 	methods: {
 		checkVersion() {
-			var currentVersion = this.$store.state.version.replaceAll("\.","");
+			var currentVersion = store.state.version.replaceAll("\.","");
 			var highestVersion = lastestHyperBashVersion.replaceAll("\.","");
 
 			if (highestVersion > currentVersion) {
@@ -67,11 +68,11 @@ export default defineComponent({
 			return lastestHyperBashVersion;
 		},
 		currentHBVersion() {
-			if(this.$store.state.version == ""){
+			if(store.state.version == ""){
 				return "unknown??"
 			}
 
-			return this.$store.state.version;
+			return store.state.version;
 		},
 	},
 });

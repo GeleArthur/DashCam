@@ -29,16 +29,17 @@
 </style>
 
 <script lang="ts">
+//TODO: Bar and buttons should be seprate componets
+
 	import { defineComponent } from "vue";
-	import { mapState } from "vuex";
 	
 	export default defineComponent({
 		name: "Bar",
-		computed: mapState({
+		computed: {
 			bar() {
 				var width = '0%';
 				
-				if ( this.compare == '<=' && this.index <= this.value ) width = '100%';
+				if ( this.compare == '<=' && this.index! <= this.value! ) width = '100%';
 				else if ( this.compare == 'boolean' && this.value ) width = '100%';
 				else if ( this.index == this.value ) width = '100%';
 				
@@ -47,7 +48,7 @@
 			barWidth() {
 				return { width: this.width !== undefined ? this.width : '' };
 			}
-		}),
+		},
 		props: {
 			compare: {
 				required: false,

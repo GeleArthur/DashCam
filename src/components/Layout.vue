@@ -95,6 +95,7 @@
 <script lang="ts">
 import { teams } from "@/models/matchInfo";
 import teamInfo from "@/models/teamInfo";
+import store from "@/store/store";
 import { defineComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
 import KillFeed from "./KillFeed.vue";
@@ -137,11 +138,11 @@ export default defineComponent({
 
 	methods: {
 		async getTeamInfo(updateRed: boolean) {
-			const teamName: string = updateRed ? this.$store.getters.redTeamName : this.$store.getters.blueTeamName;
+			const teamName: string = updateRed ? store.getters.redTeamName : store.getters.blueTeamName;
 			let teamData = { name: teamName } as teamInfo
 
 			// dashleague
-			if (this.$store.state.settings.iconMode == 0) {
+			if (store.state.settings.iconMode == 0) {
 				try {
 					let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
 					let teamjson = await team.json();
@@ -180,7 +181,7 @@ export default defineComponent({
 					console.error("Failed to get logo falling back " + e);
 				}
 			}
-			else if (this.$store.state.settings.iconMode == 1) {
+			else if (store.state.settings.iconMode == 1) {
 				teamData.extrasFound = false;
 
 				try {
@@ -202,18 +203,17 @@ export default defineComponent({
 					console.log("Failed to get logo falling back " + e)
 				}
 			}
-			else if (this.$store.state.settings.iconMode == 2) {
+			else if (store.state.settings.iconMode == 2) {
 				teamData.extrasFound = false;
 				teamData.logoFound = true;
 			}
-			console.log(teamData)
 
-			this.$store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
+			store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
 		}
 	},
 	computed: mapState({
 		matchInfo() {
-			return this.$store.state.matchInfo;
+			return store.state.matchInfo;
 		},
 	}),
 

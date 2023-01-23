@@ -16,10 +16,10 @@
 	
 	export default defineComponent({
 		name: "PlayerDashes",
-		computed: mapState({
+		computed: {
 			dashesLeft() {
 				var dashWidth = 0;
-				
+
 				if ( this.index <= this.playerData.dash ) dashWidth = 100;
 				else {
 					var diff = 1 - (this.index - this.playerData.dash);
@@ -29,7 +29,7 @@
 				
 				return { width: dashWidth + '%' };
 			},
-		}),
+		},
 		props: {
 			index: {
 				type: Number,

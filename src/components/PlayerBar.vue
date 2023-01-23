@@ -74,6 +74,7 @@
 </style>
 
 <script lang="ts">
+	import store from "@/store/store";
 	import { defineComponent } from "vue";
 	import { mapState } from "vuex";
 	import playerInfo from "../models/playerInfo";
@@ -86,7 +87,7 @@
 		},
 		computed: mapState({
 			selectedPlayer() {
-				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = store.state.PlayerData[store.state.selectedIndex];
 				
 				if ( player == undefined ) {
 					// Not good error prevting should be something better
@@ -96,7 +97,7 @@
 				}
 			},
 			healthBar() {
-				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = store.state.PlayerData[store.state.selectedIndex];
 				
 				if(player == undefined) return {width: `100%`}
 
@@ -105,13 +106,13 @@
 				};
 			},
 			maxDashes() {
-				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = store.state.PlayerData[store.state.selectedIndex];
 				if(player == undefined) return 3;
 
 				return player.dashPickup ? 5 : 3;
 			},
 			score() {
-				var player = this.$store.state.PlayerData[this.$store.state.selectedIndex];
+				var player = store.state.PlayerData[store.state.selectedIndex];
 				if(player == undefined) return "0";
 
 				return player.score.toLocaleString('en-US');

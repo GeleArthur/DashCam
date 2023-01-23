@@ -23,6 +23,7 @@ import { matchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";
+import store from "./store/store";
 
 export default defineComponent({
 	name: "App",
@@ -42,17 +43,17 @@ export default defineComponent({
 	methods: {
 		updateData(data: string) {
 			var socketData = JSON.parse(data);
-			this.$store.commit(socketData.type, socketData);
+			store.commit(socketData.type, socketData);
 		},
 		showHelp() {
 			this.openHelp = !this.openHelp;
 		},
 		switchTeam() {
-			for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
-				if (this.$store.state.PlayerData[i].isActive) {
-					this.$store.commit("switchTeam", {
+			for (let i = 0; i < store.state.PlayerData.length; i++) {
+				if (store.state.PlayerData[i].isActive) {
+					store.commit("switchTeam", {
 						playerID: i,
-						team: !this.$store.state.PlayerData[i].team, // Invert
+						team: !store.state.PlayerData[i].team, // Invert
 					});
 				}
 			}
@@ -61,8 +62,8 @@ export default defineComponent({
 		AddFakeData() {
 			clearInterval(this.fakeDataInterval);
 
-			for (let i = this.$store.state.PlayerData.length - 1; i >= 0; i--) {
-				this.$store.commit("playerLeaves", {
+			for (let i = store.state.PlayerData.length - 1; i >= 0; i--) {
+				store.commit("playerLeaves", {
 					playerID: i,
 					type: "playerLeaves",
 				});
@@ -77,7 +78,7 @@ export default defineComponent({
 				var currentTeam = teamIndex == 0 ? redTeam : blueTeam;
 
 				for (let i = 0; i < 5; i++) {
-					this.$store.commit("playerJoins", {
+					store.commit("playerJoins", {
 						type: "playerJoins",
 						playerID: i + teamIndex * 5,
 						name: Math.random().toString(16).substr(2, 16),
@@ -89,7 +90,7 @@ export default defineComponent({
 				}
 			}
 
-			this.$store.commit("scoreboard", {
+			store.commit("scoreboard", {
 				type: "scoreboard",
 				deads: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
 				kills: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
@@ -109,7 +110,7 @@ export default defineComponent({
 				blueScore = getRandomInt(0, 301);
 			}
 
-			this.$store.commit("matchInfo", {
+			store.commit("matchInfo", {
 				timer: getRandomInt(60, 1500),
 				blueScore: blueScore,
 				redScore: redScore,
@@ -133,28 +134,28 @@ export default defineComponent({
 				matchtype: matchtype,
 			});
 
-			this.$store.commit("CurrentlySpectating", {
+			store.commit("CurrentlySpectating", {
 				playerID: getRandomInt(0, 9),
 				type: "CurrentlySpectating",
 			});
 
 			for (let i = 0; i < 2; i++) {
-				this.$store.commit("killFeed", {
+				store.commit("killFeed", {
 					victim: getRandomInt(0, 9),
 				});
 			}
 
 			for (let i = 0; i < 10; i++) {
-				if (this.$store.state.PlayerData[i] != null) {
+				if (store.state.PlayerData[i] != null) {
 					var dashPickup = getRandomArbitrary(0, 1) > 0.5;
-					this.$store.commit("dashUpdate", {
+					store.commit("dashUpdate", {
 						type: "dashUpdate",
 						playerID: i,
 						dashAmount: getRandomArbitrary(0, dashPickup ? 5 : 3),
 						dashPickUp: dashPickup,
 					});
 
-					this.$store.commit("healthUpdate", {
+					store.commit("healthUpdate", {
 						type: "healthUpdate",
 						playerID: i,
 						health: getRandomArbitrary(0, 101),
@@ -166,37 +167,37 @@ export default defineComponent({
 
 
 				// let feetArray = [];
-				// for (let i = 0; i < this.$store.state.PlayerData.length; i++) {
+				// for (let i = 0; i < store.state.PlayerData.length; i++) {
 				// 	feetArray.push(
-				// 		this.$store.state.PlayerData[i].feetPosition.X +
+				// 		store.state.PlayerData[i].feetPosition.X +
 				// 			getRandomArbitrary(-1, 1)
 				// 	);
 				// 	feetArray.push(
-				// 		this.$store.state.PlayerData[i].feetPosition.Y +
+				// 		store.state.PlayerData[i].feetPosition.Y +
 				// 			getRandomArbitrary(-1, 1)
 				// 	);
 				// 	feetArray.push(
-				// 		this.$store.state.PlayerData[i].feetPosition.Z +
+				// 		store.state.PlayerData[i].feetPosition.Z +
 				// 			getRandomArbitrary(-1, 1)
 				// 	);
 
-				// 	var dash = this.$store.state.PlayerData[i].dash * .7;
+				// 	var dash = store.state.PlayerData[i].dash * .7;
 
-				// 	// this.$store.commit("dashUpdate", {
+				// 	// store.commit("dashUpdate", {
 				// 	// 	type:"dashUpdate",
 				// 	// 	playerID:i,
-				// 	// 	dashAmount: dash <= 0.5 ? (this.$store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
+				// 	// 	dashAmount: dash <= 0.5 ? (store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
 				// 	// 	dashPickUp: dashPickup
 				// 	// })
 
-				// 	// this.$store.commit("healthUpdate", {
+				// 	// store.commit("healthUpdate", {
 				// 	// 	type:"healthUpdate",
 				// 	// 	playerID:i,
 				// 	// 	health: getRandomArbitrary(0, 101)
 				// 	// })
 				// }
 
-				// this.$store.commit("playerPos", {
+				// store.commit("playerPos", {
 				// 	type: "playerPos",
 				// 	feetDirection: [...Array(10).keys()].map(() => 0),
 				// 	feetPos: feetArray,
@@ -206,28 +207,28 @@ export default defineComponent({
 		...mapMutations(["changeConnection"]),
 	},
 	mounted() {
-		this.$store.commit("init");
+		store.commit("init");
 
 		const StartWebSocket = () => {
 
-			if (this.$store.state.websocket.CLOSED) {
-				this.$store.state.websocket.removeEventListener("error", failed);
-				this.$store.state.websocket.removeEventListener("close", failed);
-				this.$store.state.websocket.removeEventListener("open", onConnected);
-				this.$store.state.websocket.removeEventListener("message", onMessage);
+			if (store.state.websocket.CLOSED) {
+				store.state.websocket.removeEventListener("error", failed);
+				store.state.websocket.removeEventListener("close", failed);
+				store.state.websocket.removeEventListener("open", onConnected);
+				store.state.websocket.removeEventListener("message", onMessage);
 			}
 
-			this.$store.state.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
+			store.state.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
 
-			this.$store.state.websocket.addEventListener("error", failed);
-			this.$store.state.websocket.addEventListener("close", failed);
-			this.$store.state.websocket.addEventListener("open", onConnected);
-			this.$store.state.websocket.addEventListener("message", onMessage);
+			store.state.websocket.addEventListener("error", failed);
+			store.state.websocket.addEventListener("close", failed);
+			store.state.websocket.addEventListener("open", onConnected);
+			store.state.websocket.addEventListener("message", onMessage);
 		};
 
 		document.body.onfocus = () => {
-			if (this.$store.state.websocket == null || this.$store.state.websocket.readyState != 1)
+			if (store.state.websocket == null || store.state.websocket.readyState != 1)
 				StartWebSocket();
 		};
 

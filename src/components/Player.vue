@@ -63,6 +63,7 @@
 </style>
 
 <script lang="ts">
+	import store from "@/store/store";
 	import { defineComponent } from "vue";
 	import { mapState } from "vuex";
 	import PlayerDashes from "./PlayerDashes.vue";
@@ -72,24 +73,24 @@
 		components: {
 			PlayerDashes,
 		},
-		computed: mapState({
+		computed: {
 			healthBar() {
 				return {
-					width: this.$store.state.PlayerData[this.playerID].health + '%'
+					width: store.state.PlayerData[this.playerID].health + '%'
 				};
 			},
 			playerData() {
-				return this.$store.state.PlayerData[this.playerID];
+				return store.state.PlayerData[this.playerID];
 			},
 			playerScore() {
-				var score = this.$store.state.PlayerData[this.playerID].score;
+				var score = store.state.PlayerData[this.playerID].score;
 				
 				return score.toLocaleString('en-US');
 			},
 			maxDashes() {
-				return this.$store.state.PlayerData[this.playerID].dashPickup ? 5 : 3;
+				return store.state.PlayerData[this.playerID].dashPickup ? 5 : 3;
 			}
-		}),
+		},
 		props: {
 			playerID: {
 				type: Number,

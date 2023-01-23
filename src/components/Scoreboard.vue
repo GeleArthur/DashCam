@@ -85,8 +85,8 @@
 </style>
 
 <script lang="ts">
+import store from "@/store/store";
 import { defineComponent } from "vue";
-import { mapState } from "vuex";
 import { matchType, teams } from "../models/matchInfo";
 import Bar from "./Bar.vue";
 
@@ -97,15 +97,15 @@ export default defineComponent({
 	},
 	computed: {
 		blueTeamScore() {
-			if (this.$store.state.matchInfo.matchtype == matchType.Payload) {
-				if (this.$store.state.matchInfo.payload.precisePayloadDistance) {
-					let number = this.$store.state.matchInfo.payload.precisePayloadDistance;
+			if (store.state.matchInfo.matchtype == matchType.Payload) {
+				if (store.state.matchInfo.payload.precisePayloadDistance) {
+					let number = store.state.matchInfo.payload.precisePayloadDistance;
 					number *= 100;
 					return number.toFixed(2);
 				}
 			}
 
-			return this.$store.state.matchInfo.blueScore ? this.$store.state.matchInfo.blueScore : 0;
+			return store.state.matchInfo.blueScore ? store.state.matchInfo.blueScore : 0;
 		},
 
 		teams() {
@@ -115,18 +115,18 @@ export default defineComponent({
 			return matchType;
 		},
 		redTeamScore() {
-			return this.$store.state.matchInfo.redScore ? this.$store.state.matchInfo.redScore : 0;
+			return store.state.matchInfo.redScore ? store.state.matchInfo.redScore : 0;
 		},
 
 		matchTypeClass() {
-			var mode = matchType[this.$store.state.matchInfo.matchtype] !== undefined ? matchType[this.$store.state.matchInfo.matchtype].toLowerCase() : false;
+			var mode = matchType[store.state.matchInfo.matchtype] !== undefined ? matchType[store.state.matchInfo.matchtype].toLowerCase() : false;
 
 			return mode ? 'mode--' + mode : '';
 		},
 
 		timer() {
-			if (this.$store.state.matchInfo.timer == undefined) return "00:00"
-			var timer = this.$store.state.matchInfo.timer,
+			if (store.state.matchInfo.timer == undefined) return "00:00"
+			var timer = store.state.matchInfo.timer,
 				date = new Date(0),
 				mill = timer % 1,
 				mins = (timer - mill) / 60,
@@ -143,7 +143,7 @@ export default defineComponent({
 			return timeString;
 		},
 		matchInfo() {
-			return this.$store.state.matchInfo;
+			return store.state.matchInfo;
 		}
 	}
 });

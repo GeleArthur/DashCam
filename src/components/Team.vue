@@ -74,6 +74,7 @@
 <script lang="ts">
 import { teams } from "@/models/matchInfo";
 import teamInfo from "@/models/teamInfo";
+import store from "@/store/store";
 import { defineComponent } from "vue";
 import { mapState } from "vuex";
 import playerInfo from "../models/playerInfo";
@@ -84,9 +85,9 @@ export default defineComponent({
 	components: {
 		Player,
 	},
-	computed: mapState({
+	computed: {
 		players(): playerInfo[] {
-			let data = this.$store.state.PlayerData;
+			let data = store.state.PlayerData;
 			return data
 				.filter((e: playerInfo) => e.isActive == true && e.team == this.team)
 				.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
@@ -99,7 +100,7 @@ export default defineComponent({
 			}
 		},
 		teamHasLogo(): boolean {
-			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
+			let teamInfo: teamInfo | undefined = store.getters.getTeam(this.team);
 			if (teamInfo == undefined) {
 				return false;
 			}
@@ -108,11 +109,11 @@ export default defineComponent({
 			}
 		},
 		teamLogo(): string {
-			if (this.$store.state.settings.iconMode == 2) {
-				return this.team == teams.blue ? this.$store.state.settings.customBlueIcon : this.$store.state.settings.customRedIcon;
+			if (store.state.settings.iconMode == 2) {
+				return this.team == teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
 			}
 
-			let teamInfo: teamInfo | undefined = this.$store.getters.getTeam(this.team);
+			let teamInfo: teamInfo | undefined = store.getters.getTeam(this.team);
 
 			if (teamInfo == undefined) {
 				return "";
@@ -122,7 +123,7 @@ export default defineComponent({
 				teamInfo.logo :
 				""
 		}
-	}),
+	},
 	props: {
 		team: {
 			type: Number as () => teams, // https://github.com/kaorun343/vue-property-decorator/issues/202
