@@ -21,8 +21,6 @@ export default createStore<State>({
 		PlayerData: [] as playerInfo[],
 		matchInfo: {} as matchInfo,
 		version: "",
-		matchReplayData: {} as matchReplay,
-		matchReplayRaw: [],
 
 		settings: {} as settings,
 		teamData: { red: {} as teamInfo, blue: {} as teamInfo },

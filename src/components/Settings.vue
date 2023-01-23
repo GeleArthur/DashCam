@@ -29,8 +29,6 @@
                         <img :src="blueIconURLSetting" alt="unable to load image">
                     </div>
                 </div>
-                <button @click="SaveMatch">Save replay</button>
-
             </div>
         </div>
     </div>
@@ -53,19 +51,6 @@ export default defineComponent({
                 this.showSettings = !this.showSettings;
             }
         })
-    },
-    methods: {
-        async SaveMatch() {
-
-            let objectData = {
-                type:"saveJson",
-                dataToSave: JSON.stringify(store.state.matchReplayRaw),
-                team1: store.state.teamData.blue.name,
-                team2: store.state.teamData.red.name
-            }
-
-            store.state.websocket.send(JSON.stringify(objectData));
-		},
     },
     computed: {
         iconURLSetting: {

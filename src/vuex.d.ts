@@ -17,8 +17,6 @@ declare module "@vue/runtime-core" {
 		matchInfo: matchInfo;
 		version: string;
 
-		matchReplayData: matchReplay;
-		matchReplayRaw: any[];
 		settings: settings;
 		teamData:{red:teamInfo, blue:teamInfo}
 	}
