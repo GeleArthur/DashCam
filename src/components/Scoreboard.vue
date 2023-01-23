@@ -142,12 +142,9 @@ export default defineComponent({
 
 			return timeString;
 		},
-
-		...mapState({
-			matchInfo(){
-				return this.$store.state.matchInfo;
-			}
-		}),
+		matchInfo() {
+			return this.$store.state.matchInfo;
+		}
 	}
 });
 </script>
