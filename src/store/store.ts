@@ -8,7 +8,6 @@ import playerPos from "../models/HyperBashModels/playerPos";
 import LoadoutUpdate from "../models/HyperBashModels/LoadoutUpdate";
 import killFeedData from "../models/HyperBashModels/killFeedData";
 import { State } from "vue";
-import matchReplay from "@/models/matchReplay/matchReplay";
 import settings from "@/models/settings";
 import teamInfo from "@/models/teamInfo";
 import annoucerMessage from "@/models/HyperBashModels/announcerMessage";
@@ -110,7 +109,9 @@ export default createStore<State>({
 
 		status(state, socketData: any) {},
 
-		sceneChange(state, socketData: any) {},
+		sceneChange(state, socketData: any) {
+			
+		},
 
 		dashUpdate(state, socketData: any) {
 			if (state.PlayerData[socketData.playerID].isActive == true) {
@@ -198,25 +199,30 @@ export default createStore<State>({
 				};
 			}
 
-			state.matchInfo.payload = {
-				amountBlueOnCart: 0,
-				cartBlockedByRed: false,
-				checkPoint: false,
-				secondRound: false,
-				precisePayloadDistance: 0,
-			};
-
-			state.matchInfo.domination = {
-				countDownTimer: 0,
-				teamCountDown: teams.none,
-				pointA: teams.none,
-				pointB: teams.none,
-				pointC: teams.none,
-			};
-
-			state.matchInfo.controlPoint = {
-				TeamScoringPoints: teams.none,
-			};
+			state.matchInfo = {
+				payload:{
+					amountBlueOnCart: 0,
+					cartBlockedByRed: false,
+					checkPoint: false,
+					secondRound: false,
+					precisePayloadDistance: 0,
+				},
+				domination: {
+					countDownTimer: 0,
+					teamCountDown: teams.none,
+					pointA: teams.none,
+					pointB: teams.none,
+					pointC: teams.none,
+				},
+				controlPoint: {
+					TeamScoringPoints: teams.none
+				},
+				blueScore: 0,
+				redScore: 0,
+				mapname: "",
+				matchtype: matchType.None,
+				timer: 0
+			}
 
 			state.settings.iconMode = 0;
 		},

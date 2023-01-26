@@ -208,7 +208,6 @@ export default defineComponent({
 	},
 	mounted() {
 		store.commit("init");
-
 		const StartWebSocket = () => {
 
 			if (store.state.websocket.CLOSED) {
@@ -220,6 +219,7 @@ export default defineComponent({
 
 			store.state.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
 			this.changeConnection("Connecting");
+			store.commit("init");
 
 			store.state.websocket.addEventListener("error", failed);
 			store.state.websocket.addEventListener("close", failed);
@@ -234,10 +234,12 @@ export default defineComponent({
 
 		const failed = () => {
 			this.changeConnection("Failed. Enable websocket and restart HyperDash");
+			store.commit("init");
 		};
 
 		const onConnected = () => {
 			this.changeConnection("");
+			store.commit("init");
 		};
 
 		const onMessage = (ev: MessageEvent<string>) => {
@@ -259,7 +261,7 @@ export default defineComponent({
 	bottom: 0;
 	color: #fff;
 	display: grid;
-	grid-template-columns: auto repeat(3, 100px) 150px;
+	grid-template-columns: auto repeat(3, 100px);
 	left: 0;
 	padding: 1em;
 	position: fixed;
