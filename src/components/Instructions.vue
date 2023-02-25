@@ -2,7 +2,7 @@
   <div class="modal">
     <div class="modal_wrapper">
       <div class="modal_content">
-        <h1>DashCam</h1>
+        <h1>DashCam {{lastestHyperBashVersion}} </h1>
         <p>Welcome, this is a HyperDash overylay of HyperDash made by <b>GeleArthur</b> &amp; <b>Styledev</b></p>
         <h2>How to use</h2>
         <ol>
@@ -22,8 +22,15 @@
 </template>
 
 <script lang="ts">
+import { lastestHyperBashVersion } from "@/Util/ConstVars";
 import { defineComponent } from "vue";
-export default defineComponent({});
+export default defineComponent({
+  computed: {
+    lastestHyperBashVersion() {
+      return lastestHyperBashVersion
+    }
+  }
+});
 </script>
 
 <style scoped lang="css">
