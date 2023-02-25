@@ -94,17 +94,18 @@ export default createStore<State>({
 			}
 		},
 		playerPos(state, socketData: playerPos) {
-			for (let i = 0; i < socketData.feetPos.length / 3; i++) {
+			for (let i = 0; i < socketData.headPos.length / 3; i++) {
 				if (state.PlayerData[i].isActive == true) {
 					state.PlayerData[i].feetPosition = {
-						X: socketData.feetPos[i * 3 + 0],
-						Y: socketData.feetPos[i * 3 + 1],
-						Z: socketData.feetPos[i * 3 + 2],
+						X: socketData.rootTransform[i * 3 + 0],
+						Y: socketData.rootTransform[i * 3 + 1],
+						Z: socketData.rootTransform[i * 3 + 2],
 					};
 
-					state.PlayerData[i].feetRotation = socketData.feetDirection[i];
+					state.PlayerData[i].feetRotation = socketData.headRot[i+1];
 				}
 			}
+			
 		},
 
 		status(state, socketData: any) {},
@@ -167,7 +168,7 @@ export default createStore<State>({
 
 		// Will not be called by hyperBash
 		init(state, payload) {
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 11; i++) {
 				state.PlayerData[i] = {
 					isActive: false,
 					playerID: 0,

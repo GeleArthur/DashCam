@@ -1,8 +1,7 @@
 export default interface playerPos {
 	type: string;
 
-	feetPos: number[];
-	feetDirection: number[];
+	rootTransform: number[];
 
 	headPos: number[];
 	headRot: number[];

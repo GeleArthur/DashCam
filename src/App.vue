@@ -92,9 +92,9 @@ export default defineComponent({
 
 			store.commit("scoreboard", {
 				type: "scoreboard",
-				deads: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
-				kills: [...Array(10).keys()].map(() => getRandomInt(0, 40)),
-				scores: [...Array(10).keys()].map(() => getRandomInt(0, 100000)),
+				deads: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
+				kills: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
+				scores: [...Array(11).keys()].map(() => getRandomInt(0, 100000)),
 			});
 
 			// TODO needs to be like how the game will call it
@@ -145,7 +145,7 @@ export default defineComponent({
 				});
 			}
 
-			for (let i = 0; i < 10; i++) {
+			for (let i = 0; i < 11; i++) {
 				if (store.state.PlayerData[i] != null) {
 					var dashPickup = getRandomArbitrary(0, 1) > 0.5;
 					store.commit("dashUpdate", {
