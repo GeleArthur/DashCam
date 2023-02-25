@@ -2,14 +2,14 @@
   <div class="modal">
     <div class="modal_wrapper">
       <div class="modal_content">
-        <h1>DashCam {{lastestHyperBashVersion}} </h1>
-        <p>Welcome, this is a HyperDash overylay of HyperDash made by <b>GeleArthur</b> &amp; <b>Styledev</b></p>
+        <h1>DashCam {{latestHyperBashVersion}} </h1>
+        <p>Welcome, this is a HyperDash overlay made by <b>GeleArthur</b> &amp; <b>Styledev</b></p>
         <h2>How to use</h2>
         <ol>
-          <li>First install hyperbash you can get it from the <a href="https://discord.gg/GzUzBU5czj"
+          <li>First install HyperBash; you may download it from the <a href="https://discord.gg/GzUzBU5czj"
               target="_blank">HyperBash</a> Discord server.</li>
           <li>
-            Enable websocket in hyperbash
+            Enable websocket in HyperBash
             <br /><br />
             <img src="../assets/EnableWebSockets.png">
             <br />
@@ -22,12 +22,12 @@
 </template>
 
 <script lang="ts">
-import { lastestHyperBashVersion } from "@/Util/ConstVars";
+import { latestHyperBashVersion } from "@/Util/ConstVars";
 import { defineComponent } from "vue";
 export default defineComponent({
   computed: {
-    lastestHyperBashVersion() {
-      return lastestHyperBashVersion
+    latestHyperBashVersion() {
+      return latestHyperBashVersion
     }
   }
 });

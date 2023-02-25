@@ -34,7 +34,7 @@ export default createStore<State>({
 				clan: socketData.clanTag,
 				team: socketData.team,
 				leftWeapon: {
-					imageSource: "./assets/gun-pistol.png", // This doesnt work should be removed
+					imageSource: "./assets/gun-pistol.png", // This doesn't work should be removed
 					weaponName: "DefaultPistol",
 				},
 				rightWeapon: {

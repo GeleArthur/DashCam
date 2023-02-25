@@ -98,14 +98,14 @@ export default defineComponent({
 			});
 
 			// TODO needs to be like how the game will call it
-			var matchtype = [1, 2, 5][Math.floor(Math.random() * 3)],
+			var matchTypeValue = [1, 2, 5][Math.floor(Math.random() * 3)],
 				redScore = getRandomInt(0, 3),
 				blueScore = getRandomInt(0, 3);
 
-			if (matchtype == matchType.Payload) {
+			if (matchTypeValue == matchType.Payload) {
 				redScore = getRandomInt(0, 101);
 				blueScore = getRandomInt(0, 101);
-			} else if (matchtype == matchType.ControlPoint) {
+			} else if (matchTypeValue == matchType.ControlPoint) {
 				redScore = getRandomInt(0, 301);
 				blueScore = getRandomInt(0, 301);
 			}
@@ -131,7 +131,7 @@ export default defineComponent({
 					secondRound: getRandomInt(0, 1),
 					precisePayloadDistance: getRandomArbitrary(0, 1),
 				},
-				matchtype: matchtype,
+				matchtype: matchTypeValue,
 			});
 
 			store.commit("CurrentlySpectating", {

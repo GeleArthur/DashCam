@@ -5,13 +5,13 @@
 				<div class="modal_content">
 					<h1>Update HyperBash</h1>
 					<p>
-						You are currenlty running {{ currentHBVersion }}. please update to
-						{{ lastestHBVersion }}
+						You are currently running {{ currentHBVersion }}. please update to
+						{{ latestHBVersion }}
 					</p>
 					<p class="highlight">
-						{{ currentHBVersion }} -> {{ lastestHBVersion }}
+						{{ currentHBVersion }} -> {{ latestHBVersion }}
 					</p>
-					<p>This message will disapear in {{ timeleft }}</p>
+					<p>This message will disappear in {{ timeLeft }}</p>
 				</div>
 			</div>
 		</div>
@@ -21,13 +21,13 @@
 <script lang="ts">
 import store from "@/store/store";
 import { defineComponent } from "vue";
-import { lastestHyperBashVersion } from "../Util/ConstVars";
+import { latestHyperBashVersion } from "../Util/ConstVars";
 
 export default defineComponent({
 	data() {
 		return {
 			display: false,
-			timeleft: 0,
+			timeLeft: 0,
 		};
 	},
 	watch: {
@@ -44,19 +44,19 @@ export default defineComponent({
 	methods: {
 		checkVersion() {
 			var currentVersion = store.state.version.replaceAll("\.","");
-			var highestVersion = lastestHyperBashVersion.replaceAll("\.","");
+			var highestVersion = latestHyperBashVersion.replaceAll("\.","");
 
 			if (highestVersion > currentVersion) {
 				this.display = true;
-				this.timeleft = 20;
+				this.timeLeft = 20;
 				this.startCountDown();
 			}
 		},
 
 		startCountDown() {
 			var interval = setInterval(() => {
-				this.timeleft -= 1;
-				if (this.timeleft <= 0) {
+				this.timeLeft -= 1;
+				if (this.timeLeft <= 0) {
 					this.display = false;
 					clearInterval(interval);
 				}
@@ -64,8 +64,8 @@ export default defineComponent({
 		},
 	},
 	computed: {
-		lastestHBVersion() {
-			return lastestHyperBashVersion;
+		latestHBVersion() {
+			return latestHyperBashVersion;
 		},
 		currentHBVersion() {
 			if(store.state.version == ""){
