@@ -1,4 +1,4 @@
-import { teams } from "./matchInfo";
+import { Teams } from "./matchInfo";
 
 export interface playerInfo {
 	isActive: boolean;
@@ -6,7 +6,7 @@ export interface playerInfo {
 	playerID: number;
 	name: string;
 	clan: string;
-	team: teams;
+	team: Teams;
 	leftWeapon: {
 		imageSource: string;
 		weaponName: string;

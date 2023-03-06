@@ -1,6 +1,6 @@
 import { Store } from "vuex";
 import { playerInfo } from "./models/playerInfo";
-import { matchInfo } from "./models/matchInfo";
+import { MatchInfo } from "./models/matchInfo";
 import payloadTrackingData from "./models/HyperBashModels/payloadTrackingData";
 import matchReplay from "./models/matchReplay/matchReplay";
 import settings from "./models/settings";
@@ -14,7 +14,7 @@ declare module "@vue/runtime-core" {
 		PlayerData: (playerInfo)[];
 		connection: string;
 		selectedIndex: number;
-		matchInfo: matchInfo;
+		matchInfo: MatchInfo;
 		version: string;
 
 		settings: settings;

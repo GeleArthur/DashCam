@@ -19,7 +19,7 @@ import { mapMutations } from "vuex";
 import Layout from "./components/Layout.vue";
 import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
-import { matchType } from "./models/matchInfo";
+import { MatchType } from "./models/matchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";

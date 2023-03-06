@@ -1,4 +1,4 @@
-export default interface playerJoins {
+export default interface PlayerJoins {
 	type: string;
 	name: string;
 	clanTag: string;

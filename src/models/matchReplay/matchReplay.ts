@@ -1,10 +1,10 @@
-import { matchType, sceneIds, teams } from "../matchInfo";
+import { MatchType, SceneIds, Teams } from "../matchInfo";
 
 export default interface matchReplay {
 	version: string;
 	matchID: string;
-	matchType: matchType;
-	mapName: sceneIds;
+	matchType: MatchType;
+	mapName: SceneIds;
 
 	players: PlayerReplay;
 
@@ -33,7 +33,7 @@ interface matchTimerReplay extends timeStamp {
 }
 
 interface controllPointReplay extends timeStamp {
-	ScoringTeam: teams;
+	ScoringTeam: Teams;
 }
 
 interface matchScoreReplay extends timeStamp {

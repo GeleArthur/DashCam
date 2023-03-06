@@ -1,4 +1,4 @@
-export default interface playerPos {
+export default interface playerPositionData {
 	type: string;
 
 	rootTransform: number[];

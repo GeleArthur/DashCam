@@ -1,4 +1,4 @@
-export enum matchType {
+export enum MatchType {
 	None,
 	ControlPoint,
 	Payload,
@@ -14,7 +14,7 @@ export enum matchType {
 	TeamDeathmatch,
 }
 
-export enum sceneIds {
+export enum SceneIds {
 	Boot = 0,
 	Startup_Client = 1,
 	Startup_Spectator = 2,
@@ -41,13 +41,13 @@ export enum sceneIds {
 	BallMatch_Arena = 23,
 }
 
-export enum teams {
+export enum Teams {
 	none = -1,
 	red = 0,
 	blue = 1,
 }
 
-export interface payloadInfo {
+export interface PayloadInfo {
 	secondRound: boolean;
 	checkPoint: boolean;
 	cartBlockedByRed: boolean;
@@ -55,29 +55,29 @@ export interface payloadInfo {
 	precisePayloadDistance: number;
 }
 
-export interface dominationInfo {
-	pointA: teams;
-	pointB: teams;
-	pointC: teams;
-	teamCountDown: teams;
+export interface DominationInfo {
+	pointA: Teams;
+	pointB: Teams;
+	pointC: Teams;
+	teamCountDown: Teams;
 	countDownTimer: Number;
 }
 
-export interface controlPointInfo {
-	TeamScoringPoints: teams;
+export interface ControlPointInfo {
+	TeamScoringPoints: Teams;
 }
 
-export interface matchInfo {
-	matchtype: matchType;
-	mapname: string;
+export interface MatchInfo {
+	matchType: MatchType;
+	mapName: string;
 	timer: number;
 
 	blueScore: number;
 	redScore: number;
 
-	payload: payloadInfo;
-	domination: dominationInfo;
-	controlPoint: controlPointInfo;
+	payload: PayloadInfo;
+	domination: DominationInfo;
+	controlPoint: ControlPointInfo;
 }
 
-export default matchInfo;
+export default MatchInfo;

@@ -1,4 +1,4 @@
-const enum annoucerMessage {
+const enum announcerMessage {
 	match_1m_remaining,
 	match_countdown_1,
 	match_countdown_2,
@@ -113,4 +113,4 @@ const enum annoucerMessage {
 	el_ace,
 }
 
-export default annoucerMessage;
+export default announcerMessage;
