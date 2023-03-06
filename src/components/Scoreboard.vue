@@ -3,28 +3,28 @@
 		<div class="scoreboard_wrapper">
 			<div class="scoreboard_name scoreboard_name--blue">{{ $store.getters.blueTeamName }}</div>
 			<div class="scoreboard_score scoreboard_score--blue">
-				{{ blueTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
+				{{ blueTeamScore }}<span v-if="matchInfo.matchType === MatchType.Payload">%</span>
 			</div>
-			<div class="scoreboard_mode scoreboard_mode--blue" v-if="matchInfo.matchtype">
+			<div class="scoreboard_mode scoreboard_mode--blue" v-if="matchInfo.matchType">
 				<div class="mode mode--blue" :class="matchTypeClass">
-					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
-						<bar :index="teams.blue" :compare="'='" :value="matchInfo.controlPoint.TeamScoringPoints"
+					<div class="bars" v-if="matchInfo.matchType === MatchType.ControlPoint">
+						<bar :index="Teams.blue" :compare="'='" :value="matchInfo.controlPoint.TeamScoringPoints"
 							:width="'100%'" />
 					</div>
-					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
-						<bar :text="'A'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointA" />
-						<bar :text="'B'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointB" />
-						<bar :text="'C'" :index="teams.blue" :compare="'='" :value="matchInfo.domination.pointC" />
+					<div class="bars" v-else-if="matchInfo.matchType === MatchType.Domination">
+						<bar :text="'A'" :index="Teams.blue" :compare="'='" :value="matchInfo.domination.pointA" />
+						<bar :text="'B'" :index="Teams.blue" :compare="'='" :value="matchInfo.domination.pointB" />
+						<bar :text="'C'" :index="Teams.blue" :compare="'='" :value="matchInfo.domination.pointC" />
 					</div>
-					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
+					<div class="bars" v-else-if="matchInfo.matchType === MatchType.Payload">
 						<bar v-for="index in 3" :index="index" :compare="'<='"
 							:value="matchInfo.payload.amountBlueOnCart" v-bind:key="index" />
 					</div>
 				</div>
 			</div>
-			<div class="scoreboard_time" v-if="matchInfo.matchtype">
+			<div class="scoreboard_time" v-if="matchInfo.matchType">
 				<div
-					v-if="matchInfo.matchtype === matchType.Domination && matchInfo.domination.teamCountDown != teams.none">
+					v-if="matchInfo.matchType === MatchType.Domination && matchInfo.domination.teamCountDown != Teams.none">
 					{{ matchInfo.domination.countDownTimer.toPrecision(3) }}
 				</div>
 
@@ -34,20 +34,20 @@
 			</div>
 			<div class="scoreboard_name scoreboard_name--red">{{ $store.getters.redTeamName }}</div>
 			<div class="scoreboard_score scoreboard_score--red">
-				{{ redTeamScore }}<span v-if="matchInfo.matchtype === matchType.Payload">%</span>
+				{{ redTeamScore }}<span v-if="matchInfo.matchType === MatchType.Payload">%</span>
 			</div>
 			<div class="scoreboard_mode scoreboard_mode--red">
 				<div class="mode mode--red" :class="matchTypeClass">
-					<div class="bars" v-if="matchInfo.matchtype === matchType.ControlPoint">
-						<bar :value="matchInfo.controlPoint.TeamScoringPoints" :compare="'='" :index="teams.red"
+					<div class="bars" v-if="matchInfo.matchType === MatchType.ControlPoint">
+						<bar :value="matchInfo.controlPoint.TeamScoringPoints" :compare="'='" :index="Teams.red"
 							:width="'100%'" />
 					</div>
-					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Domination">
-						<bar :text="'A'" :value="matchInfo.domination.pointA" :compare="'='" :index="teams.red" />
-						<bar :text="'B'" :value="matchInfo.domination.pointB" :compare="'='" :index="teams.red" />
-						<bar :text="'C'" :value="matchInfo.domination.pointC" :compare="'='" :index="teams.red" />
+					<div class="bars" v-else-if="matchInfo.matchType === MatchType.Domination">
+						<bar :text="'A'" :value="matchInfo.domination.pointA" :compare="'='" :index="Teams.red" />
+						<bar :text="'B'" :value="matchInfo.domination.pointB" :compare="'='" :index="Teams.red" />
+						<bar :text="'C'" :value="matchInfo.domination.pointC" :compare="'='" :index="Teams.red" />
 					</div>
-					<div class="bars" v-else-if="matchInfo.matchtype === matchType.Payload">
+					<div class="bars" v-else-if="matchInfo.matchType === MatchType.Payload">
 						<bar :value="matchInfo.payload.cartBlockedByRed" :compare="'boolean'" :width="'100%'" />
 					</div>
 				</div>
@@ -87,7 +87,7 @@
 <script lang="ts">
 import store from "@/store/store";
 import { defineComponent } from "vue";
-import { matchType, teams } from "../models/matchInfo";
+import { MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import Bar from "./Bar.vue";
 
 export default defineComponent({
@@ -97,7 +97,7 @@ export default defineComponent({
 	},
 	computed: {
 		blueTeamScore() {
-			if (store.state.matchInfo.matchtype == matchType.Payload) {
+			if (store.state.matchInfo.matchType == MatchType.Payload) {
 				if (store.state.matchInfo.payload.precisePayloadDistance) {
 					let number = store.state.matchInfo.payload.precisePayloadDistance;
 					number *= 100;
@@ -108,18 +108,18 @@ export default defineComponent({
 			return store.state.matchInfo.blueScore ? store.state.matchInfo.blueScore : 0;
 		},
 
-		teams() {
-			return teams;
+		Teams() {
+			return Teams;
 		},
-		matchType() {
-			return matchType;
+		MatchType() {
+			return MatchType;
 		},
 		redTeamScore() {
 			return store.state.matchInfo.redScore ? store.state.matchInfo.redScore : 0;
 		},
 
 		matchTypeClass() {
-			var mode = matchType[store.state.matchInfo.matchtype] !== undefined ? matchType[store.state.matchInfo.matchtype].toLowerCase() : false;
+			var mode = MatchType[store.state.matchInfo.matchType] !== undefined ? MatchType[store.state.matchInfo.matchType].toLowerCase() : false;
 
 			return mode ? 'mode--' + mode : '';
 		},

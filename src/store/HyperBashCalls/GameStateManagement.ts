@@ -1,7 +1,7 @@
-import killFeedData from "@/models/HyperBashModels/killFeedData";
+import { KillFeedMessage } from "@/interfaces/HyperBashMessages.interface";
 import { State } from "vue";
 
-export function killFeed(state: State, socketData: killFeedData) {
+export function killFeed(state: State, socketData: KillFeedMessage) {
 	state.PlayerData[socketData.victim].isDead = true;
 }
 

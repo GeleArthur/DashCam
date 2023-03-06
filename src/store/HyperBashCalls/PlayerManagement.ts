@@ -1,10 +1,8 @@
-import LoadoutUpdateData from "@/models/HyperBashModels/LoadoutUpdate";
-import playerJoinsData from "@/models/HyperBashModels/playerJoins";
-import playerPositionData from "@/models/HyperBashModels/playerPos";
+import { LoadoutUpdateMessage, PlayerJoinsMessage, playerPositionMessage } from "@/interfaces/HyperBashMessages.interface";
 import { getImage } from "@/Util/UtilFunctions";
 import { State } from "vue";
 
-export function playerJoins(state: State, socketData: playerJoinsData) {
+export function playerJoins(state: State, socketData: PlayerJoinsMessage) {
 	state.PlayerData[socketData.playerID] = {
 		isActive: true,
 
@@ -42,7 +40,7 @@ export function switchTeam(state: State, socketData: any) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
 }
 
-export function playerPos(state: State, socketData: playerPositionData) {
+export function playerPos(state: State, socketData: playerPositionMessage) {
 	for (let i = 0; i < socketData.headPos.length / 3; i++) {
 		if (state.PlayerData[i].isActive == true) {
 			state.PlayerData[i].feetPosition = {
@@ -64,7 +62,7 @@ export function healthUpdate(state: State, socketData: any) {
 }
 
 
-export function loadoutUpdate(state: State, socketData: LoadoutUpdateData) {
+export function loadoutUpdate(state: State, socketData: LoadoutUpdateMessage) {
 	state.PlayerData[socketData.playerID].leftWeapon = {
 		imageSource: getImage(socketData.leftHand),
 		weaponName: socketData.leftHand,

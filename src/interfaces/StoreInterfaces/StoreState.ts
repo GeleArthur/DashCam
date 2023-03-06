@@ -1,6 +1,6 @@
-import { Teams } from "./matchInfo";
+import { Teams } from "./MatchInfo";
 
-export interface playerInfo {
+export interface PlayerStateInfo {
 	isActive: boolean;
 
 	playerID: number;
@@ -33,4 +33,21 @@ export interface playerInfo {
 	feetRotation: number;
 }
 
-export default playerInfo;
+export interface DashCamSettings {
+    iconMode: number;
+    customBlueIcon: string;
+    customRedIcon: string;
+}
+
+export interface TeamInfo {
+    name: string;
+    
+    logoFound:boolean;
+    logo: string;
+
+    extrasFound:boolean;
+    matches: number;
+    wins: number;
+    losses: number;
+    players: string[];
+}

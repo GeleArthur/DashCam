@@ -1,25 +1,23 @@
-import { playerInfo } from "../models/playerInfo";
+import { PlayerStateInfo, DashCamSettings, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { createStore } from "vuex";
 
-import MatchInfo, { MatchType, Teams } from "../models/matchInfo";
+import { MatchInfo, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { State } from "vue";
-import settings from "@/models/settings";
-import teamInfo from "@/models/teamInfo";
-import announcerMessage from "@/models/HyperBashModels/announcerMessage";
 import * as PlayerManagement from "@/store/HyperBashCalls/PlayerManagement";
 import * as GameStateManagement from "./HyperBashCalls/GameStateManagement";
+import { AnnouncerMessage } from "@/interfaces/HyperBashMessages.interface";
 
 export default createStore<State>({
 	state: {
 		websocket: {} as WebSocket,
 		connection: "Failed",
 		selectedIndex: -1,
-		PlayerData: [] as playerInfo[],
+		PlayerData: [] as PlayerStateInfo[],
 		matchInfo: {} as MatchInfo,
 		version: "",
 
-		settings: {} as settings,
-		teamData: { red: {} as teamInfo, blue: {} as teamInfo },
+		settings: {} as DashCamSettings,
+		teamData: { red: {} as TeamInfo, blue: {} as TeamInfo },
 	},
 	mutations: {
 		...PlayerManagement,
@@ -48,7 +46,7 @@ export default createStore<State>({
 
 		announcer(
 			state,
-			socketData: { type: string; message: announcerMessage }
+			socketData: { type: string; message: AnnouncerMessage }
 		) {},
 
 		payload(state, socketData: any) {
@@ -188,7 +186,7 @@ export default createStore<State>({
 			}
 		},
 
-		setTeamData(state, payload: { isRedTeam: boolean; teamData: teamInfo }) {
+		setTeamData(state, payload: { isRedTeam: boolean; teamData: TeamInfo }) {
 			if (payload.isRedTeam) {
 				state.teamData.red = payload.teamData;
 			} else {

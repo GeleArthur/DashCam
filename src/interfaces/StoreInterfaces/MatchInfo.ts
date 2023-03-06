@@ -79,5 +79,3 @@ export interface MatchInfo {
 	domination: DominationInfo;
 	controlPoint: ControlPointInfo;
 }
-
-export default MatchInfo;

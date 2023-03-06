@@ -72,12 +72,10 @@
 </style>
 
 <script lang="ts">
-import { teams } from "@/models/matchInfo";
-import teamInfo from "@/models/teamInfo";
+import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
 import { defineComponent } from "vue";
-import { mapState } from "vuex";
-import playerInfo from "../models/playerInfo";
 import Player from "./Player.vue";
 
 export default defineComponent({
@@ -86,21 +84,21 @@ export default defineComponent({
 		Player,
 	},
 	computed: {
-		players(): playerInfo[] {
+		players(): PlayerStateInfo[] {
 			let data = store.state.PlayerData;
 			return data
-				.filter((e: playerInfo) => e.isActive == true && e.team == this.team)
-				.sort((p1: playerInfo, p2: playerInfo) => p2.score - p1.score);
+				.filter((e: PlayerStateInfo) => e.isActive == true && e.team == this.team)
+				.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
 		},
 		teamColor(): string {
-			if (this.team == teams.red) {
+			if (this.team == Teams.red) {
 				return "red"
 			} else {
 				return "blue"
 			}
 		},
 		teamHasLogo(): boolean {
-			let teamInfo: teamInfo | undefined = store.getters.getTeam(this.team);
+			let teamInfo: TeamInfo | undefined = store.getters.getTeam(this.team);
 			if (teamInfo == undefined) {
 				return false;
 			}
@@ -110,10 +108,10 @@ export default defineComponent({
 		},
 		teamLogo(): string {
 			if (store.state.settings.iconMode == 2) {
-				return this.team == teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
+				return this.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
 			}
 
-			let teamInfo: teamInfo | undefined = store.getters.getTeam(this.team);
+			let teamInfo: TeamInfo | undefined = store.getters.getTeam(this.team);
 
 			if (teamInfo == undefined) {
 				return "";
@@ -126,7 +124,7 @@ export default defineComponent({
 	},
 	props: {
 		team: {
-			type: Number as () => teams, // https://github.com/kaorun343/vue-property-decorator/issues/202
+			type: Number as () => Teams, // https://github.com/kaorun343/vue-property-decorator/issues/202
 			required: true,
 		},
 	},

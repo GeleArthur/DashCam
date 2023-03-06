@@ -93,8 +93,7 @@
 </style>
 
 <script lang="ts">
-import { teams } from "@/models/matchInfo";
-import teamInfo from "@/models/teamInfo";
+import { TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
 import { defineComponent } from "vue";
 import { mapMutations, mapState } from "vuex";
@@ -139,7 +138,7 @@ export default defineComponent({
 	methods: {
 		async getTeamInfo(updateRed: boolean) {
 			const teamName: string = updateRed ? store.getters.redTeamName : store.getters.blueTeamName;
-			let teamData = { name: teamName } as teamInfo
+			let teamData = { name: teamName } as TeamInfo
 
 			// dashleague
 			if (store.state.settings.iconMode == 0) {

@@ -125,11 +125,11 @@ div {
 
 <script lang="ts">
 import { defineComponent } from "vue";
-import killFeedData from "../models/HyperBashModels/killFeedData";
 import store from "../store/store";
-import { teams } from "../models/matchInfo";
+import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
-import KillData from "../models/killDataInfo";
+import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
+import { KillFeedMessage } from "@/interfaces/HyperBashMessages.interface";
 
 export default defineComponent({
 	data() {
@@ -146,7 +146,7 @@ export default defineComponent({
 		});
 	},
 	methods: {
-		onPlayerKilled(payload: killFeedData) {
+		onPlayerKilled(payload: KillFeedMessage) {
 			let kill = this.getPlayersTeamAndName(payload);
 
 			if(kill == undefined) return;
@@ -156,7 +156,7 @@ export default defineComponent({
 			}
 			this.killsQueue.push(kill);
 		},
-		getPlayersTeamAndName(payload: killFeedData): KillData | undefined {
+		getPlayersTeamAndName(payload: KillFeedMessage): KillData | undefined {
 			const randomId = Math.random().toString(36).substring(2,7)
 			const killer = store.state.PlayerData[payload.killer];
 			const victim = store.state.PlayerData[payload.victim];
@@ -176,7 +176,7 @@ export default defineComponent({
 		},
 		// TODO manage deathmatch colors
 		getTeamColor(team: number = -1) {
-			return teams[team];
+			return Teams[team];
 		},
 		// TODO suicide show headshot svg but should be better svg icon
 		getWeaponSvg(kill: KillData): string {

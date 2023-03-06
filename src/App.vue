@@ -17,13 +17,13 @@ import { HOST, PORT } from "./Util/ConstVars";
 import Player from "./components/Player.vue";
 import { mapMutations } from "vuex";
 import Layout from "./components/Layout.vue";
-import playerJoins from "./models/HyperBashModels/playerJoins";
 import { getRandomArbitrary, getRandomInt } from "./Util/UtilFunctions";
-import { MatchType } from "./models/matchInfo";
+import { MatchType } from "@/interfaces/StoreInterfaces/MatchInfo";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";
 import store from "./store/store";
+import { PlayerJoinsMessage } from "./interfaces/HyperBashMessages.interface";
 
 export default defineComponent({
 	name: "App",
@@ -86,7 +86,7 @@ export default defineComponent({
 						team: teamIndex,
 						id: "3h5gf7vb65k4iuytfd7cv6b5",
 						level: getRandomInt(0, 100),
-					} as playerJoins);
+					} as PlayerJoinsMessage);
 				}
 			}
 
@@ -102,10 +102,10 @@ export default defineComponent({
 				redScore = getRandomInt(0, 3),
 				blueScore = getRandomInt(0, 3);
 
-			if (matchTypeValue == matchType.Payload) {
+			if (matchTypeValue == MatchType.Payload) {
 				redScore = getRandomInt(0, 101);
 				blueScore = getRandomInt(0, 101);
-			} else if (matchTypeValue == matchType.ControlPoint) {
+			} else if (matchTypeValue == MatchType.ControlPoint) {
 				redScore = getRandomInt(0, 301);
 				blueScore = getRandomInt(0, 301);
 			}

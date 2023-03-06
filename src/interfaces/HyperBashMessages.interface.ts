@@ -1,4 +1,4 @@
-const enum announcerMessage {
+export enum AnnouncerMessage {
 	match_1m_remaining,
 	match_countdown_1,
 	match_countdown_2,
@@ -113,4 +113,44 @@ const enum announcerMessage {
 	el_ace,
 }
 
-export default announcerMessage;
+export interface KillFeedMessage {
+	type: string;
+	killer: number;
+	victim: number;
+	headShot: boolean;
+	isAltFire: boolean;
+	weaponType: string;
+}
+
+export interface LoadoutUpdateMessage {
+	type: string;
+	playerID: number;
+	leftHand: string;
+	rightHand: string;
+}
+
+export interface PlayerJoinsMessage {
+	type: string;
+	name: string;
+	clanTag: string;
+	team: number;
+	playerID: number;
+	level: number;
+	id: string;
+}
+
+export interface playerPositionMessage {
+	type: string;
+
+	rootTransform: number[];
+
+	headPos: number[];
+	headRot: number[];
+
+	leftHandPos: number[];
+	leftHandRot: number[];
+
+	rightHandPos: number[];
+	rightHandRot: number[];
+}
+

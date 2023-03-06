@@ -1,4 +1,4 @@
-import { MatchType, SceneIds, Teams } from "../matchInfo";
+import { MatchType, SceneIds, Teams } from "../StoreInterfaces/MatchInfo";
 
 export default interface matchReplay {
 	version: string;
