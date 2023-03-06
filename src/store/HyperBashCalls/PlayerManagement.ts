@@ -1,4 +1,8 @@
-import { LoadoutUpdateMessage, PlayerJoinsMessage, playerPositionMessage } from "@/interfaces/HyperBashMessages.interface";
+import {
+	LoadoutUpdateMessage,
+	PlayerJoinsMessage,
+	playerPositionMessage,
+} from "@/interfaces/HyperBashMessages.interface";
 import { getImage } from "@/Util/UtilFunctions";
 import { State } from "vue";
 
@@ -61,7 +65,6 @@ export function healthUpdate(state: State, socketData: any) {
 	state.PlayerData[socketData.playerID].health = socketData.health;
 }
 
-
 export function loadoutUpdate(state: State, socketData: LoadoutUpdateMessage) {
 	state.PlayerData[socketData.playerID].leftWeapon = {
 		imageSource: getImage(socketData.leftHand),
@@ -72,4 +75,12 @@ export function loadoutUpdate(state: State, socketData: LoadoutUpdateMessage) {
 		imageSource: getImage(socketData.rightHand),
 		weaponName: socketData.rightHand,
 	};
+}
+
+export function dashUpdate(state: State, socketData: any) {
+	if (state.PlayerData[socketData.playerID].isActive == true) {
+		state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
+		state.PlayerData[socketData.playerID].dashPickup =
+			socketData.hasDashUpgrade;
+	}
 }
