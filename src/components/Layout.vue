@@ -96,7 +96,6 @@
 import { TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
 import { defineComponent } from "vue";
-import { mapMutations, mapState } from "vuex";
 import KillFeed from "./KillFeed.vue";
 import PlayerBar from "./PlayerBar.vue";
 import Scoreboard from "./Scoreboard.vue";
@@ -105,8 +104,7 @@ import Team from "./Team.vue";
 export default defineComponent({
 	name: "Layout",
 	data() {
-		return {
-		};
+		return {};
 	},
 	components: {
 		KillFeed,
@@ -210,11 +208,5 @@ export default defineComponent({
 			store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
 		}
 	},
-	computed: mapState({
-		matchInfo() {
-			return store.state.matchInfo;
-		},
-	}),
-
 });
 </script>
