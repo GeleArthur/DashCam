@@ -6,37 +6,41 @@ let websocketClient: WebSocket;
 let retryID: number;
 
 export function createWebsocketManager() {
+	setUpEvents();
 	tryToConnect();
 }
 
-function cleanUpEvents() {
-	document.body.removeEventListener("focus", tryToConnect);
-	clearInterval(retryID);
-	// Websocket events gets cleared by browser
+function setUpEvents(){
+	window.addEventListener("focus", tryToConnect);
+	retryID = setInterval(tryToConnect, 5000);
 }
 
+function cleanUpEvents() {
+	window.removeEventListener("focus", tryToConnect);
+	clearInterval(retryID);
+}
+
+
 function tryToConnect() {
+	if(websocketClient != null) websocketClient.close();
+
 	websocketClient = new WebSocket(`ws://${HOST}:${PORT}`);
+
+	store.commit("changeConnectionStatus", WebsocketStatusTypes.connecting);
 
 	websocketClient.addEventListener("error", onDisconnect);
 	websocketClient.addEventListener("close", onDisconnect);
 	websocketClient.addEventListener("open", onOpen)
 	websocketClient.addEventListener("message", onMessage)
 
-	store.commit("changeConnectionStatus", WebsocketStatusTypes.connecting);
 }
 
 function onDisconnect() {
-	cleanUpEvents();
-
-	document.body.addEventListener("focus", tryToConnect);
-
-	retryID = setInterval(tryToConnect, 10000);
-
 	store.commit("changeConnectionStatus", WebsocketStatusTypes.disconnected);
 }
 
 function onOpen(){
+	cleanUpEvents();
 
 	store.commit("init");
 	store.commit("changeConnectionStatus", WebsocketStatusTypes.connected);
