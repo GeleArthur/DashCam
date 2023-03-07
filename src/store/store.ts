@@ -1,4 +1,4 @@
-import { PlayerStateInfo, DashCamSettings, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { PlayerStateInfo, DashCamSettings, TeamInfo, WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import { createStore } from "vuex";
 
 import { MatchInfo, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
@@ -10,8 +10,7 @@ import { AnnouncerMessage } from "@/interfaces/HyperBashMessages.interface";
 
 export default createStore<State>({
 	state: {
-		websocket: {} as WebSocket,
-		connection: "Failed",
+		WebsocketStatus: WebsocketStatusTypes.disconnected,
 		selectedIndex: -1,
 		PlayerData: [] as PlayerStateInfo[],
 		matchInfo: {} as MatchInfo,

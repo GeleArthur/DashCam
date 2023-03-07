@@ -1,5 +1,5 @@
 import { MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
-import { TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { TeamInfo, WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import { State } from "vue";
 
 // Will not be called by hyperBash
@@ -65,8 +65,8 @@ export function init(state: State, payload: any) {
 	state.settings.iconMode = 0;
 }
 
-export function changeConnection(state: State, connectionType: any) {
-	state.connection = connectionType;
+export function changeConnectionStatus(state: State, status: WebsocketStatusTypes) {
+	state.WebsocketStatus = status;
 }
 
 export function matchInfo(state: State, socketData: any) {

@@ -34,20 +34,26 @@ export interface PlayerStateInfo {
 }
 
 export interface DashCamSettings {
-    iconMode: number;
-    customBlueIcon: string;
-    customRedIcon: string;
+	iconMode: number;
+	customBlueIcon: string;
+	customRedIcon: string;
 }
 
 export interface TeamInfo {
-    name: string;
-    
-    logoFound:boolean;
-    logo: string;
+	name: string;
 
-    extrasFound:boolean;
-    matches: number;
-    wins: number;
-    losses: number;
-    players: string[];
+	logoFound: boolean;
+	logo: string;
+
+	extrasFound: boolean;
+	matches: number;
+	wins: number;
+	losses: number;
+	players: string[];
+}
+
+export enum WebsocketStatusTypes {
+	connected,
+	connecting,
+	disconnected,
 }

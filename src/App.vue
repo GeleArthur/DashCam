@@ -1,6 +1,7 @@
 <template>
-	<div id="admin" v-if="$store.state.connection">
-		<a>{{ $store.state.connection }}</a>
+	<!-- $store.state.WebsocketStatus == WebsocketStatusTypes.connected -->
+	<div id="admin" v-if=ShouldDisplayDebugMenu>
+		<a>{{ ConnectingMessage }}</a>
 		<button @click="AddFakeData">Fake Data</button>
 		<button @click="showHelp">Help</button>
 		<button @click="switchTeam">switchTeams</button>
@@ -24,6 +25,8 @@ import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";
 import store from "./store/store";
 import { PlayerJoinsMessage } from "./interfaces/HyperBashMessages.interface";
+import { createWebsocketManager } from "@/WebsocketManager"
+import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 
 export default defineComponent({
 	name: "App",
@@ -41,10 +44,6 @@ export default defineComponent({
 		};
 	},
 	methods: {
-		updateData(data: string) {
-			var socketData = JSON.parse(data);
-			store.commit(socketData.type, socketData);
-		},
 		showHelp() {
 			this.openHelp = !this.openHelp;
 		},
@@ -204,50 +203,29 @@ export default defineComponent({
 				// } as playerPos);
 			}, 10);
 		},
-		...mapMutations(["changeConnection"]),
 	},
 	mounted() {
 		store.commit("init");
-		const StartWebSocket = () => {
-
-			if (store.state.websocket.CLOSED) {
-				store.state.websocket.removeEventListener("error", failed);
-				store.state.websocket.removeEventListener("close", failed);
-				store.state.websocket.removeEventListener("open", onConnected);
-				store.state.websocket.removeEventListener("message", onMessage);
-			}
-
-			store.state.websocket = new WebSocket(`ws://${HOST}:${PORT}`);
-			this.changeConnection("Connecting");
-			store.commit("init");
-
-			store.state.websocket.addEventListener("error", failed);
-			store.state.websocket.addEventListener("close", failed);
-			store.state.websocket.addEventListener("open", onConnected);
-			store.state.websocket.addEventListener("message", onMessage);
-		};
-
-		document.body.onfocus = () => {
-			if (store.state.websocket == null || store.state.websocket.readyState != 1)
-				StartWebSocket();
-		};
-
-		const failed = () => {
-			this.changeConnection("Failed. Enable websocket and restart HyperDash");
-			store.commit("init");
-		};
-
-		const onConnected = () => {
-			this.changeConnection("");
-			store.commit("init");
-		};
-
-		const onMessage = (ev: MessageEvent<string>) => {
-			this.updateData(ev.data);
-		};
-
-		StartWebSocket();
+		createWebsocketManager();
 	},
+	computed: {
+		ConnectingMessage() {
+			switch (store.state.WebsocketStatus) {
+				case WebsocketStatusTypes.connected:
+					return "";
+				case WebsocketStatusTypes.connecting:
+					return "Connecting";
+				case WebsocketStatusTypes.disconnected:
+					return "Failed. Enable websocket and restart HyperDash";
+
+				default:
+					return "Something broke????";
+			}
+		},
+		ShouldDisplayDebugMenu() {
+			return store.state.WebsocketStatus != WebsocketStatusTypes.connected;
+		}
+	}
 });
 </script>
 
