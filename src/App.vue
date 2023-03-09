@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, watch } from "vue";
 import Player from "./components/Player.vue";
 import Layout from "./components/Layout.vue";
 import Instructions from "./components/Instructions.vue";
@@ -22,6 +22,11 @@ import store from "./store/store";
 import { createWebsocketManager } from "@/WebsocketManager"
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
+import { useMatchStateStore } from "./stores/testStore";
+
+const coolerStore = useMatchStateStore();
+
+coolerStore.yeaItsHot();
 
 export default defineComponent({
 	name: "App",
