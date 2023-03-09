@@ -11,78 +11,53 @@
 	<Settings />
 </template>
 
-<script lang="ts">
-import { defineComponent, watch } from "vue";
-import Player from "./components/Player.vue";
+<script setup lang="ts">
+import { ref, computed } from "vue";
 import Layout from "./components/Layout.vue";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";
 import store from "./store/store";
-import { createWebsocketManager } from "@/WebsocketManager"
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
-import { useMatchStateStore } from "./stores/testStore";
 
-const coolerStore = useMatchStateStore();
+const openHelp = ref(false);
 
-coolerStore.yeaItsHot();
+function showHelp() {
+	openHelp.value = !openHelp.value;
+}
 
-export default defineComponent({
-	name: "App",
-	components: {
-		Player,
-		Layout,
-		Instructions,
-		versionCheck,
-		Settings
-	},
-	data() {
-		return {
-			openHelp: false,
-		};
-	},
-	methods: {
-		showHelp() {
-			this.openHelp = !this.openHelp;
-		},
-		switchTeam() {
-			for (let i = 0; i < store.state.PlayerData.length; i++) {
-				if (store.state.PlayerData[i].isActive) {
-					store.commit("switchTeam", {
-						playerID: i,
-						team: !store.state.PlayerData[i].team, // Invert
-					});
-				}
-			}
-		},
-
-		AddFakeData() {
-			CreateFakeData()
-		}
-	},
-	mounted() {
-		store.commit("init");
-		createWebsocketManager();
-	},
-	computed: {
-		ConnectingMessage() {
-			switch (store.state.WebsocketStatus) {
-				case WebsocketStatusTypes.connected:
-					return "";
-				case WebsocketStatusTypes.connecting:
-					return "Connecting";
-				case WebsocketStatusTypes.disconnected:
-					return "Failed. Enable websocket and restart HyperDash";
-				default:
-					return "Something broke????";
-			}
-		},
-		ShouldDisplayDebugMenu() {
-			return store.state.WebsocketStatus != WebsocketStatusTypes.connected;
+function switchTeam() {
+	for (let i = 0; i < store.state.PlayerData.length; i++) {
+		if (store.state.PlayerData[i].isActive) {
+			store.commit("switchTeam", {
+				playerID: i,
+				team: !store.state.PlayerData[i].team, // Invert
+			});
 		}
 	}
-});
+}
+
+function AddFakeData() {
+	CreateFakeData()
+}
+
+const ShouldDisplayDebugMenu = computed(() => {
+	return store.state.WebsocketStatus != WebsocketStatusTypes.connected;
+})
+
+const ConnectingMessage = computed(() => {
+	switch (store.state.WebsocketStatus) {
+		case WebsocketStatusTypes.connected:
+			return "";
+		case WebsocketStatusTypes.connecting:
+			return "Connecting";
+		case WebsocketStatusTypes.disconnected:
+			return "Failed. Enable websocket and restart HyperDash";
+		default:
+			return "Something broke????";
+	}
+})
 </script>
 
 <style>
