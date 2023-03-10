@@ -1,4 +1,8 @@
-import { MatchInfoType } from "@/interfaces/StoreInterfaces/MatchInfo";
+import {
+	MatchInfoType,
+	MatchType,
+	Teams,
+} from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
 	DashCamSettings,
 	PlayerStateInfo,
@@ -14,21 +18,78 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	const SelectedPlayerIndex = ref(-1);
 	const PlayerData = ref([] as PlayerStateInfo[]);
 
-	const MatchInfo = ref({} as MatchInfoType);
+	const MatchInfo = ref({
+		payload: {
+			amountBlueOnCart: 0,
+			cartBlockedByRed: false,
+			checkPoint: false,
+			secondRound: false,
+			precisePayloadDistance: 0,
+		},
+		domination: {
+			countDownTimer: 0,
+			teamCountDown: Teams.none,
+			pointA: Teams.none,
+			pointB: Teams.none,
+			pointC: Teams.none,
+		},
+		controlPoint: {
+			TeamScoringPoints: Teams.none,
+		},
+		blueScore: 0,
+		redScore: 0,
+		mapName: "",
+		matchType: MatchType.None,
+		timer: 0,
+	} as MatchInfoType);
+
+	for (let i = 0; i < 11; i++) {
+		PlayerData.value[i] = {
+			isActive: false,
+			playerID: 0,
+			name: "",
+			clan: "",
+			team: Teams.none,
+			leftWeapon: {
+				imageSource: "",
+				weaponName: "",
+			},
+			rightWeapon: {
+				imageSource: "",
+				weaponName: "",
+			},
+			health: 0,
+			dash: 0,
+			dashPickup: false,
+			isDead: false,
+			deads: 0,
+			kills: 0,
+			score: 0,
+			ping: 0,
+			feetPosition: {
+				X: 0,
+				Y: 0,
+				Z: 0,
+			},
+			feetRotation: 0,
+		};
+	}
+
+	// state.settings.iconMode = 0;
 
 	// Needs to be moved to a different store
-	const Version = ref("");
-	const Settings = ref({} as DashCamSettings);
-	const TeamData = ref({ red: {} as TeamInfo, blue: {} as TeamInfo });
+	// const Version = ref("");
+	// const Settings = ref({} as DashCamSettings);
+	// const TeamData = ref({ red: {} as TeamInfo, blue: {} as TeamInfo });
 
-    // Yes :(
+	// Yes :(
 	return {
 		WebsocketStatus,
 		SelectedPlayerIndex,
 		PlayerData,
 		MatchInfo,
-		Version,
-		Settings,
-		TeamData,
+		// Version,
+		// Settings,
+		// TeamData,
 	};
 });

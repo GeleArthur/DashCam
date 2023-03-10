@@ -1,18 +1,17 @@
 import { HOST, PORT } from "./Util/ConstVars";
 import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
-import * as ImportedHyperBashCalls from "@/stores/HyperBashCalls"
+import { hyperBashCalls } from "@/stores/HyperBashCalls";
 
 let websocketClient: WebSocket;
 let retryID: number;
-
 
 export function createWebsocketManager() {
 	setUpEvents();
 	tryToConnect();
 }
 
-function setUpEvents(){
+function setUpEvents() {
 	window.addEventListener("focus", tryToConnect);
 	retryID = setInterval(tryToConnect, 5000);
 }
@@ -22,9 +21,8 @@ function cleanUpEvents() {
 	clearInterval(retryID);
 }
 
-
 function tryToConnect() {
-	if(websocketClient != null) websocketClient.close();
+	if (websocketClient != null) websocketClient.close();
 
 	websocketClient = new WebSocket(`ws://${HOST}:${PORT}`);
 
@@ -32,16 +30,15 @@ function tryToConnect() {
 
 	websocketClient.addEventListener("error", onDisconnect);
 	websocketClient.addEventListener("close", onDisconnect);
-	websocketClient.addEventListener("open", onOpen)
-	websocketClient.addEventListener("message", onMessage)
-
+	websocketClient.addEventListener("open", onOpen);
+	websocketClient.addEventListener("message", onMessage);
 }
 
 function onDisconnect() {
 	store.commit("changeConnectionStatus", WebsocketStatusTypes.disconnected);
 }
 
-function onOpen(){
+function onOpen() {
 	cleanUpEvents();
 
 	store.commit("init");
@@ -49,11 +46,16 @@ function onOpen(){
 }
 
 // Magic
-const HyperBashCalls: {[key: string]: (socketData: any) => void;} = ImportedHyperBashCalls 
+const HyperBashCalls: { [key: string]: (socketData: any) => void } = hyperBashCalls;
 
 function onMessage(ev: MessageEvent<string>) {
-	var socketData = JSON.parse(ev.data) as {type:string};
+	var socketData = JSON.parse(ev.data) as { type: string };
 	store.commit(socketData.type, socketData);
+
+	if(HyperBashCalls[socketData.type] == undefined){
+		// console.log(socketData.type )
+		return;
+	}
 
 	HyperBashCalls[socketData.type].call(undefined, socketData);
 }

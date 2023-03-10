@@ -9,12 +9,11 @@ import { useMatchStateStore } from "./MatchState";
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;
 
-export function initStore(){
-    state = useMatchStateStore();
+export function initStore() {
+	state = useMatchStateStore();
 }
 
-
-export function playerJoins(socketData: PlayerJoinsMessage) {
+function playerJoins(socketData: PlayerJoinsMessage) {
 	state.PlayerData[socketData.playerID] = {
 		isActive: true,
 
@@ -44,15 +43,15 @@ export function playerJoins(socketData: PlayerJoinsMessage) {
 	};
 }
 
-export function playerLeaves(socketData: any) {
+function playerLeaves(socketData: any) {
 	state.PlayerData[socketData.playerID].isActive = false;
 }
 
-export function switchTeam(socketData: any) {
+function switchTeam(socketData: any) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
 }
 
-export function playerPos(socketData: playerPositionMessage) {
+function playerPos(socketData: playerPositionMessage) {
 	for (let i = 0; i < socketData.headPos.length / 3; i++) {
 		if (state.PlayerData[i].isActive == true) {
 			state.PlayerData[i].feetPosition = {
@@ -66,14 +65,14 @@ export function playerPos(socketData: playerPositionMessage) {
 	}
 }
 
-export function respawn(socketData: any) {
+function respawn(socketData: any) {
 	state.PlayerData[socketData.playerID].isDead = false;
 }
-export function healthUpdate(socketData: any) {
+function healthUpdate(socketData: any) {
 	state.PlayerData[socketData.playerID].health = socketData.health;
 }
 
-export function loadoutUpdate(socketData: LoadoutUpdateMessage) {
+function loadoutUpdate(socketData: LoadoutUpdateMessage) {
 	state.PlayerData[socketData.playerID].leftWeapon = {
 		imageSource: getImage(socketData.leftHand),
 		weaponName: socketData.leftHand,
@@ -85,10 +84,21 @@ export function loadoutUpdate(socketData: LoadoutUpdateMessage) {
 	};
 }
 
-export function dashUpdate(socketData: any) {
+function dashUpdate(socketData: any) {
 	if (state.PlayerData[socketData.playerID].isActive == true) {
 		state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
 		state.PlayerData[socketData.playerID].dashPickup =
 			socketData.hasDashUpgrade;
 	}
 }
+
+export let hyperBashCalls = {
+	playerJoins,
+	playerLeaves,
+    switchTeam,
+    playerPos,
+    respawn,
+    healthUpdate,
+    loadoutUpdate,
+    dashUpdate
+};

@@ -46,8 +46,8 @@ function AddFakeData() {
 
 onMounted(()=>{
 	store.commit("init");
-	createWebsocketManager();
 	initStore();
+	createWebsocketManager();
 })
 
 const ShouldDisplayDebugMenu = computed(() => {
