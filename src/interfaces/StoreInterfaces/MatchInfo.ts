@@ -67,7 +67,7 @@ export interface ControlPointInfo {
 	TeamScoringPoints: Teams;
 }
 
-export interface MatchInfo {
+export interface MatchInfoType {
 	matchType: MatchType;
 	mapName: string;
 	timer: number;

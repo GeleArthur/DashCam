@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from "vue";
+import { ref, computed, onMounted } from "vue";
 import Layout from "./components/Layout.vue";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
@@ -20,6 +20,8 @@ import Settings from "./components/Settings.vue";
 import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
+import { createWebsocketManager } from "./WebsocketManager";
+import {initStore} from "@/stores/HyperBashCalls"
 
 const openHelp = ref(false);
 
@@ -41,6 +43,12 @@ function switchTeam() {
 function AddFakeData() {
 	CreateFakeData()
 }
+
+onMounted(()=>{
+	store.commit("init");
+	createWebsocketManager();
+	initStore();
+})
 
 const ShouldDisplayDebugMenu = computed(() => {
 	return store.state.WebsocketStatus != WebsocketStatusTypes.connected;

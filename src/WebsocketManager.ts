@@ -1,9 +1,11 @@
 import { HOST, PORT } from "./Util/ConstVars";
 import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
+import * as ImportedHyperBashCalls from "@/stores/HyperBashCalls"
 
 let websocketClient: WebSocket;
 let retryID: number;
+
 
 export function createWebsocketManager() {
 	setUpEvents();
@@ -46,7 +48,12 @@ function onOpen(){
 	store.commit("changeConnectionStatus", WebsocketStatusTypes.connected);
 }
 
+// Magic
+const HyperBashCalls: {[key: string]: (socketData: any) => void;} = ImportedHyperBashCalls 
+
 function onMessage(ev: MessageEvent<string>) {
-	var socketData = JSON.parse(ev.data);
+	var socketData = JSON.parse(ev.data) as {type:string};
 	store.commit(socketData.type, socketData);
+
+	HyperBashCalls[socketData.type].call(undefined, socketData);
 }

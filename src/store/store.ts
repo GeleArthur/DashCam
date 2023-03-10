@@ -1,7 +1,7 @@
 import { PlayerStateInfo, DashCamSettings, TeamInfo, WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import { createStore } from "vuex";
 
-import { MatchInfo, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { MatchInfoType, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { State } from "vue";
 import * as PlayerManagement from "@/store/HyperBashCalls/PlayerManagement";
 import * as GameStateManagement from "./HyperBashCalls/GameStateManagement";
@@ -13,7 +13,7 @@ export default createStore<State>({
 		WebsocketStatus: WebsocketStatusTypes.disconnected,
 		selectedIndex: -1,
 		PlayerData: [] as PlayerStateInfo[],
-		matchInfo: {} as MatchInfo,
+		matchInfo: {} as MatchInfoType,
 		version: "",
 
 		settings: {} as DashCamSettings,
