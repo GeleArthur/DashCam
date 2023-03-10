@@ -11,7 +11,7 @@ declare module "@vue/runtime-core" {
 	// You have to declare your new values also here :)))))
 
 	interface State {
-		WebsocketStatus: WebsocketStatusTypes;
+		// WebsocketStatus: WebsocketStatusTypes;
 		PlayerData: PlayerStateInfo[];
 		selectedIndex: number;
 		matchInfo: MatchInfo;

@@ -21,7 +21,10 @@ import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
 import { createWebsocketManager } from "./WebsocketManager";
-import {initStore} from "@/stores/HyperBashCalls"
+import { initStore } from "@/stores/HyperBashCalls"
+import { useMatchStateStore } from "./stores/MatchStateStore";
+
+const state = useMatchStateStore();
 
 const openHelp = ref(false);
 
@@ -44,18 +47,18 @@ function AddFakeData() {
 	CreateFakeData()
 }
 
-onMounted(()=>{
+onMounted(() => {
 	store.commit("init");
 	initStore();
 	createWebsocketManager();
 })
 
 const ShouldDisplayDebugMenu = computed(() => {
-	return store.state.WebsocketStatus != WebsocketStatusTypes.connected;
+	return state.WebsocketStatus != WebsocketStatusTypes.connected;
 })
 
 const ConnectingMessage = computed(() => {
-	switch (store.state.WebsocketStatus) {
+	switch (state.WebsocketStatus) {
 		case WebsocketStatusTypes.connected:
 			return "";
 		case WebsocketStatusTypes.connecting:

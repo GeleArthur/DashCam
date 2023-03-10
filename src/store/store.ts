@@ -10,7 +10,7 @@ import { AnnouncerMessage } from "@/interfaces/HyperBashMessages.interface";
 
 export default createStore<State>({
 	state: {
-		WebsocketStatus: WebsocketStatusTypes.disconnected,
+		// WebsocketStatus: WebsocketStatusTypes.disconnected,
 		selectedIndex: -1,
 		PlayerData: [] as PlayerStateInfo[],
 		matchInfo: {} as MatchInfoType,

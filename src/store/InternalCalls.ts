@@ -65,9 +65,9 @@ export function init(state: State, payload: any) {
 	state.settings.iconMode = 0;
 }
 
-export function changeConnectionStatus(state: State, status: WebsocketStatusTypes) {
-	state.WebsocketStatus = status;
-}
+// export function changeConnectionStatus(state: State, status: WebsocketStatusTypes) {
+// 	state.WebsocketStatus = status;
+// }
 
 export function matchInfo(state: State, socketData: any) {
 	state.matchInfo = {

@@ -2,11 +2,18 @@ import { HOST, PORT } from "./Util/ConstVars";
 import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { hyperBashCalls } from "@/stores/HyperBashCalls";
+import { useSettingStore } from "./stores/SettingsStore";
+import { useMatchStateStore } from "./stores/MatchStateStore";
+
+type storeType = ReturnType<typeof useMatchStateStore>;
+let state: storeType;
 
 let websocketClient: WebSocket;
 let retryID: number;
 
 export function createWebsocketManager() {
+	state = useMatchStateStore();
+
 	setUpEvents();
 	tryToConnect();
 }
@@ -26,7 +33,7 @@ function tryToConnect() {
 
 	websocketClient = new WebSocket(`ws://${HOST}:${PORT}`);
 
-	store.commit("changeConnectionStatus", WebsocketStatusTypes.connecting);
+	state.WebsocketStatus = WebsocketStatusTypes.connecting;
 
 	websocketClient.addEventListener("error", onDisconnect);
 	websocketClient.addEventListener("close", onDisconnect);
@@ -35,14 +42,15 @@ function tryToConnect() {
 }
 
 function onDisconnect() {
-	store.commit("changeConnectionStatus", WebsocketStatusTypes.disconnected);
+	// TODO retry to connect
+	state.WebsocketStatus = WebsocketStatusTypes.disconnected;
 }
 
 function onOpen() {
 	cleanUpEvents();
 
 	store.commit("init");
-	store.commit("changeConnectionStatus", WebsocketStatusTypes.connected);
+	state.WebsocketStatus = WebsocketStatusTypes.connected;
 }
 
 // Magic
