@@ -78,8 +78,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	// state.settings.iconMode = 0;
 
 	// Needs to be moved to a different store
-	// const Version = ref("");
-	// const Settings = ref({} as DashCamSettings);
+
 	// const TeamData = ref({ red: {} as TeamInfo, blue: {} as TeamInfo });
 
 	// Yes :(

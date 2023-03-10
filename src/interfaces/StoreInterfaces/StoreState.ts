@@ -34,9 +34,15 @@ export interface PlayerStateInfo {
 }
 
 export interface DashCamSettings {
-	iconMode: number;
+	iconMode: iconModes;
 	customBlueIcon: string;
 	customRedIcon: string;
+}
+
+export enum iconModes{
+	dashLeague,
+	hyperCup,
+	custom
 }
 
 export interface TeamInfo {
