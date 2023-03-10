@@ -1,16 +1,20 @@
-import store from "@/store/store";
 import { PlayerJoinsMessage } from "@/interfaces/HyperBashMessages.interface";
 import { getRandomArbitrary, getRandomInt } from "@/Util/UtilFunctions";
 import { MatchType } from "./interfaces/StoreInterfaces/MatchInfo";
+import { useMatchStateStore } from "./stores/MatchStateStore";
+import { hyperBashCalls } from "@/stores/HyperBashCalls";
 
 let fakeDataInterval = 0;
 
 
 export function CreateFakeData() {
+
+	const state = useMatchStateStore();
+
 	clearInterval(fakeDataInterval);
 
-	for (let i = store.state.PlayerData.length - 1; i >= 0; i--) {
-		store.commit("playerLeaves", {
+	for (let i = state.PlayerData.length - 1; i >= 0; i--) {
+		hyperBashCalls.playerLeaves({
 			playerID: i,
 			type: "playerLeaves",
 		});
@@ -25,7 +29,7 @@ export function CreateFakeData() {
 		var currentTeam = teamIndex == 0 ? redTeam : blueTeam;
 
 		for (let i = 0; i < 5; i++) {
-			store.commit("playerJoins", {
+			hyperBashCalls.playerJoins({
 				type: "playerJoins",
 				playerID: i + teamIndex * 5,
 				name: Math.random().toString(16).substr(2, 16),
@@ -37,7 +41,7 @@ export function CreateFakeData() {
 		}
 	}
 
-	store.commit("scoreboard", {
+	hyperBashCalls.scoreboard({
 		type: "scoreboard",
 		deads: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
 		kills: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
@@ -57,52 +61,59 @@ export function CreateFakeData() {
 		blueScore = getRandomInt(0, 301);
 	}
 
-	store.commit("matchInfo", {
-		timer: getRandomInt(60, 1500),
-		blueScore: blueScore,
-		redScore: redScore,
-		controlPoint: {
-			TeamScoringPoints: getRandomInt(1, 3),
-		},
-		domination: {
-			countDownTimer: getRandomInt(0, 5),
-			pointA: getRandomInt(0, 3),
-			pointB: getRandomInt(0, 3),
-			pointC: getRandomInt(0, 3),
-			teamCountDown: getRandomInt(0, 3),
-		},
-		payload: {
-			amountBlueOnCart: getRandomInt(0, 4),
-			cartBlockedByRed: getRandomInt(0, 2),
-			checkPoint: getRandomInt(0, 1),
-			secondRound: getRandomInt(0, 1),
-			precisePayloadDistance: getRandomArbitrary(0, 1),
-		},
-		matchtype: matchTypeValue,
+	state.$patch({
+		MatchInfo:{
+			timer: getRandomInt(60, 1500),
+			blueScore: blueScore,
+			redScore: redScore,
+			controlPoint: {
+				TeamScoringPoints: getRandomInt(1, 3),
+			},
+			domination: {
+				countDownTimer: getRandomInt(0, 5),
+				pointA: getRandomInt(0, 3),
+				pointB: getRandomInt(0, 3),
+				pointC: getRandomInt(0, 3),
+				teamCountDown: getRandomInt(0, 3),
+			},
+			payload: {
+				amountBlueOnCart: getRandomInt(0, 4),
+				cartBlockedByRed: false,
+				checkPoint: false,
+				secondRound: false,
+				precisePayloadDistance: getRandomArbitrary(0, 1),
+			},
+			matchType: MatchType.Payload
+		}
 	});
 
-	store.commit("CurrentlySpectating", {
+	hyperBashCalls.CurrentlySpectating({
 		playerID: getRandomInt(0, 9),
 		type: "CurrentlySpectating",
 	});
 
 	for (let i = 0; i < 2; i++) {
-		store.commit("killFeed", {
+		hyperBashCalls.killFeed({
 			victim: getRandomInt(0, 9),
+			headShot: false,
+			isAltFire: false,
+			killer: getRandomInt(0,9),
+			type: "",
+			weaponType: "pistol",
 		});
 	}
 
 	for (let i = 0; i < 11; i++) {
-		if (store.state.PlayerData[i] != null) {
+		if (state.PlayerData[i] != null) {
 			var dashPickup = getRandomArbitrary(0, 1) > 0.5;
-			store.commit("dashUpdate", {
+			hyperBashCalls.dashUpdate({
 				type: "dashUpdate",
 				playerID: i,
 				dashAmount: getRandomArbitrary(0, dashPickup ? 5 : 3),
 				dashPickUp: dashPickup,
 			});
 
-			store.commit("healthUpdate", {
+			hyperBashCalls.healthUpdate({
 				type: "healthUpdate",
 				playerID: i,
 				health: getRandomArbitrary(0, 101),
