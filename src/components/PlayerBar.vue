@@ -1,7 +1,7 @@
 <template>
 	<div class="playerBar" :class="[
 		selectedPlayer.team == 0 ? 'playerBar--red' : 'playerBar--blue'
-	]" v-if="$store.state.selectedIndex >= 0">
+	]" v-if="state.SelectedPlayerIndex >= 0">
 		<div class="playerBar_wrapper">
 			<div class="playerBar_dashes">
 				<div class="player_dashes">
@@ -130,66 +130,59 @@
 
 .playerBar--red polygon {
 	fill: #FF0000;
-}</style>
+}
+</style>
 
-<style>.playerBar_dashes .player_dashes .dashes_fill {
+<style>
+.playerBar_dashes .player_dashes .dashes_fill {
 	background-color: rgba(34, 192, 255, 0.8);
 }
 
 .playerBar_health .healthBar .healthBar_life {
 	background-color: rgb(0, 255, 111, 0.8);
-}</style>
+}
+</style>
 
-<script lang="ts">
-import store from "@/store/store";
-import { defineComponent } from "vue";
-import { mapState } from "vuex";
+<script setup lang="ts">
+import { computed } from "vue";
 import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import PlayerDashes from "./PlayerDashes.vue";
+import { useMatchStateStore } from "@/stores/MatchStateStore";
 
-export default defineComponent({
-	name: "PlayerBar",
-	components: {
-		PlayerDashes,
-	},
-	computed: mapState({
-		selectedPlayer() {
-			var player = store.state.PlayerData[store.state.selectedIndex];
+const state = useMatchStateStore();
 
-			if (player == undefined) {
-				// Not good error prevting should be something better
-				return { dash: 0, score: 0, kills: 0, name: "", deads: 0 } as PlayerStateInfo
-			} else {
-				return player;
-			}
-		},
-		healthBar() {
-			var player = store.state.PlayerData[store.state.selectedIndex];
+const selectedPlayer = computed(() => {
+	var player = state.PlayerData[state.SelectedPlayerIndex];
 
-			if (player == undefined) return { width: `100%` }
+	if (player == undefined) {
+		// Not good error preventing should be something better
+		return { dash: 0, score: 0, kills: 0, name: "", deads: 0 } as PlayerStateInfo
+	} else {
+		return player;
+	}
+})
 
-			return {
-				width: `${player.health}%`
-			};
-		},
-		maxDashes() {
-			var player = store.state.PlayerData[store.state.selectedIndex];
-			if (player == undefined) return 3;
+const healthBar = computed(() => {
+	var player = selectedPlayer.value;
 
-			return player.dashPickup ? 5 : 3;
-		},
-		score() {
-			var player = store.state.PlayerData[store.state.selectedIndex];
-			if (player == undefined) return "0";
+	if (player == undefined) return { width: `100%` }
 
-			return player.score.toLocaleString('en-US');
-		}
-	}),
-	// props: {
-	// 	matchInfo: {
-	// 		type: Object,
-	// 		required: true,
-	// 	},
-	// },
+	return {
+		width: `${player.health}%`
+	};
+})
+
+const maxDashes = computed(() => {
+	var player = selectedPlayer.value;
+	if (player == undefined) return 3;
+
+	return player.dashPickup ? 5 : 3;
+});
+
+const score = computed(() => {
+	var player = selectedPlayer;
+	if (player == undefined) return "0";
+
+	return player.value.score.toLocaleString('en-US');
 });
 </script>
