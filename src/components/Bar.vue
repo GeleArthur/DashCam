@@ -106,6 +106,6 @@ const props = defineProps<{
 	index?: number,
 	text?: string,
 	value: any,
-	width: string
+	width?: string
 }>()
 </script>
