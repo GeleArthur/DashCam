@@ -120,71 +120,70 @@ div {
 		overflow: hidden;
 	}
 }
-
 </style>
 
-<script lang="ts">
-import { defineComponent } from "vue";
+<script setup lang="ts">
+import { ref, computed, onMounted } from "vue";
 import store from "../store/store";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
 import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
 import { KillFeedMessage } from "@/interfaces/HyperBashMessages.interface";
+import { useMatchStateStore } from "@/stores/MatchStateStore";
 
-export default defineComponent({
-	data() {
-		return {
-			killsQueue: [] as KillData[],
-			killsQueueSize: 8
-		};
-	},
-	mounted() {
-		store.subscribe((mutation, state) => {
-			if (mutation.type == "killFeed") {
-				this.onPlayerKilled(mutation.payload);
-			}
-		});
-	},
-	methods: {
-		onPlayerKilled(payload: KillFeedMessage) {
-			let kill = this.getPlayersTeamAndName(payload);
+const state = useMatchStateStore();
 
-			if(kill == undefined) return;
+const killsQueue = ref([] as KillData[]);
+const killsQueueSize = ref(8);
 
-			if (this.killsQueue.length >= this.killsQueueSize) {
-				this.killsQueue.splice(0, 1);
-			}
-			this.killsQueue.push(kill);
-		},
-		getPlayersTeamAndName(payload: KillFeedMessage): KillData | undefined {
-			const randomId = Math.random().toString(36).substring(2,7)
-			const killer = store.state.PlayerData[payload.killer];
-			const victim = store.state.PlayerData[payload.victim];
-			if(killer == undefined || victim == undefined)
-				return undefined;
+//TODO fix subscribe
+onMounted(() => {
+	// state.$subscribe()
 
-			return {
-				id: randomId,
-				killer: killer.name,
-				killerTeam: killer.team,
-				victim: victim.name,
-				victimTeam: victim.team,
-				headShot: payload.headShot,
-				isAltFire: payload.isAltFire,
-				weaponType: payload.weaponType
-			};
-		},
-		// TODO manage deathmatch colors
-		getTeamColor(team: number = -1) {
-			return Teams[team];
-		},
-		// TODO suicide show headshot svg but should be better svg icon
-		getWeaponSvg(kill: KillData): string {
-			return getWeaponIcon(kill.weaponType, kill.isAltFire);
-		},
-		getHeadshotSvg() {
-			return getHeadshotIcon();
-		}
-	}
+	// store.subscribe((mutation, state) => {
+	// 		if (mutation.type == "killFeed") {
+	// 			this.onPlayerKilled(mutation.payload);
+	// 		}
+	// 	});
 });
+
+function onPlayerKilled(payload: KillFeedMessage) {
+	let kill = getPlayersTeamAndName(payload);
+
+	if (kill == undefined) return;
+
+	if (killsQueue.value.length >= killsQueueSize.value) {
+		killsQueue.value.splice(0, 1);
+	}
+	killsQueue.value.push(kill);
+}
+function getPlayersTeamAndName(payload: KillFeedMessage): KillData | undefined {
+	const randomId = Math.random().toString(36).substring(2, 7)
+	const killer = store.state.PlayerData[payload.killer];
+	const victim = store.state.PlayerData[payload.victim];
+	if (killer == undefined || victim == undefined)
+		return undefined;
+
+	return {
+		id: randomId,
+		killer: killer.name,
+		killerTeam: killer.team,
+		victim: victim.name,
+		victimTeam: victim.team,
+		headShot: payload.headShot,
+		isAltFire: payload.isAltFire,
+		weaponType: payload.weaponType
+	};
+}
+// TODO manage deathmatch colors
+function getTeamColor(team: number = -1) {
+	return Teams[team];
+}
+// TODO suicide show headshot svg but should be better svg icon
+function getWeaponSvg(kill: KillData): string {
+	return getWeaponIcon(kill.weaponType, kill.isAltFire);
+}
+function getHeadshotSvg() {
+	return getHeadshotIcon();
+}
 </script>
