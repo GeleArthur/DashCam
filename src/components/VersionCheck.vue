@@ -18,63 +18,60 @@
 	</div>
 </template>
 
-<script lang="ts">
+<script setup lang="ts">
+import { WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
-import { defineComponent } from "vue";
+import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useSettingStore } from "@/stores/SettingsStore";
+import { MutationType } from "pinia";
+import { ref, watch, computed } from "vue";
 import { latestHyperBashVersion } from "../Util/ConstVars";
 
-export default defineComponent({
-	data() {
-		return {
-			display: false,
-			timeLeft: 0,
-		};
-	},
-	watch: {
-		"$store.state.connection"(val) {
-			if (val == "") {
-				this.display = false;
-				var timer = setInterval(()=>{
-					this.checkVersion();
-					clearInterval(timer);
-				}, 1000);
-			}
-		},
-	},
-	methods: {
-		checkVersion() {
-			var currentVersion = store.state.version.replaceAll("\.","");
-			var highestVersion = latestHyperBashVersion.replaceAll("\.","");
+const state = useMatchStateStore();
 
-			if (highestVersion > currentVersion) {
-				this.display = true;
-				this.timeLeft = 20;
-				this.startCountDown();
-			}
-		},
+const display = ref(false);
+const timeLeft = ref(0);
 
-		startCountDown() {
-			var interval = setInterval(() => {
-				this.timeLeft -= 1;
-				if (this.timeLeft <= 0) {
-					this.display = false;
-					clearInterval(interval);
-				}
-			}, 1000);
-		},
-	},
-	computed: {
-		latestHBVersion() {
-			return latestHyperBashVersion;
-		},
-		currentHBVersion() {
-			if(store.state.version == ""){
-				return "unknown??"
-			}
+watch(() => state.WebsocketStatus, (connection) => {
+	if (connection == WebsocketStatusTypes.connected) {
+		display.value = false;
+		var timer = setInterval(() => {
+			checkVersion();
+			clearInterval(timer);
+		}, 1000);
+	}
+})
 
-			return store.state.version;
-		},
-	},
+function checkVersion() {
+	var currentVersion = store.state.version.replaceAll("\.", "");
+	var highestVersion = latestHyperBashVersion.replaceAll("\.", "");
+
+	if (highestVersion > currentVersion) {
+		display.value = true;
+		timeLeft.value = 20;
+		startCountDown();
+	}
+}
+
+function startCountDown() {
+	var interval = setInterval(() => {
+		timeLeft.value -= 1;
+		if (timeLeft.value <= 0) {
+			display.value = false;
+			clearInterval(interval);
+		}
+	}, 1000);
+}
+
+const latestHBVersion = computed(() => {
+	return latestHyperBashVersion;
+})
+const currentHBVersion = computed(() => {
+	if (store.state.version == "") {
+		return "unknown??"
+	}
+
+	return store.state.version;
 });
 </script>
 
@@ -116,6 +113,7 @@ export default defineComponent({
 	padding: 2em;
 	text-align: center;
 }
+
 .modal h1 {
 	margin-top: 0;
 }

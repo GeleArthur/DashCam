@@ -48,9 +48,9 @@ function onDisconnect() {
 
 function onOpen() {
 	cleanUpEvents();
-
 	store.commit("init");
-	state.WebsocketStatus = WebsocketStatusTypes.connected;
+
+	state.$patch({WebsocketStatus: WebsocketStatusTypes.connected});
 }
 
 // Magic

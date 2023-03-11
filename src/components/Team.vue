@@ -1,8 +1,8 @@
 <template>
-	<div class="team" :class="'team--'+teamColor, teamHasLogo ? 'team--dln' : ''">
+	<div class="team" :class="'team--' + teamColor, teamHasLogo ? 'team--dln' : ''">
 
-		<div class="team_players" :class="'team_players--'+teamColor" v-if="players">
-			<player v-for="(item, index) in players" :key="index" :playerID="$store.state.PlayerData.indexOf(item)" />
+		<div class="team_players" :class="'team_players--' + teamColor" v-if="players">
+			<player v-for="(item, index) in players" :key="index" :playerID="state.PlayerData.indexOf(item)" />
 		</div>
 		<div class="team_logo" v-if="teamHasLogo">
 			<img :src="teamLogo" width="94" height="94">
@@ -71,62 +71,60 @@
 }
 </style>
 
-<script lang="ts">
+<script setup lang="ts">
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
-import { defineComponent } from "vue";
+import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { computed } from "vue";
 import Player from "./Player.vue";
 
-export default defineComponent({
-	name: "Team",
-	components: {
-		Player,
-	},
-	computed: {
-		players(): PlayerStateInfo[] {
-			let data = store.state.PlayerData;
-			return data
-				.filter((e: PlayerStateInfo) => e.isActive == true && e.team == this.team)
-				.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
-		},
-		teamColor(): string {
-			if (this.team == Teams.red) {
-				return "red"
-			} else {
-				return "blue"
-			}
-		},
-		teamHasLogo(): boolean {
-			let teamInfo: TeamInfo | undefined = store.getters.getTeam(this.team);
-			if (teamInfo == undefined) {
-				return false;
-			}
-			else {
-				return teamInfo.logoFound;
-			}
-		},
-		teamLogo(): string {
-			if (store.state.settings.iconMode == 2) {
-				return this.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
-			}
+const state = useMatchStateStore();
 
-			let teamInfo: TeamInfo | undefined = store.getters.getTeam(this.team);
+const players = computed(() => {
+	let data = state.PlayerData;
+	return data
+		.filter((e: PlayerStateInfo) => e.isActive == true && e.team == props.team)
+		.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
+})
 
-			if (teamInfo == undefined) {
-				return "";
-			}
+const teamColor = computed(() => {
+	if (props.team == Teams.red) {
+		return "red"
+	} else {
+		return "blue"
+	}
+})
 
-			return teamInfo.logoFound ?
-				teamInfo.logo :
-				""
-		}
-	},
-	props: {
-		team: {
-			type: Number as () => Teams, // https://github.com/kaorun343/vue-property-decorator/issues/202
-			required: true,
-		},
-	},
+const teamHasLogo = computed(() => {
+	// let teamInfo: TeamInfo | undefined = store.getters.getTeam(props.team);
+	// if (teamInfo == undefined) {
+	// 	return false;
+	// }
+	// else {
+	// 	return teamInfo.logoFound;
+	// }
+	return false;
 });
+
+const teamLogo = computed(() => {
+	// if (store.state.settings.iconMode == 2) {
+	// 	return props.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
+	// }
+
+	// let teamInfo: TeamInfo | undefined = store.getters.getTeam(props.team);
+
+	// if (teamInfo == undefined) {
+	// 	return "";
+	// }
+
+	// return teamInfo.logoFound ?
+	// 	teamInfo.logo :
+	// 	""
+	return "";
+})
+
+const props = defineProps<{
+	team: Teams,
+}>()
 </script>

@@ -72,7 +72,9 @@ export interface MatchInfoType {
 	mapName: string;
 	timer: number;
 
+	blueName: string;
 	blueScore: number;
+	redName: string;
 	redScore: number;
 
 	payload: PayloadInfo;

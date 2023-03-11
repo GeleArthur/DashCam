@@ -8,16 +8,13 @@
                 <div id="iconURL">
                     <div>
                         <label for="TeamIconDashLeague">DashLeague</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="0"
-                            id="TeamIconDashLeague" /><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="0" id="TeamIconDashLeague" /><br>
 
                         <label for="TeamIconHyperCup">HyperCup</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="1"
-                            id="TeamIconHyperCup" /><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="1" id="TeamIconHyperCup" /><br>
 
                         <label for="TeamIconCustom">Custom</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="2"
-                            id="TeamIconCustom" /><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="2" id="TeamIconCustom" /><br>
                     </div>
                     <div v-if="iconURLSetting == 2" id="inputForm">
                         <label for="redInput">RedTeam:</label>
@@ -32,39 +29,50 @@
             </div>
         </div>
     </div>
-
 </template>
 
-<script lang="ts">
-import store from "@/store/store";
-import { defineComponent } from "vue";
-export default defineComponent({
-    data() {
-        return {
-            showSettings: false,
+<script setup lang="ts">
+import { iconModes } from "@/interfaces/StoreInterfaces/StoreState";
+import { useSettingStore } from "@/stores/SettingsStore";
+import { ref, onMounted, computed } from "vue";
+
+const state = useSettingStore();
+
+const showSettings = ref(false);
+
+onMounted(() => {
+    document.addEventListener("keypress", e => {
+        if (e.repeat) return;
+        if (e.key == "s") {
+            showSettings.value = !showSettings.value;
         }
+    })
+})
+
+const iconURLSetting = computed({
+    get() {
+        return state.IconSettings.iconMode
     },
-    mounted(){
-        document.addEventListener("keypress", e=>{
-            if(e.repeat) return;
-            if(e.key == "s"){
-                this.showSettings = !this.showSettings;
-            }
-        })
+    set(newValue: iconModes) {
+        state.IconSettings.iconMode = newValue;
+    }
+});
+
+const redIconURLSetting = computed({
+    get() {
+        return state.IconSettings.customRedIcon
     },
-    computed: {
-        iconURLSetting: {
-            get() { return store.state.settings.iconMode },
-            set(value: string) { store.commit("settingsChangeIcon", value) }
-        },
-        redIconURLSetting: {
-            get() { return store.state.settings.customRedIcon },
-            set(value: string) { store.commit("setCustomLogo", {isRedTeam:true, imageURL: value}) }
-        },
-        blueIconURLSetting: {
-            get() { return store.state.settings.customBlueIcon },
-            set(value: string) { store.commit("setCustomLogo", {isRedTeam:false, imageURL: value}) }
-        }
+    set(newValue: string) {
+        state.IconSettings.customRedIcon = newValue;
+    }
+});
+
+const blueIconURLSetting = computed({
+    get() {
+        return state.IconSettings.customBlueIcon
+    },
+    set(newValue: string) {
+        state.IconSettings.customBlueIcon = newValue;
     }
 });
 </script>

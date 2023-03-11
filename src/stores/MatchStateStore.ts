@@ -10,7 +10,7 @@ import {
 	WebsocketStatusTypes,
 } from "@/interfaces/StoreInterfaces/StoreState";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
 export const useMatchStateStore = defineStore("matchState", () => {
 	const WebsocketStatus = ref(WebsocketStatusTypes.disconnected);
@@ -19,6 +19,15 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	const PlayerData = ref([] as PlayerStateInfo[]);
 
 	const MatchInfo = ref({
+		matchType: MatchType.None,
+		mapName: "",
+		timer: 0,
+
+		blueName: "",
+		blueScore: 0,
+		redName: "",
+		redScore: 0,
+
 		payload: {
 			amountBlueOnCart: 0,
 			cartBlockedByRed: false,
@@ -36,11 +45,6 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		controlPoint: {
 			TeamScoringPoints: Teams.none,
 		},
-		blueScore: 0,
-		redScore: 0,
-		mapName: "",
-		matchType: MatchType.None,
-		timer: 0,
 	} as MatchInfoType);
 
 	for (let i = 0; i < 11; i++) {
