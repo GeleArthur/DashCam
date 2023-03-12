@@ -4,13 +4,12 @@ import {
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
-	DashCamSettings,
 	PlayerStateInfo,
 	TeamInfo,
 	WebsocketStatusTypes,
 } from "@/interfaces/StoreInterfaces/StoreState";
 import { defineStore } from "pinia";
-import { computed, ref } from "vue";
+import { ref } from "vue";
 
 export const useMatchStateStore = defineStore("matchState", () => {
 	const WebsocketStatus = ref(WebsocketStatusTypes.disconnected);
@@ -108,3 +107,8 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		TeamData,
 	};
 });
+
+
+
+
+

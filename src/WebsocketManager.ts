@@ -10,6 +10,8 @@ let state: storeType;
 let websocketClient: WebSocket;
 let retryID: number;
 
+let prevConnected = false;
+
 export function createWebsocketManager() {
 	state = useMatchStateStore();
 
@@ -43,23 +45,32 @@ function tryToConnect() {
 function onDisconnect() {
 	// TODO retry to connect
 	state.WebsocketStatus = WebsocketStatusTypes.disconnected;
+
+	if(prevConnected){
+		state.$reset();
+		setUpEvents();
+		prevConnected = false;
+	}
 }
 
 function onOpen() {
 	cleanUpEvents();
-	state.$reset()
+	state.$reset();
 
-	state.$patch({WebsocketStatus: WebsocketStatusTypes.connected});
+	prevConnected = true;
+
+	state.$patch({ WebsocketStatus: WebsocketStatusTypes.connected });
 }
 
 // Magic
-const HyperBashCalls: { [key: string]: (socketData: any) => void } = hyperBashCalls;
+const HyperBashCalls: { [key: string]: (socketData: any) => void } =
+	hyperBashCalls;
 
 function onMessage(ev: MessageEvent<string>) {
 	var socketData = JSON.parse(ev.data) as { type: string };
 
-	if(HyperBashCalls[socketData.type] == undefined){
-		console.error(socketData.type)
+	if (HyperBashCalls[socketData.type] == undefined) {
+		console.error(socketData.type);
 		return;
 	}
 
