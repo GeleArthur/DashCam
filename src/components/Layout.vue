@@ -92,121 +92,126 @@
 }
 </style>
 
-<script lang="ts">
-import { TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+<script setup lang="ts">
+import { iconModes, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
-import { defineComponent } from "vue";
+import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useSettingStore } from "@/stores/SettingsStore";
+import { watch } from "vue";
 import KillFeed from "./KillFeed.vue";
 import PlayerBar from "./PlayerBar.vue";
 import Scoreboard from "./Scoreboard.vue";
 import Team from "./Team.vue";
 
-export default defineComponent({
-	name: "Layout",
-	data() {
-		return {};
-	},
-	components: {
-		KillFeed,
-		Team,
-		Scoreboard,
-		PlayerBar
-	},
-	watch: {
-		"$store.getters.redTeamName": {
-			handler() {
-				this.getTeamInfo(true);
-			},
-			deep: true,
-		},
-		"$store.getters.blueTeamName": {
-			handler() {
-				this.getTeamInfo(false);
-			},
-			deep: true,
-		},
-		"$store.state.settings.iconMode": {
-			handler() {
-				this.getTeamInfo(true);
-				this.getTeamInfo(false);
+const state = useMatchStateStore();
+const settingState = useSettingStore();
+
+watch(() => state.TeamData.red.name, () => {
+	getTeamInfo(true);
+})
+
+watch(() => state.TeamData.blue.name, () => {
+	getTeamInfo(false);
+})
+
+watch(() => settingState.IconSettings.iconMode, () => {
+	getTeamInfo(false);
+	getTeamInfo(true);
+})
+
+async function getTeamInfo(updateRed: boolean) {
+	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
+	let newTeamData = { name: teamName } as TeamInfo
+
+	if(updateRed){
+		console.log("Updating for red")
+	}else{
+		console.log("Updating for blue")
+
+	}
+
+	// dashleague
+	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
+		try {
+			let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
+			let teamjson = await team.json();
+
+			if (teamjson.data == false) {
+				newTeamData.logoFound = false;
+				newTeamData.extrasFound = false;
 			}
-		}
-	},
+			else {
+				newTeamData.logoFound = true;
+				newTeamData.logo = teamjson.data.logo;
 
-	methods: {
-		async getTeamInfo(updateRed: boolean) {
-			const teamName: string = updateRed ? store.getters.redTeamName : store.getters.blueTeamName;
-			let teamData = { name: teamName } as TeamInfo
-
-			// dashleague
-			if (store.state.settings.iconMode == 0) {
 				try {
-					let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
-					let teamjson = await team.json();
+					newTeamData.extrasFound = true;
+					newTeamData.matches = teamjson.data.stats[0].matches;
+					newTeamData.wins = teamjson.data.stats[0].wins;
+					newTeamData.losses = teamjson.data.stats[0].losses;
 
-					if (teamjson.data == false) {
-						teamData.logoFound = false;
-						teamData.extrasFound = false;
-					}
-					else {
-						teamData.logoFound = true;
-						teamData.logo = teamjson.data.logo;
+					newTeamData.players = [];
 
-						try {
-							teamData.extrasFound = true;
-							teamData.matches = teamjson.data.stats[0].matches;
-							teamData.wins = teamjson.data.stats[0].wins;
-							teamData.losses = teamjson.data.stats[0].losses;
-
-							teamData.players = [];
-
-							for (const player in teamjson.data.roster.players) {
-								if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
-									teamData.players.push(teamjson.data.roster.players[player].name)
-								}
-							}
-						}
-						catch (error) {
-							teamData.extrasFound = false;
-							console.log(`Failed to load extras for ${teamName}`)
+					for (const player in teamjson.data.roster.players) {
+						if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
+							newTeamData.players.push(teamjson.data.roster.players[player].name)
 						}
 					}
 				}
-				catch (e) {
-					teamData.logoFound = false;
-					teamData.extrasFound = false;
-					console.error("Failed to get logo falling back " + e);
+				catch (error) {
+					newTeamData.extrasFound = false;
+					console.log(`Failed to load extras for ${teamName}`)
 				}
 			}
-			else if (store.state.settings.iconMode == 1) {
-				teamData.extrasFound = false;
-
-				try {
-					let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
-
-					const logoRequest = await fetch(logoURL);
-
-					// Sucks that we have to request twice any other way?
-					if (logoRequest.ok) {
-						teamData.logoFound = true;
-						teamData.logo = logoURL;
-					}
-					else {
-						teamData.logoFound = false;
-					}
-				}
-				catch (e) {
-					teamData.logoFound = false;
-					console.log("Failed to get logo falling back " + e)
-				}
-			}
-			else if (store.state.settings.iconMode == 2) {
-				teamData.extrasFound = false;
-				teamData.logoFound = true;
-			}
-
-			store.commit("setTeamData", { isRedTeam: updateRed, teamData: teamData })
 		}
-	},
-});
+		catch (e) {
+			newTeamData.logoFound = false;
+			newTeamData.extrasFound = false;
+			console.error("Failed to get logo falling back " + e);
+		}
+	}
+	else if (store.state.settings.iconMode == 1) {
+		newTeamData.extrasFound = false;
+
+		try {
+			let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
+
+			const logoRequest = await fetch(logoURL);
+
+			// Sucks that we have to request twice any other way?
+			if (logoRequest.ok) {
+				newTeamData.logoFound = true;
+				newTeamData.logo = logoURL;
+			}
+			else {
+				newTeamData.logoFound = false;
+			}
+		}
+		catch (e) {
+			newTeamData.logoFound = false;
+			console.log("Failed to get logo falling back " + e)
+		}
+	}
+	else if (store.state.settings.iconMode == 2) {
+		newTeamData.extrasFound = false;
+		newTeamData.logoFound = true;
+	}
+
+	if (updateRed) {
+		state.$patch({
+			TeamData: {
+				red: newTeamData
+			}
+		})
+	} else {
+		state.$patch({
+			TeamData: {
+				blue: newTeamData
+			}
+		})
+	}
+
+
+
+}
 </script>

@@ -1,10 +1,10 @@
 <template>
-	<div class="team" :class="'team--' + teamColor, teamHasLogo ? 'team--dln' : ''">
+	<div class="team" :class="'team--' + teamColor, teamData.logoFound ? 'team--dln' : ''">
 
 		<div class="team_players" :class="'team_players--' + teamColor" v-if="players">
 			<player v-for="(item, index) in players" :key="index" :playerID="state.PlayerData.indexOf(item)" />
 		</div>
-		<div class="team_logo" v-if="teamHasLogo">
+		<div class="team_logo" v-if="teamData.logoFound">
 			<img :src="teamLogo" width="94" height="94">
 		</div>
 	</div>
@@ -73,13 +73,15 @@
 
 <script setup lang="ts">
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
-import { PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { iconModes, PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import store from "@/store/store";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useSettingStore } from "@/stores/SettingsStore";
 import { computed } from "vue";
 import Player from "./Player.vue";
 
 const state = useMatchStateStore();
+const settingsState = useSettingStore();
 
 const players = computed(() => {
 	let data = state.PlayerData;
@@ -96,32 +98,17 @@ const teamColor = computed(() => {
 	}
 })
 
-const teamHasLogo = computed(() => {
-	// let teamInfo: TeamInfo | undefined = store.getters.getTeam(props.team);
-	// if (teamInfo == undefined) {
-	// 	return false;
-	// }
-	// else {
-	// 	return teamInfo.logoFound;
-	// }
-	return false;
-});
+const teamData = computed(() => {
+	if (props.team == Teams.red) return state.TeamData.red;
+	else return state.TeamData.blue;
+})
 
 const teamLogo = computed(() => {
-	// if (store.state.settings.iconMode == 2) {
-	// 	return props.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
-	// }
+	if (settingsState.IconSettings.iconMode == iconModes.custom) {
+		return props.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
+	}
 
-	// let teamInfo: TeamInfo | undefined = store.getters.getTeam(props.team);
-
-	// if (teamInfo == undefined) {
-	// 	return "";
-	// }
-
-	// return teamInfo.logoFound ?
-	// 	teamInfo.logo :
-	// 	""
-	return "";
+	return teamData.value.logo;
 })
 
 const props = defineProps<{

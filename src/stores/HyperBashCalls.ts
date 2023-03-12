@@ -8,12 +8,17 @@ import {
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useSettingStore } from "./SettingsStore";
 
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;
 
+type storeSettingsType = ReturnType<typeof useSettingStore>;
+let stateSettings: storeSettingsType;
+
 export function initStore() {
 	state = useMatchStateStore();
+	stateSettings = useSettingStore();
 }
 
 function playerJoins(socketData: PlayerJoinsMessage) {
@@ -44,14 +49,76 @@ function playerJoins(socketData: PlayerJoinsMessage) {
 		feetPosition: { X: 0, Y: 0, Z: 0 },
 		feetRotation: 0,
 	};
+
+	getClanName();
 }
 
 function playerLeaves(socketData: any) {
 	state.PlayerData[socketData.playerID].isActive = false;
+	getClanName();
 }
 
 function switchTeam(socketData: any) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
+	getClanName();
+}
+
+function getClanName() {
+	var redPlayers = state.PlayerData.filter((player) => {
+		return (
+			player.isActive &&
+			player.team == Teams.red &&
+			player.clan != "" &&
+			player.clan != "BOT"
+		);
+	}).map((v) => v.clan);
+
+	const redPlayersCount = {} as { [key: string]: number };
+	let redMaxCount = 0;
+	let redMaxString = "red";
+
+	for (let i = 0; i < redPlayers.length; i++) {
+		if (redPlayersCount[redPlayers[i]]) {
+			redPlayersCount[redPlayers[i]]++;
+		} else {
+			redPlayersCount[redPlayers[i]] = 1;
+		}
+
+		if (redPlayersCount[redPlayers[i]] > redMaxCount) {
+			redMaxCount = redPlayersCount[redPlayers[i]];
+			redMaxString = redPlayers[i];
+		}
+	}
+
+	state.TeamData.red.name = redMaxString;
+
+	var bluePlayers = state.PlayerData.filter((player) => {
+		return (
+			player.isActive &&
+			player.team == Teams.blue &&
+			player.clan != "" &&
+			player.clan != "BOT"
+		);
+	}).map((e) => e.clan);
+
+	const bluePlayersCount = {} as { [key: string]: number };
+	let blueMaxCount = 0;
+	let blueMaxString = "blue";
+
+	for (let i = 0; i < bluePlayers.length; i++) {
+		if (bluePlayersCount[bluePlayers[i]]) {
+			bluePlayersCount[bluePlayers[i]]++;
+		} else {
+			bluePlayersCount[bluePlayers[i]] = 1;
+		}
+
+		if (bluePlayersCount[bluePlayers[i]] > blueMaxCount) {
+			blueMaxCount = bluePlayersCount[bluePlayers[i]];
+			blueMaxString = bluePlayers[i];
+		}
+	}
+
+	state.TeamData.blue.name = blueMaxString;
 }
 
 function playerPos(socketData: playerPositionMessage) {
@@ -158,7 +225,7 @@ function controlPoint(socketData: any) {
 
 function version(socketData: any) {
 	console.log(`HyperBash: ${socketData.HyperBashVersion}`);
-	// state.version = socketData.HyperBashVersion;
+	stateSettings.Version = socketData.HyperBashVersion;
 }
 
 export let hyperBashCalls = {

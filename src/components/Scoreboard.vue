@@ -1,7 +1,7 @@
 <template>
 	<div class="scoreboard">
 		<div class="scoreboard_wrapper">
-			<div class="scoreboard_name scoreboard_name--blue">{{ $store.getters.blueTeamName }}</div>
+			<div class="scoreboard_name scoreboard_name--blue">{{ state.TeamData.blue.name }}</div>
 			<div class="scoreboard_score scoreboard_score--blue">
 				{{ blueTeamScore }}<span v-if="matchInfo.matchType === MatchType.Payload">%</span>
 			</div>
@@ -32,7 +32,7 @@
 					{{ timer }}
 				</div>
 			</div>
-			<div class="scoreboard_name scoreboard_name--red">{{ $store.getters.redTeamName }}</div>
+			<div class="scoreboard_name scoreboard_name--red">{{ state.TeamData.red.name }}</div>
 			<div class="scoreboard_score scoreboard_score--red">
 				{{ redTeamScore }}<span v-if="matchInfo.matchType === MatchType.Payload">%</span>
 			</div>

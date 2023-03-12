@@ -23,9 +23,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		mapName: "",
 		timer: 0,
 
-		blueName: "",
 		blueScore: 0,
-		redName: "",
 		redScore: 0,
 
 		payload: {
@@ -46,6 +44,29 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			TeamScoringPoints: Teams.none,
 		},
 	} as MatchInfoType);
+
+	const TeamData = ref({
+		red: {
+			name: "red",
+			extrasFound: false,
+			logo: "",
+			logoFound: false,
+			losses: 0,
+			matches: 0,
+			players: [],
+			wins: 0,
+		} as TeamInfo,
+		blue: {
+			name: "blue",
+			extrasFound: false,
+			logo: "",
+			logoFound: false,
+			losses: 0,
+			matches: 0,
+			players: [],
+			wins: 0,
+		} as TeamInfo,
+	});
 
 	for (let i = 0; i < 11; i++) {
 		PlayerData.value[i] = {
@@ -79,20 +100,11 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		};
 	}
 
-	// state.settings.iconMode = 0;
-
-	// Needs to be moved to a different store
-
-	// const TeamData = ref({ red: {} as TeamInfo, blue: {} as TeamInfo });
-
-	// Yes :(
 	return {
 		WebsocketStatus,
 		SelectedPlayerIndex,
 		PlayerData,
 		MatchInfo,
-		// Version,
-		// Settings,
-		// TeamData,
+		TeamData,
 	};
 });
