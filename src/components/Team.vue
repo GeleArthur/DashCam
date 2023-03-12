@@ -72,7 +72,7 @@
 </style>
 
 <script setup lang="ts">
-import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { iconModes, PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
@@ -84,6 +84,30 @@ const settingsState = useSettingStore();
 
 const players = computed(() => {
 	let data = state.PlayerData;
+
+	if (state.MatchInfo.matchType == MatchType.Deathmatch) {
+
+		var teamSort = data
+			.filter((e: PlayerStateInfo) => e.isActive == true)
+			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
+
+		teamSort = teamSort.filter((e, index) => {
+			if (props.team == Teams.blue) {
+				if (index >= 0 && index <= 4) {
+					return true;
+				}
+			} 
+			else if (props.team == Teams.red) {
+				if (index >= 5 && index <= 9) {
+					return true;
+				}
+			}
+			return false;
+		})
+
+		return teamSort;
+	}
+
 	return data
 		.filter((e: PlayerStateInfo) => e.isActive == true && e.team == props.team)
 		.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
