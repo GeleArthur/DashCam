@@ -21,7 +21,7 @@ import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
 import { createWebsocketManager } from "./WebsocketManager";
-import { initStore } from "@/stores/HyperBashCalls"
+import { hyperBashCalls, initStore } from "@/stores/HyperBashCalls"
 import { useMatchStateStore } from "./stores/MatchStateStore";
 
 const state = useMatchStateStore();
@@ -33,12 +33,12 @@ function showHelp() {
 }
 
 function switchTeam() {
-	for (let i = 0; i < store.state.PlayerData.length; i++) {
-		if (store.state.PlayerData[i].isActive) {
-			store.commit("switchTeam", {
+	for (let i = 0; i < state.PlayerData.length; i++) {
+		if (state.PlayerData[i].isActive) {
+			hyperBashCalls.switchTeam({
 				playerID: i,
-				team: !store.state.PlayerData[i].team, // Invert
-			});
+				team: !state.PlayerData[i].team, // Invert
+			})
 		}
 	}
 }

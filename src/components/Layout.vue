@@ -123,11 +123,10 @@ async function getTeamInfo(updateRed: boolean) {
 	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
 	let newTeamData = { name: teamName } as TeamInfo
 
-	if(updateRed){
+	if (updateRed) {
 		console.log("Updating for red")
-	}else{
+	} else {
 		console.log("Updating for blue")
-
 	}
 
 	// dashleague
