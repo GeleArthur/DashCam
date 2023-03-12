@@ -109,10 +109,8 @@
 </style>
 
 <script setup lang="ts">
-import store from "@/store/store";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
-import { defineComponent, computed } from "vue";
-import { mapState } from "vuex";
+import { computed } from "vue";
 import PlayerDashes from "./PlayerDashes.vue";
 
 const state = useMatchStateStore();

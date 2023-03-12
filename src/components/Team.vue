@@ -74,7 +74,6 @@
 <script setup lang="ts">
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { iconModes, PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
-import store from "@/store/store";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { computed } from "vue";
@@ -105,7 +104,7 @@ const teamData = computed(() => {
 
 const teamLogo = computed(() => {
 	if (settingsState.IconSettings.iconMode == iconModes.custom) {
-		return props.team == Teams.blue ? store.state.settings.customBlueIcon : store.state.settings.customRedIcon;
+		return props.team == Teams.blue ? settingsState.IconSettings.customRedIcon : settingsState.IconSettings.customBlueIcon;
 	}
 
 	return teamData.value.logo;

@@ -20,7 +20,6 @@
 
 <script setup lang="ts">
 import { WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
-import store from "@/store/store";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { MutationType } from "pinia";
@@ -28,6 +27,7 @@ import { ref, watch, computed } from "vue";
 import { latestHyperBashVersion } from "../Util/ConstVars";
 
 const state = useMatchStateStore();
+const settingsState = useSettingStore();
 
 const display = ref(false);
 const timeLeft = ref(0);
@@ -43,7 +43,7 @@ watch(() => state.WebsocketStatus, (connection) => {
 })
 
 function checkVersion() {
-	var currentVersion = store.state.version.replaceAll("\.", "");
+	var currentVersion = settingsState.Version.replaceAll("\.", "");
 	var highestVersion = latestHyperBashVersion.replaceAll("\.", "");
 
 	if (highestVersion > currentVersion) {
@@ -67,11 +67,11 @@ const latestHBVersion = computed(() => {
 	return latestHyperBashVersion;
 })
 const currentHBVersion = computed(() => {
-	if (store.state.version == "") {
+	if (settingsState.Version == "") {
 		return "unknown??"
 	}
 
-	return store.state.version;
+	return settingsState.Version;
 });
 </script>
 

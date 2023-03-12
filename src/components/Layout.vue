@@ -94,7 +94,6 @@
 
 <script setup lang="ts">
 import { iconModes, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
-import store from "@/store/store";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { watch } from "vue";
@@ -169,7 +168,7 @@ async function getTeamInfo(updateRed: boolean) {
 			console.error("Failed to get logo falling back " + e);
 		}
 	}
-	else if (store.state.settings.iconMode == 1) {
+	else if (settingState.IconSettings.iconMode == iconModes.hyperCup) {
 		newTeamData.extrasFound = false;
 
 		try {
@@ -191,7 +190,7 @@ async function getTeamInfo(updateRed: boolean) {
 			console.log("Failed to get logo falling back " + e)
 		}
 	}
-	else if (store.state.settings.iconMode == 2) {
+	else if (settingState.IconSettings.iconMode == iconModes.custom) {
 		newTeamData.extrasFound = false;
 		newTeamData.logoFound = true;
 	}

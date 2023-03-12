@@ -124,7 +124,6 @@ div {
 
 <script setup lang="ts">
 import { ref, computed, onMounted } from "vue";
-import store from "../store/store";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
 import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
@@ -159,8 +158,8 @@ function onPlayerKilled(payload: KillFeedMessage) {
 }
 function getPlayersTeamAndName(payload: KillFeedMessage): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
-	const killer = store.state.PlayerData[payload.killer];
-	const victim = store.state.PlayerData[payload.victim];
+	const killer = state.PlayerData[payload.killer];
+	const victim = state.PlayerData[payload.victim];
 	if (killer == undefined || victim == undefined)
 		return undefined;
 

@@ -1,5 +1,4 @@
 import { HOST, PORT } from "./Util/ConstVars";
-import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { hyperBashCalls } from "@/stores/HyperBashCalls";
 import { useSettingStore } from "./stores/SettingsStore";
@@ -48,7 +47,7 @@ function onDisconnect() {
 
 function onOpen() {
 	cleanUpEvents();
-	store.commit("init");
+	state.$reset()
 
 	state.$patch({WebsocketStatus: WebsocketStatusTypes.connected});
 }
@@ -58,10 +57,9 @@ const HyperBashCalls: { [key: string]: (socketData: any) => void } = hyperBashCa
 
 function onMessage(ev: MessageEvent<string>) {
 	var socketData = JSON.parse(ev.data) as { type: string };
-	store.commit(socketData.type, socketData);
 
 	if(HyperBashCalls[socketData.type] == undefined){
-		// console.log(socketData.type )
+		console.error(socketData.type)
 		return;
 	}
 

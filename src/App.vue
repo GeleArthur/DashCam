@@ -17,7 +17,6 @@ import Layout from "./components/Layout.vue";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";
 import Settings from "./components/Settings.vue";
-import store from "./store/store";
 import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/TestingScripts"
 import { createWebsocketManager } from "./WebsocketManager";
@@ -48,7 +47,7 @@ function AddFakeData() {
 }
 
 onMounted(() => {
-	store.commit("init");
+	state.$reset();
 	initStore();
 	createWebsocketManager();
 })
