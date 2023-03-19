@@ -122,12 +122,6 @@ async function getTeamInfo(updateRed: boolean) {
 	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
 	let newTeamData = { name: teamName } as TeamInfo
 
-	if (updateRed) {
-		console.log("Updating for red")
-	} else {
-		console.log("Updating for blue")
-	}
-
 	// dashleague
 	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
 		try {

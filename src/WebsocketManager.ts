@@ -43,10 +43,9 @@ function tryToConnect() {
 }
 
 function onDisconnect() {
-	// TODO retry to connect
 	state.WebsocketStatus = WebsocketStatusTypes.disconnected;
 
-	if(prevConnected){
+	if (prevConnected) {
 		state.$reset();
 		setUpEvents();
 		prevConnected = false;

@@ -6,7 +6,6 @@ import { hyperBashCalls } from "@/stores/HyperBashCalls";
 
 let fakeDataInterval = 0;
 
-
 export function CreateFakeData() {
 
 	const state = useMatchStateStore();

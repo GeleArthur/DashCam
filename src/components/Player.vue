@@ -126,13 +126,13 @@ const playerData = computed(() => {
 })
 
 const playerScore = computed(() => {
-	var score = state.PlayerData[props.playerID].score;
+	var score = playerData.value.score;
 
 	return score.toLocaleString('en-US');
 });
 
 const maxDashes = computed(() => {
-	return state.PlayerData[props.playerID].dashPickup ? 5 : 3;
+	return playerData.value.dashPickup ? 5 : 3;
 })
 
 const props = defineProps<{
