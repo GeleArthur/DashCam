@@ -8,7 +8,8 @@ import {
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
-import { useSettingStore } from "./SettingsStore";
+import { useSettingStore } from "../stores/SettingsStore";
+import { Event } from "@/Util/EventSystem";
 
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;
@@ -227,6 +228,8 @@ function version(socketData: any) {
 	console.log(`HyperBash: ${socketData.HyperBashVersion}`);
 	stateSettings.Version = socketData.HyperBashVersion;
 }
+
+// const playerJoinsEvent = new Event<string>();
 
 export let hyperBashCalls = {
 	playerJoins,

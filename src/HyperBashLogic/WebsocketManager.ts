@@ -1,8 +1,8 @@
-import { HOST, PORT } from "./Util/ConstVars";
-import { WebsocketStatusTypes } from "./interfaces/StoreInterfaces/StoreState";
-import { hyperBashCalls } from "@/stores/HyperBashCalls";
-import { useSettingStore } from "./stores/SettingsStore";
-import { useMatchStateStore } from "./stores/MatchStateStore";
+import { HOST, PORT } from "../Util/ConstVars";
+import { WebsocketStatusTypes } from "../interfaces/StoreInterfaces/StoreState";
+import { hyperBashCalls } from "@/HyperBashLogic/HyperBashCalls";
+import { useSettingStore } from "../stores/SettingsStore";
+import { useMatchStateStore } from "../stores/MatchStateStore";
 
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;

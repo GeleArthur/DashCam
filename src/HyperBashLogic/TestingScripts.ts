@@ -1,8 +1,8 @@
 import { PlayerJoinsMessage } from "@/interfaces/HyperBashMessages.interface";
 import { getRandomArbitrary, getRandomInt } from "@/Util/UtilFunctions";
-import { MatchType } from "./interfaces/StoreInterfaces/MatchInfo";
-import { useMatchStateStore } from "./stores/MatchStateStore";
-import { hyperBashCalls } from "@/stores/HyperBashCalls";
+import { MatchType } from "../interfaces/StoreInterfaces/MatchInfo";
+import { useMatchStateStore } from "../stores/MatchStateStore";
+import { hyperBashCalls } from "@/HyperBashLogic/HyperBashCalls";
 
 let fakeDataInterval = 0;
 
