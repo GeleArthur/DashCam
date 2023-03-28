@@ -127,7 +127,7 @@ import { ref, computed, onMounted } from "vue";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
 import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
-import { KillFeedMessage } from "@/interfaces/HyperBashMessages.interface";
+import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 
 const state = useMatchStateStore();
@@ -146,7 +146,7 @@ onMounted(() => {
 	// 	});
 });
 
-function onPlayerKilled(payload: KillFeedMessage) {
+function onPlayerKilled(payload: KillFeedLayout) {
 	let kill = getPlayersTeamAndName(payload);
 
 	if (kill == undefined) return;
@@ -156,7 +156,7 @@ function onPlayerKilled(payload: KillFeedMessage) {
 	}
 	killsQueue.value.push(kill);
 }
-function getPlayersTeamAndName(payload: KillFeedMessage): KillData | undefined {
+function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
 	const killer = state.PlayerData[payload.killer];
 	const victim = state.PlayerData[payload.victim];

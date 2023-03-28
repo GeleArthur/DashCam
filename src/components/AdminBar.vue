@@ -12,16 +12,19 @@ import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { ref, computed } from "vue";
 import { WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/HyperBashLogic/TestingScripts"
-import { hyperBashCalls, initStore } from "@/HyperBashLogic/HyperBashCalls"
+import { initStore } from "@/HyperBashLogic/HyperBashCalls"
+import { EventSwitchTeam } from "@/HyperBashLogic/HyperBashEvents"
+import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 
 const state = useMatchStateStore();
 
 function switchTeam() {
     for (let i = 0; i < state.PlayerData.length; i++) {
         if (state.PlayerData[i].isActive) {
-            hyperBashCalls.switchTeam({
+            EventSwitchTeam.invoke({
+                type: "switchTeam",
                 playerID: i,
-                team: !state.PlayerData[i].team, // Invert
+                team: state.PlayerData[i].team == Teams.red ? Teams.blue : Teams.red,
             })
         }
     }

@@ -1,120 +1,47 @@
-export enum AnnouncerMessage {
-	match_1m_remaining,
-	match_countdown_1,
-	match_countdown_2,
-	match_countdown_3,
-	match_countdown_4,
-	match_countdown_5,
-	match_countdown_6,
-	match_countdown_7,
-	match_countdown_8,
-	match_countdown_9,
-	match_countdown_10,
-	match_start_321_go,
-	mlg,
-	team_blue_captured,
-	team_blue_winning,
-	team_blue_won,
-	team_red_captured,
-	team_red_winning,
-	team_red_won,
-	take_off_headset,
-	match_end,
-	match_tie,
-	firstBlood,
-	team_blue_scores_in,
-	team_red_scores_in,
-	countered,
-	resetting_game,
-	team_blue_captured_point_a,
-	team_blue_captured_point_b,
-	team_blue_captured_point_c,
-	team_red_captured_point_a,
-	team_red_captured_point_b,
-	team_red_captured_point_c,
-	matchpoint,
-	team_blue_wins_in,
-	team_red_wins_in,
-	prepare_your_defences,
-	prepare_to_start,
-	checkpoint,
-	switching_sides,
-	overtime,
-	team_blue_wins_round,
-	team_red_wins_round,
-	go,
-	time_up,
-	match_start_321,
-	team_blue_scores,
-	team_red_scores,
-	dm_1_kill_remaining,
-	dm_2_kills_remaining,
-	dm_3_kills_remaining,
-	dm_10_kills_remaining,
-	dm_red_lead,
-	dm_blue_lead,
-	dm_yellow_lead,
-	dm_green_lead,
-	dm_purple_lead,
-	dm_orange_lead,
-	dm_black_lead,
-	dm_white_lead,
-	dm_cyan_lead,
-	dm_pink_lead,
-	dm_grey_lead,
-	dm_red_wins,
-	dm_blue_wins,
-	dm_yellow_wins,
-	dm_green_wins,
-	dm_purple_wins,
-	dm_orange_wins,
-	dm_black_wins,
-	dm_white_wins,
-	dm_cyan_wins,
-	dm_pink_wins,
-	dm_grey_wins,
-	suddendeath,
-	el_2_points_red_win,
-	el_3_points_red_win,
-	el_2_points_blue_win,
-	el_3_points_blue_win,
-	el_2_points_win,
-	el_3_points_win,
-	el_match_point_red,
-	el_match_point_blue,
-	el_match_0,
-	el_match_1,
-	el_match_2,
-	el_match_3,
-	el_match_4,
-	el_match_5,
-	el_match_6,
-	el_match_7,
-	el_match_8,
-	el_match_9,
-	el_match_10,
-	el_match_11,
-	el_match_12,
-	el_match_13,
-	el_match_14,
-	el_match_15,
-	el_match_16,
-	el_match_17,
-	el_match_18,
-	el_match_19,
-	el_match_20,
-	el_match_21,
-	ctf_flag_stolen_red,
-	ctf_flag_stolen_blue,
-	ctf_flag_returned_red,
-	ctf_flag_returned_blue,
-	ctf_flag_dropped_red,
-	ctf_flag_dropped_blue,
-	el_ace,
+import { MatchType, AnnouncerTypes } from "./StoreInterfaces/MatchInfo";
+
+export interface HyperBashMessage {
+	type: string;
 }
 
-export interface KillFeedMessage {
-	type: string;
+export interface AnnouncerLayout extends HyperBashMessage {
+	message: AnnouncerTypes;
+}
+
+export interface ControlPointLayout extends HyperBashMessage {
+	controllingTeam: number;
+}
+
+export interface CurrentlySpectatingLayout extends HyperBashMessage {
+	playerID: number;
+}
+
+export interface DashUpdateLayout extends HyperBashMessage {
+	playerID: number;
+	dashAmount: number;
+	hasDashUpgrade: boolean;
+
+	isDashing: boolean;
+	isSprinting: boolean;
+	isFalling: boolean;
+}
+
+export interface DominationLayout extends HyperBashMessage {
+	scores: number[];
+	countDownTimer: number;
+	isScoring: boolean;
+}
+
+export interface ErrorLayout extends HyperBashMessage {
+	errorText: string;
+}
+
+export interface HealthUpdateLayout extends HyperBashMessage {
+	playerID: number;
+	health: number;
+}
+
+export interface KillFeedLayout extends HyperBashMessage {
 	killer: number;
 	victim: number;
 	headShot: boolean;
@@ -122,15 +49,28 @@ export interface KillFeedMessage {
 	weaponType: string;
 }
 
-export interface LoadoutUpdateMessage {
-	type: string;
+export interface LoadoutUpdateLayout extends HyperBashMessage {
 	playerID: number;
 	leftHand: string;
 	rightHand: string;
 }
 
-export interface PlayerJoinsMessage {
-	type: string;
+export interface MatchStartLayout extends HyperBashMessage {
+	matchType: MatchType;
+	redTeamName: string;
+	blueTeamName: string;
+	mapName: string;
+}
+
+export interface PayloadLayout extends HyperBashMessage {
+	secondRound: boolean;
+	checkPoint: boolean;
+	cartBlockedByRed: boolean;
+	amountBlueOnCart: number;
+	precisePayloadDistance: number;
+}
+
+export interface PlayerJoinsLayout extends HyperBashMessage {
 	name: string;
 	clanTag: string;
 	team: number;
@@ -139,9 +79,11 @@ export interface PlayerJoinsMessage {
 	id: string;
 }
 
-export interface playerPositionMessage {
-	type: string;
+export interface PlayerLeavesLayout extends HyperBashMessage {
+	playerID: number;
+}
 
+export interface PlayerPositionLayout extends HyperBashMessage {
 	rootTransform: number[];
 
 	headPos: number[];
@@ -154,3 +96,40 @@ export interface playerPositionMessage {
 	rightHandRot: number[];
 }
 
+export interface RespawnLayout extends HyperBashMessage {
+	playerID: number;
+}
+
+export interface SceneChangeLayout extends HyperBashMessage {
+	sceneIndex: number;
+}
+
+export interface ScoreboardLayout extends HyperBashMessage {
+	kills: number[];
+	deads: number[];
+	scores: number[];
+	pings: number[];
+}
+
+export interface StatusLayout extends HyperBashMessage {
+	runStatus: string;
+	currentScene: string;
+}
+
+export interface SwitchTeamLayout extends HyperBashMessage {
+	playerID: number;
+	team: number;
+}
+
+export interface TeamScoreLayout extends HyperBashMessage {
+	blueTeam: number;
+	redTeam: number;
+}
+
+export interface TimerLayout extends HyperBashMessage {
+	time: number;
+}
+
+export interface VersionLayout extends HyperBashMessage {
+	HyperBashVersion: string;
+}

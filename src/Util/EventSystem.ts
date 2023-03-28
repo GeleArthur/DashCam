@@ -1,6 +1,10 @@
-type Listener<T> = (payload: T) => void;
+import { HyperBashMessage } from "@/interfaces/HyperBashMessages.interface";
 
-class Event<T> {
+type Listener<T extends HyperBashMessage> = (payload: T) => void;
+
+class HBEvent<T extends HyperBashMessage> {
+	constructor(public type: string) {}
+
 	private listeners: Listener<T>[] = [];
 
 	subscribe(listener: Listener<T>) {
@@ -25,4 +29,4 @@ class Event<T> {
 	}
 }
 
-export { Event };
+export { HBEvent };

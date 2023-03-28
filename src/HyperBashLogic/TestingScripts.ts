@@ -1,8 +1,8 @@
-import { PlayerJoinsMessage } from "@/interfaces/HyperBashMessages.interface";
+import { PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
 import { getRandomArbitrary, getRandomInt } from "@/Util/UtilFunctions";
 import { MatchType } from "../interfaces/StoreInterfaces/MatchInfo";
 import { useMatchStateStore } from "../stores/MatchStateStore";
-import { hyperBashCalls } from "@/HyperBashLogic/HyperBashCalls";
+import { EventCurrentlySpectating, EventDashUpdate, EventHealthUpdate, EventKillFeed, EventPlayerJoins, EventPlayerLeaves, EventScoreboard } from "./HyperBashEvents";
 
 let fakeDataInterval = 0;
 
@@ -13,7 +13,7 @@ export function CreateFakeData() {
 	clearInterval(fakeDataInterval);
 
 	for (let i = state.PlayerData.length - 1; i >= 0; i--) {
-		hyperBashCalls.playerLeaves({
+		EventPlayerLeaves.invoke({
 			playerID: i,
 			type: "playerLeaves",
 		});
@@ -28,7 +28,7 @@ export function CreateFakeData() {
 		var currentTeam = teamIndex == 0 ? redTeam : blueTeam;
 
 		for (let i = 0; i < 5; i++) {
-			hyperBashCalls.playerJoins({
+			EventPlayerJoins.invoke({
 				type: "playerJoins",
 				playerID: i + teamIndex * 5,
 				name: Math.random().toString(16).substr(2, 16),
@@ -36,15 +36,16 @@ export function CreateFakeData() {
 				team: teamIndex,
 				id: "3h5gf7vb65k4iuytfd7cv6b5",
 				level: getRandomInt(0, 100),
-			} as PlayerJoinsMessage);
+			} as PlayerJoinsLayout);
 		}
 	}
 
-	hyperBashCalls.scoreboard({
+	EventScoreboard.invoke({
 		type: "scoreboard",
 		deads: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
 		kills: [...Array(11).keys()].map(() => getRandomInt(0, 40)),
 		scores: [...Array(11).keys()].map(() => getRandomInt(0, 100000)),
+		pings: [...Array(11).keys()].map(() => getRandomInt(0, 3)),
 	});
 
 	// TODO needs to be like how the game will call it
@@ -86,18 +87,18 @@ export function CreateFakeData() {
 		}
 	});
 
-	hyperBashCalls.CurrentlySpectating({
+	EventCurrentlySpectating.invoke({
+		type: "currentlySpectating",
 		playerID: getRandomInt(0, 9),
-		type: "CurrentlySpectating",
 	});
 
 	for (let i = 0; i < 2; i++) {
-		hyperBashCalls.killFeed({
+		EventKillFeed.invoke({
+			type: "killFeed",
 			victim: getRandomInt(0, 9),
 			headShot: false,
 			isAltFire: false,
 			killer: getRandomInt(0,9),
-			type: "",
 			weaponType: "pistol",
 		});
 	}
@@ -105,14 +106,17 @@ export function CreateFakeData() {
 	for (let i = 0; i < 11; i++) {
 		if (state.PlayerData[i] != null) {
 			var dashPickup = getRandomArbitrary(0, 1) > 0.5;
-			hyperBashCalls.dashUpdate({
+			EventDashUpdate.invoke({
 				type: "dashUpdate",
 				playerID: i,
 				dashAmount: getRandomArbitrary(0, dashPickup ? 5 : 3),
-				dashPickUp: dashPickup,
+				hasDashUpgrade: dashPickup,
+				isDashing: false,
+				isFalling: false,
+				isSprinting: false,
 			});
 
-			hyperBashCalls.healthUpdate({
+			EventHealthUpdate.invoke({
 				type: "healthUpdate",
 				playerID: i,
 				health: getRandomArbitrary(0, 101),

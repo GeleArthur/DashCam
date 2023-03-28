@@ -1,15 +1,15 @@
 import {
-	AnnouncerMessage,
-	KillFeedMessage,
-	LoadoutUpdateMessage,
-	PlayerJoinsMessage,
-	playerPositionMessage,
+	KillFeedLayout,
+	LoadoutUpdateLayout,
+	PlayerJoinsLayout,
+	PlayerPositionLayout,
 } from "@/interfaces/HyperBashMessages.interface";
-import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { AnnouncerTypes, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "../stores/SettingsStore";
-import { Event } from "@/Util/EventSystem";
+import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
+
 
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;
@@ -22,7 +22,9 @@ export function initStore() {
 	stateSettings = useSettingStore();
 }
 
-function playerJoins(socketData: PlayerJoinsMessage) {
+EventPlayerJoins.subscribe(playerJoins);
+
+function playerJoins(socketData: PlayerJoinsLayout) {
 	state.PlayerData[socketData.playerID] = {
 		isActive: true,
 
@@ -54,10 +56,14 @@ function playerJoins(socketData: PlayerJoinsMessage) {
 	getClanName();
 }
 
+EventPlayerLeaves.subscribe(playerLeaves);
+
 function playerLeaves(socketData: any) {
 	state.PlayerData[socketData.playerID].isActive = false;
 	getClanName();
 }
+
+EventSwitchTeam.subscribe(switchTeam);
 
 function switchTeam(socketData: any) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
@@ -122,7 +128,9 @@ function getClanName() {
 	state.TeamData.blue.name = blueMaxString;
 }
 
-function playerPos(socketData: playerPositionMessage) {
+EventPlayerPosition.subscribe(playerPos);
+
+function playerPos(socketData: PlayerPositionLayout) {
 	for (let i = 0; i < socketData.headPos.length / 3; i++) {
 		if (state.PlayerData[i].isActive == true) {
 			state.PlayerData[i].feetPosition = {
@@ -136,14 +144,21 @@ function playerPos(socketData: playerPositionMessage) {
 	}
 }
 
+EventRespawn.subscribe(respawn);
+
 function respawn(socketData: any) {
 	state.PlayerData[socketData.playerID].isDead = false;
 }
+
+EventHealthUpdate.subscribe(healthUpdate);
+
 function healthUpdate(socketData: any) {
 	state.PlayerData[socketData.playerID].health = socketData.health;
 }
 
-function loadoutUpdate(socketData: LoadoutUpdateMessage) {
+EventLoadoutUpdate.subscribe(loadoutUpdate);
+
+function loadoutUpdate(socketData: LoadoutUpdateLayout) {
 	state.PlayerData[socketData.playerID].leftWeapon = {
 		imageSource: getImage(socketData.leftHand),
 		weaponName: socketData.leftHand,
@@ -155,6 +170,8 @@ function loadoutUpdate(socketData: LoadoutUpdateMessage) {
 	};
 }
 
+EventDashUpdate.subscribe(dashUpdate);
+
 function dashUpdate(socketData: any) {
 	if (state.PlayerData[socketData.playerID].isActive == true) {
 		state.PlayerData[socketData.playerID].dash = socketData.dashAmount;
@@ -163,13 +180,19 @@ function dashUpdate(socketData: any) {
 	}
 }
 
-function killFeed(socketData: KillFeedMessage) {
+EventKillFeed.subscribe(killFeed);
+
+function killFeed(socketData: KillFeedLayout) {
 	state.PlayerData[socketData.victim].isDead = true;
 }
+
+EventCurrentlySpectating.subscribe(CurrentlySpectating);
 
 function CurrentlySpectating(socketData: any) {
 	state.SelectedPlayerIndex = socketData.playerID;
 }
+
+EventScoreboard.subscribe(scoreboard);
 
 function scoreboard(socketData: any) {
 	for (let i = 0; i < state.PlayerData.length; i++) {
@@ -185,21 +208,31 @@ function status(socketData: any) {}
 
 function sceneChange(socketData: any) {}
 
+EventMatchStart.subscribe(matchStart);
+
 function matchStart(socketData: any) {
 	state.MatchInfo.matchType = socketData.matchType;
 	state.MatchInfo.mapName = socketData.mapName;
 }
 
+EventTimer.subscribe(timer);
+
 function timer(socketData: any) {
 	state.MatchInfo.timer = socketData.time;
 }
+
+EventTeamScore.subscribe(teamScore);
 
 function teamScore(socketData: any) {
 	state.MatchInfo.blueScore = socketData.blueTeam;
 	state.MatchInfo.redScore = socketData.redTeam;
 }
 
-function announcer(socketData: { type: string; message: AnnouncerMessage }) {}
+EventAnnouncer.subscribe(announcer)
+
+function announcer(socketData: { type: string; message: AnnouncerTypes }) {}
+
+EventPayload.subscribe(payload);
 
 function payload(socketData: any) {
 	state.MatchInfo.payload.amountBlueOnCart = socketData.amountBlueOnCart;
@@ -209,6 +242,8 @@ function payload(socketData: any) {
 	state.MatchInfo.payload.precisePayloadDistance =
 		socketData.precisePayloadDistance;
 }
+
+EventDomination.subscribe(domination);
 
 function domination(socketData: any) {
 	state.MatchInfo.domination.countDownTimer = socketData.countDownTimer;
@@ -220,37 +255,15 @@ function domination(socketData: any) {
 		: Teams.none;
 }
 
+EventControlPoint.subscribe(controlPoint);
+
 function controlPoint(socketData: any) {
 	state.MatchInfo.controlPoint.TeamScoringPoints = socketData.controllingTeam;
 }
+
+EventVersion.subscribe(version);
 
 function version(socketData: any) {
 	console.log(`HyperBash: ${socketData.HyperBashVersion}`);
 	stateSettings.Version = socketData.HyperBashVersion;
 }
-
-// const playerJoinsEvent = new Event<string>();
-
-export let hyperBashCalls = {
-	playerJoins,
-	playerLeaves,
-	switchTeam,
-	playerPos,
-	respawn,
-	healthUpdate,
-	loadoutUpdate,
-	dashUpdate,
-	killFeed,
-	CurrentlySpectating,
-	scoreboard,
-	status,
-	sceneChange,
-	matchStart,
-	timer,
-	teamScore,
-	announcer,
-	payload,
-	domination,
-	controlPoint,
-	version,
-};
