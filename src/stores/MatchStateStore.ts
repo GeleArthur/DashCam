@@ -12,8 +12,6 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 export const useMatchStateStore = defineStore("matchState", () => {
-	const WebsocketStatus = ref(WebsocketStatusTypes.disconnected);
-
 	const SelectedPlayerIndex = ref(-1);
 	const PlayerData = ref([] as PlayerStateInfo[]);
 
@@ -100,7 +98,6 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	}
 
 	return {
-		WebsocketStatus,
 		SelectedPlayerIndex,
 		PlayerData,
 		MatchInfo,

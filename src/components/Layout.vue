@@ -93,6 +93,7 @@
 </style>
 
 <script setup lang="ts">
+import { EventSceneChange } from "@/HyperBashLogic/HyperBashEvents";
 import { iconModes, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
@@ -118,7 +119,16 @@ watch(() => settingState.IconSettings.iconMode, () => {
 	getTeamInfo(true);
 })
 
+// This is used to stop the image loading if the scene changes before the image is loaded
+let stopImageLoading = false;
+
+EventSceneChange.subscribe(() => {
+	stopImageLoading = true;
+});
+
+
 async function getTeamInfo(updateRed: boolean) {
+	stopImageLoading = false;
 	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
 	let newTeamData = { name: teamName } as TeamInfo
 
@@ -127,6 +137,8 @@ async function getTeamInfo(updateRed: boolean) {
 		try {
 			let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
 			let teamjson = await team.json();
+
+			if(stopImageLoading) return;
 
 			if (teamjson.data == false) {
 				newTeamData.logoFound = false;
@@ -169,6 +181,7 @@ async function getTeamInfo(updateRed: boolean) {
 			let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
 
 			const logoRequest = await fetch(logoURL);
+			if(stopImageLoading) return;
 
 			// Sucks that we have to request twice any other way?
 			if (logoRequest.ok) {

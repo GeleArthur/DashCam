@@ -3,12 +3,13 @@ import {
 	LoadoutUpdateLayout,
 	PlayerJoinsLayout,
 	PlayerPositionLayout,
+	SceneChangeLayout,
 } from "@/interfaces/HyperBashMessages.interface";
 import { AnnouncerTypes, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "../stores/SettingsStore";
-import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
+import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventSceneChange, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
 
 
 type storeType = ReturnType<typeof useMatchStateStore>;
@@ -97,7 +98,9 @@ function getClanName() {
 		}
 	}
 
-	state.TeamData.red.name = redMaxString;
+	if(state.TeamData.red.name != redMaxString){
+		state.TeamData.red.name = redMaxString;
+	}
 
 	var bluePlayers = state.PlayerData.filter((player) => {
 		return (
@@ -125,7 +128,9 @@ function getClanName() {
 		}
 	}
 
-	state.TeamData.blue.name = blueMaxString;
+	if(state.TeamData.blue.name != blueMaxString){
+		state.TeamData.blue.name = blueMaxString;
+	}
 }
 
 EventPlayerPosition.subscribe(playerPos);
@@ -206,7 +211,7 @@ function scoreboard(socketData: any) {
 
 function status(socketData: any) {}
 
-function sceneChange(socketData: any) {}
+
 
 EventMatchStart.subscribe(matchStart);
 
@@ -266,4 +271,10 @@ EventVersion.subscribe(version);
 function version(socketData: any) {
 	console.log(`HyperBash: ${socketData.HyperBashVersion}`);
 	stateSettings.Version = socketData.HyperBashVersion;
+}
+
+EventSceneChange.subscribe(cleanData)
+
+function cleanData(socketData: SceneChangeLayout){
+	state.$reset();
 }

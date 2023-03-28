@@ -7,6 +7,9 @@ import { useMatchStateStore } from "../stores/MatchStateStore";
 import { HyperBashMessage, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
 import { HBEvent } from "@/Util/EventSystem";
 
+type storeSettingType = ReturnType<typeof useSettingStore>;
+let settingState: storeSettingType;
+
 type storeType = ReturnType<typeof useMatchStateStore>;
 let state: storeType;
 
@@ -19,8 +22,6 @@ let prevConnected = false;
 const HBEventsStriped = HyperBashEvents as unknown as { [key: string]: HBEvent<HyperBashMessage> };
 const HBEvents = {} as { [key: string]: HBEvent<HyperBashMessage> };
 
-
-
 for (const key in HBEventsStriped) {
 	if (Object.prototype.hasOwnProperty.call(HBEventsStriped, key)) {
 		const eventName = HBEventsStriped[key].type;
@@ -30,6 +31,7 @@ for (const key in HBEventsStriped) {
 
 
 export function createWebsocketManager() {
+	settingState = useSettingStore();
 	state = useMatchStateStore();
 
 	setUpEvents();
@@ -64,11 +66,11 @@ function tryToConnect() {
 	websocketClient.addEventListener("open", onOpen);
 	websocketClient.addEventListener("message", onMessage);
 	
-	state.WebsocketStatus = WebsocketStatusTypes.connecting;
+	settingState.WebsocketStatus = WebsocketStatusTypes.connecting;
 }
 
 function onDisconnect() {
-	state.WebsocketStatus = WebsocketStatusTypes.disconnected;
+	settingState.WebsocketStatus = WebsocketStatusTypes.disconnected;
 
 	if (prevConnected) {
 		state.$reset();
@@ -83,7 +85,7 @@ function onOpen() {
 
 	prevConnected = true;
 
-	state.$patch({ WebsocketStatus: WebsocketStatusTypes.connected });
+	settingState.$patch({ WebsocketStatus: WebsocketStatusTypes.connected });
 }
 
 function onMessage(ev: MessageEvent<string>) {

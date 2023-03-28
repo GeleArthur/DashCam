@@ -32,7 +32,7 @@ const settingsState = useSettingStore();
 const display = ref(false);
 const timeLeft = ref(0);
 
-watch(() => state.WebsocketStatus, (connection) => {
+watch(() => settingsState.WebsocketStatus, (connection) => {
 	if (connection == WebsocketStatusTypes.connected) {
 		display.value = false;
 		var timer = setInterval(() => {

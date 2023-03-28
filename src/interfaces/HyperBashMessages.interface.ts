@@ -1,4 +1,4 @@
-import { MatchType, AnnouncerTypes } from "./StoreInterfaces/MatchInfo";
+import { MatchType, AnnouncerTypes, SceneIds } from "./StoreInterfaces/MatchInfo";
 
 export interface HyperBashMessage {
 	type: string;
@@ -101,7 +101,7 @@ export interface RespawnLayout extends HyperBashMessage {
 }
 
 export interface SceneChangeLayout extends HyperBashMessage {
-	sceneIndex: number;
+	sceneIndex: SceneIds;
 }
 
 export interface ScoreboardLayout extends HyperBashMessage {

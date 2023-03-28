@@ -15,8 +15,10 @@ import { CreateFakeData } from "@/HyperBashLogic/TestingScripts"
 import { initStore } from "@/HyperBashLogic/HyperBashCalls"
 import { EventSwitchTeam } from "@/HyperBashLogic/HyperBashEvents"
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { useSettingStore } from "@/stores/SettingsStore";
 
 const state = useMatchStateStore();
+const settingState = useSettingStore();
 
 function switchTeam() {
     for (let i = 0; i < state.PlayerData.length; i++) {
@@ -35,11 +37,11 @@ function AddFakeData() {
 }
 
 const ShouldDisplayDebugMenu = computed(() => {
-    return state.WebsocketStatus != WebsocketStatusTypes.connected;
+    return settingState.WebsocketStatus != WebsocketStatusTypes.connected;
 })
 
 const ConnectingMessage = computed(() => {
-    switch (state.WebsocketStatus) {
+    switch (settingState.WebsocketStatus) {
         case WebsocketStatusTypes.connected:
             return "";
         case WebsocketStatusTypes.connecting:
