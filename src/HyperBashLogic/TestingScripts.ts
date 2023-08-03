@@ -93,14 +93,18 @@ export function CreateFakeData() {
 	});
 
 	for (let i = 0; i < 2; i++) {
-		EventKillFeed.invoke({
+		var randomNumbers = [0,1,2,7,8,9,11];
+		
+		var thing = {
 			type: "killFeed",
 			victim: getRandomInt(0, 9),
-			headShot: false,
+			headShot: Math.random() < 0.5,
 			isAltFire: false,
 			killer: getRandomInt(0,9),
-			weaponType: "pistol",
-		});
+			weaponType: randomNumbers[getRandomInt(0,randomNumbers.length)],
+		}
+
+		EventKillFeed.invoke(thing);
 	}
 
 	for (let i = 0; i < 11; i++) {

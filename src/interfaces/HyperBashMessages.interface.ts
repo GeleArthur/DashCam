@@ -46,7 +46,7 @@ export interface KillFeedLayout extends HyperBashMessage {
 	victim: number;
 	headShot: boolean;
 	isAltFire: boolean;
-	weaponType: string;
+	weaponType: number;
 }
 
 export interface LoadoutUpdateLayout extends HyperBashMessage {

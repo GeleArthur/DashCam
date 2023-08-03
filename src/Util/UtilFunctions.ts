@@ -72,8 +72,8 @@ export function getRandomInt(min: number, max: number) {
 	return Math.floor(Math.random() * (max - min) + min); //The maximum is exclusive and the minimum is inclusive
 }
 
-export function getWeaponIcon(weaponType: string, isAltFire: boolean): string {
-	if (weaponType === "-1") {
+export function getWeaponIcon(weaponType: number, isAltFire: boolean): string {
+	if (weaponType === -1) {
 		return weaponSvgIcons.headshot;
 	}
 

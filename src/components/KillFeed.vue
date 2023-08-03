@@ -123,27 +123,21 @@ div {
 </style>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
 import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
 import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
 
 const state = useMatchStateStore();
 
 const killsQueue = ref([] as KillData[]);
 const killsQueueSize = ref(8);
 
-//TODO fix subscribe
 onMounted(() => {
-	// state.$subscribe()
-
-	// store.subscribe((mutation, state) => {
-	// 		if (mutation.type == "killFeed") {
-	// 			this.onPlayerKilled(mutation.payload);
-	// 		}
-	// 	});
+	EventKillFeed.subscribe(onPlayerKilled);
 });
 
 function onPlayerKilled(payload: KillFeedLayout) {

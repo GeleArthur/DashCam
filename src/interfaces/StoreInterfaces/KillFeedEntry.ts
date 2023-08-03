@@ -5,6 +5,6 @@ export default interface KillFeedEntry {
 	headShot: boolean;
 	victimTeam: number;
 	victim: string;
-	weaponType: string;
+	weaponType: number;
 	isAltFire: boolean;
 }
