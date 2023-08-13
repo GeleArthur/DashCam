@@ -95,15 +95,26 @@ export function CreateFakeData() {
 	for (let i = 0; i < 2; i++) {
 		var randomNumbers = [0,1,2,7,8,9,11];
 		
+		var team = getRandomInt(0,2);
+		
+		if ( team == 0 ) {
+			var victim = getRandomInt(0,4),
+					killer = getRandomInt(5,9);
+		}
+		else {
+			var victim = getRandomInt(5,9),
+					killer = getRandomInt(0,4);
+		}
+		
 		var thing = {
 			type: "killFeed",
-			victim: getRandomInt(0, 9),
+			victim: victim,
 			headShot: Math.random() < 0.5,
 			isAltFire: false,
-			killer: getRandomInt(0,9),
+			killer: killer,
 			weaponType: randomNumbers[getRandomInt(0,randomNumbers.length)],
 		}
-
+		console.log(thing);
 		EventKillFeed.invoke(thing);
 	}
 

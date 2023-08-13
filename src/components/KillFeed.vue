@@ -1,15 +1,15 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item hide-after-seconds" v-for="kill in killsQueue" :key="kill.id">
+		<div class="feed_item hide-after-seconds" :class="getTeamColor(kill.killerTeam)" v-for="kill in killsQueue" :key="kill.id">
 			<div class="feed_players">
-				<div class="feed_killer" :class="getTeamColor(kill.killerTeam)">
+				<div class="feed_killer">
 					<span class="name">{{ kill.killer }}</span>
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
 					<img class="headshot" v-if="kill.headShot" v-bind:src="getHeadshotSvg()" alt="image">
 				</div>
-				<div class="feed_victim" :class="getTeamColor(kill.victimTeam)">
+				<div class="feed_victim">
 					<span class="name">{{ kill.victim }}</span>
 				</div>
 			</div>
@@ -25,84 +25,33 @@ div {
 	--color-team-red: #ff0000;
 	--padding-base: 2px;
 	--font-size: 20px;
-
+	--font-size-small: 16px;
 	--font-weight-light: 200;
 	--font-weight-normal: 300;
 	--font-weight-bold: 700;
 	--font-weight-bolder: 900;
 }
 
-.kill_feed {
-	grid-column: 3;
-	grid-row: 2;
-	margin-right: 10px;
-	display: flex;
-	flex-direction: column;
-	align-items: flex-end;
-}
-
-.kill_feed .feed_item {
-	background-color: var(--color-background-dark);
-	color: var(--color-text-white);
-	opacity: .8;
-	font-size: var(--font-size);
-	font-weight: var(--font-weight-bold);
-	margin-bottom: 5px;
-}
-
-.kill_feed .feed_item .feed_players {
-	padding: var(--padding-base);
-	opacity: 1;
-	max-width: 450px;
-	min-height: 30px;
-	display: flex;
-	flex-direction: row;
-}
-
+.kill_feed{align-items:flex-end;display:flex;flex-direction:column;grid-column:3;grid-row:2;}
+.kill_feed .feed_item{border-radius:.25em 0 0 .25em;font-size:var(--font-size-small);font-weight:var(--font-weight-bold);padding:.25em 0;}
+.kill_feed .feed_item + .feed_item{margin-top:.25em;}
+.kill_feed .feed_item.red{background-color:rgba(196,0,0,.2);color:#fff;}
+.kill_feed .feed_item.blue{background-color:rgba(0,73,145,.2);color:#fff;}
+.kill_feed .feed_item .feed_players{display:flex;flex-direction:row;max-width:450px;}
 .kill_feed .feed_item .feed_players .feed_killer,
-.kill_feed .feed_item .feed_players .feed_victim {
-	width: max-content;
-	padding: 5px 10px 5px 10px;
-}
-
-.kill_feed .feed_item .feed_players .feed_killer .name,
-.kill_feed .feed_item .feed_players .feed_victim .name {
-	font-weight: var(--font-weight-bold);
-}
-
-.kill_feed .feed_item .feed_players .feed_killer {
-	text-align: right;
-}
-
-.kill_feed .feed_item .feed_players .feed_victim {
-	text-align: left;
-}
-
-.kill_feed .feed_item .feed_players .feed_weapon {
-	width: 90px;
-	text-align: center;
-	padding: 5px 0 0 0;
-}
-
+.kill_feed .feed_item .feed_players .feed_victim{width:max-content;padding:5px 10px 5px 10px;}
+.kill_feed .feed_item .feed_players .feed_killer{text-align:right;}
+.kill_feed .feed_item .feed_players .feed_victim{text-align:left;}
+.kill_feed .feed_item .feed_players .name{font-weight:var(--font-weight-bold);line-height:var(--font-size-small);}
+.kill_feed .feed_item .feed_players .feed_weapon{align-items:center;border-radius:.25em;display:flex;justify-content:center;padding:.25em;}
+.kill_feed .feed_item .feed_players .feed_weapon img{display:inline-block;height:42px;width:42px;}
+.kill_feed .feed_item .feed_players .feed_weapon img + img{margin-left:.5em;}
 .kill_feed .feed_item .feed_players .feed_weapon .weapon_type,
-.kill_feed .feed_item .feed_players .feed_weapon .headshot {
-	height: 20px;
-	width: auto;
-}
+.kill_feed .feed_item .feed_players .feed_weapon .headshot{height:20px;width:auto;}
+.kill_feed .feed_item.red .feed_players .feed_weapon{background-color:rgba(196,0,0,.8);}
+.kill_feed .feed_item.blue .feed_players .feed_weapon{background-color:rgba(0,73,145,.8);}
 
-.none {
-	color: white;
-}
-
-.blue {
-	color: var(--color-team-blue);
-	font-weight: var(--font-weight-bold);
-}
-
-.red {
-	color: var(--color-team-red);
-	font-weight: var(--font-weight-bold);
-}
+.none{color:white;}
 
 .hide-after-seconds {
 	animation-name: cssAnimation;
