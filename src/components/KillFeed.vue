@@ -7,7 +7,7 @@
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
-					<img class="headshot" v-if="kill.headShot" v-bind:src="getHeadshotSvg()" alt="image">
+					<img class="headshot" v-if="kill.headShot" v-bind:src="headShot" alt="image">
 				</div>
 				<div class="feed_victim">
 					<span class="name">{{ kill.victim }}</span>
@@ -17,7 +17,7 @@
 	</div>
 </template>
 
-<style scoped lang="css">
+<style scoped lang="scss">
 div {
 	--color-background-dark: #1e1e1e;
 	--color-text-white: white;
@@ -74,11 +74,12 @@ div {
 <script setup lang="ts">
 import { ref, onMounted } from "vue";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
-import { getHeadshotIcon, getWeaponIcon } from "../Util/UtilFunctions";
+import { getWeaponIcon } from "../Util/UtilFunctions";
 import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
 import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
+import headShot from "@/assets/weapons/head-shot.svg"
 
 const state = useMatchStateStore();
 
@@ -91,7 +92,6 @@ onMounted(() => {
 
 function onPlayerKilled(payload: KillFeedLayout) {
 	let kill = getPlayersTeamAndName(payload);
-
 	if (kill == undefined) return;
 
 	if (killsQueue.value.length >= killsQueueSize.value) {
@@ -124,8 +124,5 @@ function getTeamColor(team: number = -1) {
 // TODO suicide show headshot svg but should be better svg icon
 function getWeaponSvg(kill: KillData): string {
 	return getWeaponIcon(kill.weaponType, kill.isAltFire);
-}
-function getHeadshotSvg() {
-	return getHeadshotIcon();
 }
 </script>

@@ -1,9 +1,32 @@
 import { HyperBashMessage } from "@/interfaces/HyperBashMessages.interface";
 
-type Listener<T extends HyperBashMessage> = (payload: T) => void;
+export type EventTypes =
+	| "announcer"
+	| "controlPoint"
+	| "currentlySpectating"
+	| "domination"
+	| "dashUpdate"
+	| "error"
+	| "healthUpdate"
+	| "killFeed"
+	| "loadoutUpdate"
+	| "matchStart"
+	| "payload"
+	| "playerJoins"
+	| "playerLeaves"
+	| "playerPos"
+	| "respawn"
+	| "sceneChange"
+	| "scoreboard"
+	| "status"
+	| "switchTeam"
+	| "teamScore"
+	| "timer"
+	| "version";
 
+type Listener<T extends HyperBashMessage> = (payload: T) => void;
 class HBEvent<T extends HyperBashMessage> {
-	constructor(public type: string) {}
+	constructor(public type: EventTypes) {}
 
 	private listeners: Listener<T>[] = [];
 

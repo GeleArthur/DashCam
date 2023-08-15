@@ -1,4 +1,4 @@
-import { PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
+import { KillFeedLayout, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
 import { getRandomArbitrary, getRandomInt } from "@/Util/UtilFunctions";
 import { MatchType } from "../interfaces/StoreInterfaces/MatchInfo";
 import { useMatchStateStore } from "../stores/MatchStateStore";
@@ -106,13 +106,14 @@ export function CreateFakeData() {
 					killer = getRandomInt(0,4);
 		}
 		
-		var thing = {
+		var thing : KillFeedLayout = {
 			type: "killFeed",
 			victim: victim,
 			headShot: Math.random() < 0.5,
 			isAltFire: false,
 			killer: killer,
 			weaponType: randomNumbers[getRandomInt(0,randomNumbers.length)],
+			killStreak: 0
 		}
 		console.log(thing);
 		EventKillFeed.invoke(thing);

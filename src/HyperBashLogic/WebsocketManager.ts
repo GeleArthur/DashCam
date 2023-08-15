@@ -5,7 +5,7 @@ import * as HyperBashEvents from "@/HyperBashLogic/HyperBashEvents";
 import { useSettingStore } from "../stores/SettingsStore";
 import { useMatchStateStore } from "../stores/MatchStateStore";
 import { HyperBashMessage, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
-import { HBEvent } from "@/Util/EventSystem";
+import { EventTypes, HBEvent } from "@/Util/EventSystem";
 
 type storeSettingType = ReturnType<typeof useSettingStore>;
 let settingState: storeSettingType;
@@ -19,8 +19,9 @@ let retryID: number;
 let prevConnected = false;
 
 // Dont ask why
-const HBEventsStriped = HyperBashEvents as unknown as { [key: string]: HBEvent<HyperBashMessage> };
-const HBEvents = {} as { [key: string]: HBEvent<HyperBashMessage> };
+// const HBEventsStriped = HyperBashEvents as { [key: string]: HBEvent<HyperBashMessage> };
+const HBEventsStriped = HyperBashEvents as unknown as Record<string, HBEvent<HyperBashMessage>>;// { [key: string]: HBEvent<HyperBashMessage> };
+const HBEvents = {} as Record<EventTypes, HBEvent<HyperBashMessage>>;
 
 for (const key in HBEventsStriped) {
 	if (Object.prototype.hasOwnProperty.call(HBEventsStriped, key)) {
@@ -89,7 +90,7 @@ function onOpen() {
 }
 
 function onMessage(ev: MessageEvent<string>) {
-	var socketData = JSON.parse(ev.data) as { type: string };
+	var socketData = JSON.parse(ev.data) as { type: EventTypes };
 
 	if (HBEvents[socketData.type] == undefined) {
 		console.error(socketData.type);
