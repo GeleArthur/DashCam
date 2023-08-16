@@ -35,8 +35,8 @@ div {
 .kill_feed{align-items:flex-end;display:flex;flex-direction:column;grid-column:3;grid-row:2;}
 .kill_feed .feed_item{border-radius:.25em 0 0 .25em;font-size:var(--font-size-small);font-weight:var(--font-weight-bold);padding:.25em 0;}
 .kill_feed .feed_item + .feed_item{margin-top:.25em;}
-.kill_feed .feed_item.red{background-color:rgba(196,0,0,.2);color:#fff;}
-.kill_feed .feed_item.blue{background-color:rgba(0,73,145,.2);color:#fff;}
+.kill_feed .feed_item.red{background-color:rgba(196,0,0,.4);color:#fff;}
+.kill_feed .feed_item.blue{background-color:rgba(0,73,145,.4);color:#fff;}
 .kill_feed .feed_item .feed_players{display:flex;flex-direction:row;max-width:450px;}
 .kill_feed .feed_item .feed_players .feed_killer,
 .kill_feed .feed_item .feed_players .feed_victim{width:max-content;padding:5px 10px 5px 10px;}
