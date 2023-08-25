@@ -114,8 +114,9 @@ function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 		victimTeam: victim.team,
 		headShot: payload.headShot,
 		isAltFire: payload.isAltFire,
-		weaponType: payload.weaponType
-	};
+		weaponType: payload.weaponType,
+		killStreak: payload.killStreak
+	} as KillData;
 }
 // TODO manage deathmatch colors
 function getTeamColor(team: number = -1) {

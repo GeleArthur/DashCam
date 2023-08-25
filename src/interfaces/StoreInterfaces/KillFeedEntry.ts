@@ -7,4 +7,5 @@ export default interface KillFeedEntry {
 	victim: string;
 	weaponType: number;
 	isAltFire: boolean;
+	killStreak: number;
 }
