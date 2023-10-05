@@ -1,6 +1,6 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item hide-after-seconds" :class="getKillClass(kill)" v-for="kill in killsQueue" :key="kill.id">
+		<div class="feed_item " :class="getKillClass(kill)" v-for="kill in killsQueue" :key="kill.id">
 			<div class="feed_players" >
 				<div class="feed_killstreak" v-if="kill.killStreak > 2">
 					{{ kill.killStreak }}x Killstreak
@@ -56,13 +56,13 @@ div {
 
 .kill_feed .feed_item.blue .feed_players .feed_killstreak{ background-color:rgba(0,73,145,.8); }
 .kill_feed .feed_item.blue .feed_players .feed_weapon{background-color:rgba(0,73,145,.8);}
-.kill_feed .feed_item.blue .feed_players.killstreak{ animation: pulse-blue 2s infinite; }
 .kill_feed .feed_item.blue .feed_players{background-color:rgba(0,73,145,.4);color:#fff;}
+.kill_feed .feed_item.blue.killstreak .feed_players{ animation: pulse-blue 2s infinite; }
 
 .kill_feed .feed_item.red .feed_players .feed_killstreak{ background-color:rgba(196,0,0,.8); }
 .kill_feed .feed_item.red .feed_players .feed_weapon{background-color:rgba(196,0,0,.8);}
-.kill_feed .feed_item.red .feed_players.killstreak{ animation: pulse-red 2s infinite; }
 .kill_feed .feed_item.red .feed_players{background-color:rgba(196,0,0,.4);color:#fff;}
+.kill_feed .feed_item.red.killstreak .feed_players{ animation: pulse-red 2s infinite; }
 
 @keyframes pulse-blue {
 	0% {
@@ -156,7 +156,7 @@ function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 	} as KillData;
 }
 // TODO manage deathmatch colors
-function getKillClass( kill ) {
+function getKillClass( kill: KillData ) {
 	let classes = '';
 	
 	classes += Teams[kill.killerTeam];
