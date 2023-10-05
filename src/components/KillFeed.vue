@@ -1,7 +1,10 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item hide-after-seconds" :class="getTeamColor(kill.killerTeam)" v-for="kill in killsQueue" :key="kill.id">
-			<div class="feed_players">
+		<div class="feed_item hide-after-seconds" :class="getKillClass(kill)" v-for="kill in killsQueue" :key="kill.id">
+			<div class="feed_players" >
+				<div class="feed_killstreak" v-if="kill.killStreak > 2">
+					{{ kill.killStreak }}x Killstreak
+				</div>
 				<div class="feed_killer">
 					<span class="name">{{ kill.killer }}</span>
 				</div>
@@ -32,12 +35,13 @@ div {
 	--font-weight-bolder: 900;
 }
 
+.none{color:white;}
+
 .kill_feed{align-items:flex-end;display:flex;flex-direction:column;grid-column:3;grid-row:2;}
-.kill_feed .feed_item{border-radius:.25em 0 0 .25em;font-size:var(--font-size-small);font-weight:var(--font-weight-bold);padding:.25em 0;}
+.kill_feed .feed_item{font-size:var(--font-size-small);font-weight:var(--font-weight-bold);}
 .kill_feed .feed_item + .feed_item{margin-top:.25em;}
-.kill_feed .feed_item.red{background-color:rgba(196,0,0,.4);color:#fff;}
-.kill_feed .feed_item.blue{background-color:rgba(0,73,145,.4);color:#fff;}
-.kill_feed .feed_item .feed_players{display:flex;flex-direction:row;max-width:450px;}
+.kill_feed .feed_item .feed_players{border-radius:.25em 0 0 .25em;display:flex;flex-direction:row;max-width:450px;padding:.25em 0;}
+
 .kill_feed .feed_item .feed_players .feed_killer,
 .kill_feed .feed_item .feed_players .feed_victim{width:max-content;padding:5px 10px 5px 10px;}
 .kill_feed .feed_item .feed_players .feed_killer{text-align:right;}
@@ -48,10 +52,40 @@ div {
 .kill_feed .feed_item .feed_players .feed_weapon img + img{margin-left:.5em;}
 .kill_feed .feed_item .feed_players .feed_weapon .weapon_type,
 .kill_feed .feed_item .feed_players .feed_weapon .headshot{height:20px;width:auto;}
-.kill_feed .feed_item.red .feed_players .feed_weapon{background-color:rgba(196,0,0,.8);}
-.kill_feed .feed_item.blue .feed_players .feed_weapon{background-color:rgba(0,73,145,.8);}
+.kill_feed .feed_item .feed_players .feed_killstreak{ align-items:center; border-radius:.25em; display:flex; justify-content:center; padding:5px 10px; margin-left:.25em; white-space:nowrap; }
 
-.none{color:white;}
+.kill_feed .feed_item.blue .feed_players .feed_killstreak{ background-color:rgba(0,73,145,.8); }
+.kill_feed .feed_item.blue .feed_players .feed_weapon{background-color:rgba(0,73,145,.8);}
+.kill_feed .feed_item.blue .feed_players.killstreak{ animation: pulse-blue 2s infinite; }
+.kill_feed .feed_item.blue .feed_players{background-color:rgba(0,73,145,.4);color:#fff;}
+
+.kill_feed .feed_item.red .feed_players .feed_killstreak{ background-color:rgba(196,0,0,.8); }
+.kill_feed .feed_item.red .feed_players .feed_weapon{background-color:rgba(196,0,0,.8);}
+.kill_feed .feed_item.red .feed_players.killstreak{ animation: pulse-red 2s infinite; }
+.kill_feed .feed_item.red .feed_players{background-color:rgba(196,0,0,.4);color:#fff;}
+
+@keyframes pulse-blue {
+	0% {
+		background-color:rgba(0, 73, 145, 0.6);
+	}
+	50% {
+		background-color:rgba(0, 0, 0, 0.2);
+	}
+	100% {
+		background-color:rgba(0, 73, 145, 0.6);
+	}
+}
+@keyframes pulse-red {
+	0% {
+		background-color:rgba(196, 0, 0, 0.6);
+	}
+	50% {
+		background-color:rgba(0, 0, 0, 0.2);
+	}
+	100% {
+		background-color:rgba(196, 0, 0, 0.6);
+	}
+}
 
 .hide-after-seconds {
 	animation-name: cssAnimation;
@@ -59,6 +93,9 @@ div {
 	animation-delay: 4s;
 	animation-timing-function: ease-out;
 	animation-fill-mode: forwards;
+}
+.hide-after-seconds.killstreak {
+	animation-delay: 5.5s;
 }
 
 @keyframes cssAnimation {
@@ -119,8 +156,14 @@ function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 	} as KillData;
 }
 // TODO manage deathmatch colors
-function getTeamColor(team: number = -1) {
-	return Teams[team];
+function getKillClass( kill ) {
+	let classes = '';
+	
+	classes += Teams[kill.killerTeam];
+	
+	if ( kill.killStreak > 2 ) classes += ' killstreak';
+	
+	return classes;
 }
 // TODO suicide show headshot svg but should be better svg icon
 function getWeaponSvg(kill: KillData): string {

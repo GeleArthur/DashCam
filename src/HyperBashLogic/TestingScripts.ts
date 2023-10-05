@@ -113,9 +113,9 @@ export function CreateFakeData() {
 			isAltFire: false,
 			killer: killer,
 			weaponType: randomNumbers[getRandomInt(0,randomNumbers.length)],
-			killStreak: getRandomInt(0,3)
+			killStreak: getRandomInt(0,6)
 		}
-		console.log(thing);
+		// console.log(thing);
 		EventKillFeed.invoke(thing);
 	}
 
