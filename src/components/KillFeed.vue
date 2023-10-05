@@ -10,7 +10,7 @@
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
-					<img v-if="ifHeadSuicide(kill)" v-bind:src="ifHeadSuicide(kill, 'src')" alt="image">
+					<img v-if="ifHeadSuicide(kill, 'if')" v-bind:src="ifHeadSuicide(kill, 'src')" alt="image">
 				</div>
 				<div class="feed_victim">
 					<span class="name">{{ kill.victim }}</span>
