@@ -110,12 +110,16 @@ export function CreateFakeData() {
 			type: "killFeed",
 			victim: victim,
 			headShot: Math.random() < 0.5,
-			isAltFire: false,
+			isAltFire: false, //false,
 			killer: killer,
-			weaponType: randomNumbers[getRandomInt(0,randomNumbers.length)],
+			weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
 			killStreak: getRandomInt(0,6)
 		}
-		// console.log(thing);
+		
+		let explosives = [0, 11];
+		thing.isAltFire = explosives.includes(thing.weaponType);
+		// console.table(thing);
+		
 		EventKillFeed.invoke(thing);
 	}
 

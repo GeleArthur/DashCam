@@ -1,6 +1,6 @@
 <template>
 	<div class="kill_feed">
-		<div class="feed_item " :class="getKillClass(kill)" v-for="kill in killsQueue" :key="kill.id">
+		<div class="feed_item hide-after-seconds" :class="getKillClass(kill)" v-for="kill in killsQueue" :key="kill.id">
 			<div class="feed_players" >
 				<div class="feed_killstreak" v-if="kill.killStreak > 2">
 					{{ kill.killStreak }}x Killstreak
@@ -10,7 +10,7 @@
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
-					<img class="headshot" v-if="kill.headShot" v-bind:src="headShot" alt="image">
+					<img v-if="ifHeadSuicide(kill)" v-bind:src="ifHeadSuicide(kill, 'src')" alt="image">
 				</div>
 				<div class="feed_victim">
 					<span class="name">{{ kill.victim }}</span>
@@ -48,10 +48,8 @@ div {
 .kill_feed .feed_item .feed_players .feed_victim{text-align:left;}
 .kill_feed .feed_item .feed_players .name{font-weight:var(--font-weight-bold);line-height:var(--font-size-small);}
 .kill_feed .feed_item .feed_players .feed_weapon{align-items:center;border-radius:.25em;display:flex;justify-content:center;padding:.25em;}
-.kill_feed .feed_item .feed_players .feed_weapon img{display:inline-block;height:42px;width:42px;}
+.kill_feed .feed_item .feed_players .feed_weapon img{display:inline-block;height:20px;width:auto;}
 .kill_feed .feed_item .feed_players .feed_weapon img + img{margin-left:.5em;}
-.kill_feed .feed_item .feed_players .feed_weapon .weapon_type,
-.kill_feed .feed_item .feed_players .feed_weapon .headshot{height:20px;width:auto;}
 .kill_feed .feed_item .feed_players .feed_killstreak{ align-items:center; border-radius:.25em; display:flex; justify-content:center; padding:5px 10px; margin-left:.25em; white-space:nowrap; }
 
 .kill_feed .feed_item.blue .feed_players .feed_killstreak{ background-color:rgba(0,73,145,.8); }
@@ -117,6 +115,7 @@ import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
 import headShot from "@/assets/weapons/head-shot.svg"
+import explosion from "@/assets/weapons/explosion.svg"
 
 const state = useMatchStateStore();
 
@@ -127,14 +126,12 @@ onMounted(() => {
 	EventKillFeed.subscribe(onPlayerKilled);
 });
 
-function onPlayerKilled(payload: KillFeedLayout) {
-	let kill = getPlayersTeamAndName(payload);
-	if (kill == undefined) return;
-
-	if (killsQueue.value.length >= killsQueueSize.value) {
-		killsQueue.value.splice(0, 1);
+function ifHeadSuicide( kill: KillData, type: string ) {
+	if ( type == 'src' ) {
+		let explosives = [-1, 2, 11];
+		return explosives.includes(kill.weaponType) ? explosion : headShot;
 	}
-	killsQueue.value.push(kill);
+	else return kill.headShot || kill.weaponType == -1;
 }
 function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
@@ -165,8 +162,16 @@ function getKillClass( kill: KillData ) {
 	
 	return classes;
 }
-// TODO suicide show headshot svg but should be better svg icon
 function getWeaponSvg(kill: KillData): string {
 	return getWeaponIcon(kill.weaponType, kill.isAltFire);
+}
+function onPlayerKilled(payload: KillFeedLayout) {
+	let kill = getPlayersTeamAndName(payload);
+	if (kill == undefined) return;
+
+	if (killsQueue.value.length >= killsQueueSize.value) {
+		killsQueue.value.splice(0, 1);
+	}
+	killsQueue.value.push(kill);
 }
 </script>

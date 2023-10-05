@@ -1,13 +1,15 @@
-import pistol from "@/assets/weapons/pistols.svg";
-import smg from "@/assets/weapons/smg.svg";
-import rocket from "@/assets/weapons/rockets.svg";
-import shotgun from "@/assets/weapons/shotgun.svg";
-import staple from "@/assets/weapons/staples.svg";
-import sniper from "@/assets/weapons/sniper.svg";
-import shock from "@/assets/weapons/shocks.svg";
-import pistolCharged from "@/assets/weapons/pistols-charged.svg";
-import shockCharged from "@/assets/weapons/shocks-charged.svg";
+import explosion from "@/assets/weapons/explosion.svg"
 import headShot from "@/assets/weapons/head-shot.svg"
+import pistol from "@/assets/weapons/pistols.svg";
+import pistolCharged from "@/assets/weapons/pistols-charged.svg";
+import rocket from "@/assets/weapons/rockets.svg";
+import shock from "@/assets/weapons/shocks.svg";
+import shockCharged from "@/assets/weapons/shocks-charged.svg";
+import shotgun from "@/assets/weapons/shotgun.svg";
+import smg from "@/assets/weapons/smg.svg";
+import sniper from "@/assets/weapons/sniper.svg";
+import staple from "@/assets/weapons/staples.svg";
+import tombstone from "@/assets/weapons/tombstone.svg"
 
 export enum WeaponTypes {
 	None = -1,
@@ -30,7 +32,7 @@ export enum WeaponTypes {
 }
 
 const weaponIcons : Record<WeaponTypes, string> = {
-	[WeaponTypes.None]: "",
+	[WeaponTypes.None]: tombstone,
 	[WeaponTypes.DefaultPistol]: pistol,
 	[WeaponTypes.Uzi]: smg,
 	[WeaponTypes.Rocket]: rocket,
@@ -84,10 +86,9 @@ export function getImage(gunName: string): string {
 	}
 }
 
-
 export function getWeaponIcon(weaponType: WeaponTypes, isAltFire: boolean): string {
 	if (weaponType == -1) {
-		return headShot;
+		return tombstone;
 	}
 	if (isAltFire) {
 		weaponType = weaponType as
