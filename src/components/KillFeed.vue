@@ -10,7 +10,7 @@
 				</div>
 				<div class="feed_weapon">
 					<img class="weapon_type" v-bind:src="getWeaponSvg(kill)" alt="image">
-					<img v-if="ifHeadSuicide(kill, 'if')" v-bind:src="ifHeadSuicide(kill, 'src')" alt="image">
+					<img v-if="ifHeadSuicide(kill)" v-bind:src="getHeadSuicide(kill)" alt="image">
 				</div>
 				<div class="feed_victim">
 					<span class="name">{{ kill.victim }}</span>
@@ -126,12 +126,12 @@ onMounted(() => {
 	EventKillFeed.subscribe(onPlayerKilled);
 });
 
-function ifHeadSuicide( kill: KillData, type: string ) {
-	if ( type == 'src' ) {
-		let explosives = [-1, 2, 11];
-		return explosives.includes(kill.weaponType) ? explosion : headShot;
-	}
-	else return kill.headShot || kill.weaponType == -1;
+function ifHeadSuicide( kill: KillData ): boolean {
+	return kill.headShot || kill.weaponType == -1;
+}
+function getHeadSuicide( kill: KillData ): string {
+	let explosives = [-1, 2, 11];
+	return explosives.includes(kill.weaponType) ? explosion : headShot;
 }
 function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
@@ -167,8 +167,9 @@ function getWeaponSvg(kill: KillData): string {
 }
 function onPlayerKilled(payload: KillFeedLayout) {
 	let kill = getPlayersTeamAndName(payload);
+	
 	if (kill == undefined) return;
-
+	
 	if (killsQueue.value.length >= killsQueueSize.value) {
 		killsQueue.value.splice(0, 1);
 	}
