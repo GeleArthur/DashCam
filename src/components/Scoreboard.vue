@@ -22,15 +22,8 @@
 					</div>
 				</div>
 			</div>
-			<div class="scoreboard_time" v-if="matchInfo.matchType">
-				<div
-					v-if="matchInfo.matchType === MatchType.Domination && matchInfo.domination.teamCountDown != Teams.none">
-					{{ matchInfo.domination.countDownTimer.toPrecision(3) }}
-				</div>
-
-				<div v-else>
-					{{ timer }}
-				</div>
+			<div class="scoreboard_time">
+				<div>{{ timer }}</div>
 			</div>
 			<div class="scoreboard_name scoreboard_name--red">{{ state.TeamData.red.name }}</div>
 			<div class="scoreboard_score scoreboard_score--red">
@@ -172,12 +165,20 @@
 </style>
 
 <script setup lang="ts">
-import { computed } from "vue";
-import { MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import { computed, onMounted, ref, watch } from "vue";
+import { AnnouncerTypes, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import Bar from "./Bar.vue";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { EventAnnouncer } from "@/HyperBashLogic/HyperBashEvents";
+import { AnnouncerLayout } from "@/interfaces/HyperBashMessages.interface";
 
 const state = useMatchStateStore();
+let customTimer = ref(0);
+let intervalReference: number = -1;
+
+onMounted(() => {
+	EventAnnouncer.subscribe(onAnnouncer)
+})
 
 const blueTeamScore = computed(() => {
 	if (state.MatchInfo.matchType == MatchType.Payload) {
@@ -201,12 +202,42 @@ const matchTypeClass = computed(() => {
 	return mode ? 'mode--' + mode : '';
 })
 
+function onAnnouncer(socketData: AnnouncerLayout) {
+	console.log(AnnouncerTypes[socketData.message])
+	if (socketData.message == AnnouncerTypes.match_start_321) {
+		customTimer.value = 5;
+	}
+	else if (socketData.message == AnnouncerTypes.prepare_to_start) {
+		customTimer.value = 26;
+	}
+	else if(socketData.message == AnnouncerTypes.match_start_321_go){
+		customTimer.value = 4.5;
+	}
+
+	if (customTimer.value > 0) {
+		clearInterval(intervalReference);
+		intervalReference = setInterval(() => {
+			customTimer.value -= 0.1;
+			if (customTimer.value < -1) {
+				clearInterval(intervalReference);
+			}
+		}, 100)
+	}
+}
+
 const timer = computed(() => {
-	if (state.MatchInfo.timer == undefined) return "00:00"
-	var timer = state.MatchInfo.timer,
-		date = new Date(0),
-		mill = timer % 1,
-		mins = (timer - mill) / 60,
+	if (matchInfo.value.matchType == MatchType.Domination &&
+		matchInfo.value.domination.teamCountDown != Teams.none
+	) {
+		return matchInfo.value.domination.countDownTimer.toPrecision(3);
+	}
+
+	var time: number = customTimer.value > 0 ? customTimer.value : state.MatchInfo.timer;
+
+
+	let date = new Date(0),
+		mill = time % 1,
+		mins = (time - mill) / 60,
 		secs = mins % 1;
 
 	mins = mins - secs;
