@@ -50,12 +50,6 @@ export interface TeamInfo {
 
 	logoFound: boolean;
 	logo: string;
-
-	extrasFound: boolean;
-	matches: number;
-	wins: number;
-	losses: number;
-	players: string[];
 }
 
 export enum WebsocketStatusTypes {

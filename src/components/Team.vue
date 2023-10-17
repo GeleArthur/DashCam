@@ -85,7 +85,7 @@ const settingsState = useSettingStore();
 const players = computed(() => {
 	let data = state.GetPlayers;
 
-	if (state.MatchInfo.matchType == MatchType.Deathmatch) {
+	if (state.GetMatchInfo.matchType == MatchType.Deathmatch) {
 
 		var teamSort = data
 			.filter((e: PlayerStateInfo) => e.isActive == true)

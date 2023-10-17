@@ -44,23 +44,13 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	const TeamData = ref({
 		red: {
 			name: "red",
-			extrasFound: false,
 			logo: "",
 			logoFound: false,
-			losses: 0,
-			matches: 0,
-			players: [],
-			wins: 0,
 		} as TeamInfo,
 		blue: {
 			name: "blue",
-			extrasFound: false,
 			logo: "",
 			logoFound: false,
-			losses: 0,
-			matches: 0,
-			players: [],
-			wins: 0,
 		} as TeamInfo,
 	});
 
@@ -74,6 +64,10 @@ export const useMatchStateStore = defineStore("matchState", () => {
 
 	const GetSelectedPlayer = computed(() => {
 		return GetPlayers.value[GetSelectedPlayerIndex.value];
+	});
+
+	const GetMatchInfo = computed(() => {
+		return MatchInfo.value;
 	});
 
 	function $reset() {
@@ -104,29 +98,19 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			controlPoint: {
 				TeamScoringPoints: Teams.none,
 			},
-		} as MatchInfoType;
+		} ;
 
 		TeamData.value = {
 			red: {
 				name: "red",
-				extrasFound: false,
 				logo: "",
 				logoFound: false,
-				losses: 0,
-				matches: 0,
-				players: [],
-				wins: 0,
-			} as TeamInfo,
+			},
 			blue: {
 				name: "blue",
-				extrasFound: false,
 				logo: "",
 				logoFound: false,
-				losses: 0,
-				matches: 0,
-				players: [],
-				wins: 0,
-			} as TeamInfo,
+			},
 		};
 
 		for (let i = 0; i < 11; i++) {
@@ -170,6 +154,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		GetPlayers,
 		GetSelectedPlayerIndex,
 		GetSelectedPlayer,
+		GetMatchInfo,
 		$reset,
 	};
 });

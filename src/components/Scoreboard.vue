@@ -181,23 +181,23 @@ onMounted(() => {
 })
 
 const blueTeamScore = computed(() => {
-	if (state.MatchInfo.matchType == MatchType.Payload) {
-		if (state.MatchInfo.payload.precisePayloadDistance) {
-			let number = state.MatchInfo.payload.precisePayloadDistance;
+	if (state.GetMatchInfo.matchType == MatchType.Payload) {
+		if (state.GetMatchInfo.payload.precisePayloadDistance) {
+			let number = state.GetMatchInfo.payload.precisePayloadDistance;
 			number *= 100;
 			return number.toFixed(2);
 		}
 	}
 
-	return state.MatchInfo.blueScore ? state.MatchInfo.blueScore : 0;
+	return state.GetMatchInfo.blueScore ? state.GetMatchInfo.blueScore : 0;
 })
 
 const redTeamScore = computed(() => {
-	return state.MatchInfo.redScore ? state.MatchInfo.redScore : 0;
+	return state.GetMatchInfo.redScore ? state.GetMatchInfo.redScore : 0;
 })
 
 const matchTypeClass = computed(() => {
-	var mode = MatchType[state.MatchInfo.matchType] !== undefined ? MatchType[state.MatchInfo.matchType].toLowerCase() : false;
+	var mode = MatchType[state.GetMatchInfo.matchType] !== undefined ? MatchType[state.GetMatchInfo.matchType].toLowerCase() : false;
 
 	return mode ? 'mode--' + mode : '';
 })
@@ -232,7 +232,7 @@ const timer = computed(() => {
 		return matchInfo.value.domination.countDownTimer.toPrecision(3);
 	}
 
-	var time: number = customTimer.value > 0 ? customTimer.value : state.MatchInfo.timer;
+	var time: number = customTimer.value > 0 ? customTimer.value : state.GetMatchInfo.timer;
 
 
 	let date = new Date(0),
@@ -251,6 +251,6 @@ const timer = computed(() => {
 	return timeString;
 })
 const matchInfo = computed(() => {
-	return state.MatchInfo;
+	return state.GetMatchInfo;
 })
 </script>

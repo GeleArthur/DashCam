@@ -83,7 +83,7 @@ export function CreateFakeData() {
 				secondRound: false,
 				precisePayloadDistance: getRandomArbitrary(0, 1),
 			},
-			matchType: MatchType.Payload
+			matchType: matchTypeValue
 		}
 	});
 
