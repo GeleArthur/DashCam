@@ -1,40 +1,40 @@
 <template>
-	<div class="playerBar" :class="[
-		selectedPlayer.team == 0 ? 'playerBar--red' : 'playerBar--blue'
-	]" v-if="state.SelectedPlayerIndex >= 0">
-		<div class="playerBar_wrapper">
-			<div class="playerBar_dashes">
-				<div class="player_dashes">
-					<div class="dashes">
-						<player-dashes v-for="index in maxDashes" :index="index" :playerData="selectedPlayer" />
+	<div class="playerBar" v-if="state.SelectedPlayerIndex >= 0">
+		<div :class="[state.GetSelectedPlayer.team == 0 ? 'playerBar--red' : 'playerBar--blue']">
+			<div class="playerBar_wrapper">
+				<div class="playerBar_dashes">
+					<div class="player_dashes">
+						<div class="dashes">
+							<player-dashes v-for="index in maxDashes" :index="index" :playerData="state.GetSelectedPlayer" />
+						</div>
 					</div>
 				</div>
-			</div>
-			<div class="playerBar_score">{{ score }}</div>
-			<div class="playerBar_health">
-				<div class="healthBar">
-					<div class="healthBar_life" :style="healthBar"></div>
-					<div class="healthBar_track"></div>
+				<div class="playerBar_score">{{ score }}</div>
+				<div class="playerBar_health">
+					<div class="healthBar">
+						<div class="healthBar_life" :style="healthBar"></div>
+						<div class="healthBar_track"></div>
+					</div>
 				</div>
-			</div>
-			<div class="playerBar_kills">{{ selectedPlayer.kills }}</div>
-			<div class="playerBar_name">
-				<svg width="336px" height="37px" viewBox="0 0 336 37" version="1.1" xmlns="http://www.w3.org/2000/svg"
-					xmlns:xlink="http://www.w3.org/1999/xlink">
-					<g transform="translate(-791.000000, -999.000000)">
-						<g transform="translate(-55.708529, -0.000000)">
-							<g transform="translate(754.000000, 947.992966)">
-								<polygon fill="#0045FF"
-									transform="translate(260.622744, 69.507034) scale(1, -1) translate(-260.622744, -69.507034) "
-									points="93 61.8724816 105.024286 51.0070335 416.332343 51.0070335 428.245488 61.8724816 417.32872 88.0070335 103.956467 88.0070335">
-								</polygon>
+				<div class="playerBar_kills">{{ state.GetSelectedPlayer.kills }}</div>
+				<div class="playerBar_name">
+					<svg width="336px" height="37px" viewBox="0 0 336 37" version="1.1" xmlns="http://www.w3.org/2000/svg"
+						xmlns:xlink="http://www.w3.org/1999/xlink">
+						<g transform="translate(-791.000000, -999.000000)">
+							<g transform="translate(-55.708529, -0.000000)">
+								<g transform="translate(754.000000, 947.992966)">
+									<polygon fill="#0045FF"
+										transform="translate(260.622744, 69.507034) scale(1, -1) translate(-260.622744, -69.507034) "
+										points="93 61.8724816 105.024286 51.0070335 416.332343 51.0070335 428.245488 61.8724816 417.32872 88.0070335 103.956467 88.0070335">
+									</polygon>
+								</g>
 							</g>
 						</g>
-					</g>
-				</svg>
-				<span>{{ selectedPlayer.name }}</span>
+					</svg>
+					<span>{{ state.GetSelectedPlayer.name }}</span>
+				</div>
+				<div class="playerBar_deaths">{{ state.GetSelectedPlayer.deads }}</div>
 			</div>
-			<div class="playerBar_deaths">{{ selectedPlayer.deads }}</div>
 		</div>
 	</div>
 </template>
@@ -145,27 +145,22 @@
 
 <script setup lang="ts">
 import { computed } from "vue";
-import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import PlayerDashes from "./PlayerDashes.vue";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 
 const state = useMatchStateStore();
 
 const selectedPlayer = computed(() => {
-	var player = state.PlayerData[state.SelectedPlayerIndex];
-
-	if (player == undefined) {
-		// Not good error preventing should be something better
-		return { dash: 0, score: 0, kills: 0, name: "", deads: 0 } as PlayerStateInfo
-	} else {
-		return player;
-	}
+	if (state.GetSelectedPlayer != undefined) return state.GetSelectedPlayer;
 })
 
 const healthBar = computed(() => {
-	var player = selectedPlayer.value;
+	const player = state.GetSelectedPlayer;
 
-	if (player == undefined) return { width: `100%` }
+	if (player == undefined) {
+		return { width: `100%` }
+	}
 
 	return {
 		width: `${player.health}%`
@@ -173,16 +168,16 @@ const healthBar = computed(() => {
 })
 
 const maxDashes = computed(() => {
-	var player = selectedPlayer.value;
-	if (player == undefined) return 3;
+	const player = state.GetSelectedPlayer;
 
+	if (player == undefined) return 3;
 	return player.dashPickup ? 5 : 3;
 });
 
 const score = computed(() => {
-	var player = selectedPlayer;
+	const player = state.GetSelectedPlayer;
 	if (player == undefined) return "0";
 
-	return player.value.score.toLocaleString('en-US');
+	return player.score.toLocaleString('en-US');
 });
 </script>

@@ -117,12 +117,12 @@ const state = useMatchStateStore();
 
 const healthBar = computed(() => {
 	return {
-		width: state.PlayerData[props.playerID].health + '%'
+		width: state.GetPlayers[props.playerID].health + '%'
 	}
 })
 
 const playerData = computed(() => {
-	return state.PlayerData[props.playerID];
+	return state.GetPlayers[props.playerID];
 })
 
 const playerScore = computed(() => {

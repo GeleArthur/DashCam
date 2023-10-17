@@ -12,7 +12,7 @@ export function CreateFakeData() {
 
 	clearInterval(fakeDataInterval);
 
-	for (let i = state.PlayerData.length - 1; i >= 0; i--) {
+	for (let i = state.GetPlayers.length - 1; i >= 0; i--) {
 		EventPlayerLeaves.invoke({
 			playerID: i,
 			type: "playerLeaves",
@@ -124,7 +124,7 @@ export function CreateFakeData() {
 	}
 
 	for (let i = 0; i < 11; i++) {
-		if (state.PlayerData[i] != null) {
+		if (state.GetPlayers[i] != null) {
 			var dashPickup = getRandomArbitrary(0, 1) > 0.5;
 			EventDashUpdate.invoke({
 				type: "dashUpdate",
@@ -146,24 +146,24 @@ export function CreateFakeData() {
 
 	fakeDataInterval = setInterval(() => {
 		// let feetArray = [];
-		// for (let i = 0; i < store.state.PlayerData.length; i++) {
+		// for (let i = 0; i < store.state.GetPlayers.length; i++) {
 		// 	feetArray.push(
-		// 		store.state.PlayerData[i].feetPosition.X +
+		// 		store.state.GetPlayers[i].feetPosition.X +
 		// 			getRandomArbitrary(-1, 1)
 		// 	);
 		// 	feetArray.push(
-		// 		store.state.PlayerData[i].feetPosition.Y +
+		// 		store.state.GetPlayers[i].feetPosition.Y +
 		// 			getRandomArbitrary(-1, 1)
 		// 	);
 		// 	feetArray.push(
-		// 		store.state.PlayerData[i].feetPosition.Z +
+		// 		store.state.GetPlayers[i].feetPosition.Z +
 		// 			getRandomArbitrary(-1, 1)
 		// 	);
-		// 	var dash = store.state.PlayerData[i].dash * .7;
+		// 	var dash = store.state.GetPlayers[i].dash * .7;
 		// 	// store.commit("dashUpdate", {
 		// 	// 	type:"dashUpdate",
 		// 	// 	playerID:i,
-		// 	// 	dashAmount: dash <= 0.5 ? (store.state.PlayerData[i].dashPickup ? 5 : 3) : dash,
+		// 	// 	dashAmount: dash <= 0.5 ? (store.state.GetPlayers[i].dashPickup ? 5 : 3) : dash,
 		// 	// 	dashPickUp: dashPickup
 		// 	// })
 		// 	// store.commit("healthUpdate", {

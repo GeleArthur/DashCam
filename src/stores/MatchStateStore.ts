@@ -8,14 +8,78 @@ import {
 	TeamInfo,
 } from "@/interfaces/StoreInterfaces/StoreState";
 import { defineStore } from "pinia";
-import { ref } from "vue";
+import { computed, ref } from "vue";
 
-export const useMatchStateStore = defineStore("matchState", {
-	state: () => {
-		const SelectedPlayerIndex = ref(-1);
-		const PlayerData = ref([] as PlayerStateInfo[]);
+export const useMatchStateStore = defineStore("matchState", () => {
+	const SelectedPlayerIndex = ref(-1);
+	const PlayerData = ref([] as PlayerStateInfo[]);
 
-		const MatchInfo = ref({
+	const MatchInfo = ref({
+		matchType: MatchType.None,
+		mapName: "",
+		timer: 0,
+
+		blueScore: 0,
+		redScore: 0,
+
+		payload: {
+			amountBlueOnCart: 0,
+			cartBlockedByRed: false,
+			checkPoint: false,
+			secondRound: false,
+			precisePayloadDistance: 0,
+		},
+		domination: {
+			countDownTimer: 0,
+			teamCountDown: Teams.none,
+			pointA: Teams.none,
+			pointB: Teams.none,
+			pointC: Teams.none,
+		},
+		controlPoint: {
+			TeamScoringPoints: Teams.none,
+		},
+	} as MatchInfoType);
+
+	const TeamData = ref({
+		red: {
+			name: "red",
+			extrasFound: false,
+			logo: "",
+			logoFound: false,
+			losses: 0,
+			matches: 0,
+			players: [],
+			wins: 0,
+		} as TeamInfo,
+		blue: {
+			name: "blue",
+			extrasFound: false,
+			logo: "",
+			logoFound: false,
+			losses: 0,
+			matches: 0,
+			players: [],
+			wins: 0,
+		} as TeamInfo,
+	});
+
+	const GetPlayers = computed(() => {
+		return PlayerData.value;
+	});
+
+	const GetSelectedPlayerIndex = computed(() => {
+		return SelectedPlayerIndex.value;
+	});
+
+	const GetSelectedPlayer = computed(() => {
+		return GetPlayers.value[GetSelectedPlayerIndex.value];
+	});
+
+	function $reset() {
+		SelectedPlayerIndex.value = -1;
+
+		MatchInfo.value = {
 			matchType: MatchType.None,
 			mapName: "",
 			timer: 0,
@@ -40,9 +104,9 @@ export const useMatchStateStore = defineStore("matchState", {
 			controlPoint: {
 				TeamScoringPoints: Teams.none,
 			},
-		} as MatchInfoType);
+		} as MatchInfoType;
 
-		const TeamData = ref({
+		TeamData.value = {
 			red: {
 				name: "red",
 				extrasFound: false,
@@ -63,7 +127,7 @@ export const useMatchStateStore = defineStore("matchState", {
 				players: [],
 				wins: 0,
 			} as TeamInfo,
-		});
+		};
 
 		for (let i = 0; i < 11; i++) {
 			PlayerData.value[i] = {
@@ -96,20 +160,16 @@ export const useMatchStateStore = defineStore("matchState", {
 				feetRotation: 0,
 			};
 		}
-
-		return {
-			SelectedPlayerIndex,
-			PlayerData,
-			MatchInfo,
-			TeamData,
-		};
-	},
-	getters: {
-
 	}
+
+	return {
+		SelectedPlayerIndex,
+		PlayerData,
+		MatchInfo,
+		TeamData,
+		GetPlayers,
+		GetSelectedPlayerIndex,
+		GetSelectedPlayer,
+		$reset,
+	};
 });
-
-
-
-
-

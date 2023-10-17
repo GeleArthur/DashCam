@@ -2,7 +2,7 @@
 	<div class="team" :class="'team--' + teamColor, teamData.logoFound ? 'team--dln' : ''">
 
 		<div class="team_players" :class="'team_players--' + teamColor" v-if="players">
-			<player v-for="(item, index) in players" :key="index" :playerID="state.PlayerData.indexOf(item)" />
+			<player v-for="(item, index) in players" :key="index" :playerID="state.GetPlayers.indexOf(item)" />
 		</div>
 		<div class="team_logo" v-if="teamData.logoFound">
 			<img :src="teamLogo" width="94" height="94">
@@ -83,7 +83,7 @@ const state = useMatchStateStore();
 const settingsState = useSettingStore();
 
 const players = computed(() => {
-	let data = state.PlayerData;
+	let data = state.GetPlayers;
 
 	if (state.MatchInfo.matchType == MatchType.Deathmatch) {
 
