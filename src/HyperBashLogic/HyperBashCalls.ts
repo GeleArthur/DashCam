@@ -7,7 +7,7 @@ import {
 } from "@/interfaces/HyperBashMessages.interface";
 import { AnnouncerTypes, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
-import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useMatchStateFreezeStore, useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "../stores/SettingsStore";
 import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventSceneChange, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
 import cloneDeep from "lodash.clonedeep";
@@ -277,15 +277,18 @@ EventSceneChange.subscribe(cleanData)
 
 function cleanData(socketData: SceneChangeLayout){
 	
-	// if(socketData.sceneIndex > 7){
-	// 	state.$reset();
-	// 	stateAfterMatch.haveWePlayedAMatch = true;
-	// 	stateAfterMatch.isMatchOver = false;
-	// }
-	// if(socketData.sceneIndex < 7){
-	// 	// if(stateAfterMatch.haveWePlayedAMatch == true){
-	// 		stateAfterMatch.PlayerData = cloneDeep(state.PlayerData);
-	// 		stateAfterMatch.isMatchOver = true;
-	// 	// }
-	// }
+	const freezeStore = useMatchStateFreezeStore();
+
+	// Doesn't work hyperdash first unloads then changes scenes.
+	if(socketData.sceneIndex > 7){
+		state.$reset();
+		freezeStore.showFreezeData = false;
+		freezeStore.doWeHaveData = true;
+	}
+	if(socketData.sceneIndex < 7){
+		if(freezeStore.doWeHaveData == true){
+			freezeStore.showFreezeData = true;
+			freezeStore.PlayerData = cloneDeep(state.PlayerData);
+		}
+	}
 }

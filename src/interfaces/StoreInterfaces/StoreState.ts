@@ -47,7 +47,6 @@ export enum iconModes{
 
 export interface TeamInfo {
 	name: string;
-
 	logoFound: boolean;
 	logo: string;
 }
