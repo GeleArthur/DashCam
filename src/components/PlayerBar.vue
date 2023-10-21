@@ -147,13 +147,8 @@
 import { computed } from "vue";
 import PlayerDashes from "./PlayerDashes.vue";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
-import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 
 const state = useMatchStateStore();
-
-const selectedPlayer = computed(() => {
-	if (state.GetSelectedPlayer != undefined) return state.GetSelectedPlayer;
-})
 
 const healthBar = computed(() => {
 	const player = state.GetSelectedPlayer;
