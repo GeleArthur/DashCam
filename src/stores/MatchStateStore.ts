@@ -143,6 +143,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 				isDead: false,
 				deads: 0,
 				kills: 0,
+				killStreak: 0,
 				score: 0,
 				ping: 0,
 				feetPosition: {
@@ -295,6 +296,7 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 				isDead: false,
 				deads: 0,
 				kills: 0,
+				killStreak: 0,
 				score: 0,
 				ping: 0,
 				feetPosition: {
