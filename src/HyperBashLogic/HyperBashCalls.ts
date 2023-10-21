@@ -7,16 +7,14 @@ import {
 } from "@/interfaces/HyperBashMessages.interface";
 import { AnnouncerTypes, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
-import { useMatchStateStore } from "@/stores/MatchStateStore";
+import { useMatchStateFreezeStore, useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "../stores/SettingsStore";
 import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventSceneChange, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
+import cloneDeep from "lodash.clonedeep";
 
 
-type storeType = ReturnType<typeof useMatchStateStore>;
-let state: storeType;
-
-type storeSettingsType = ReturnType<typeof useSettingStore>;
-let stateSettings: storeSettingsType;
+let state: ReturnType<typeof useMatchStateStore>;
+let stateSettings: ReturnType<typeof useSettingStore>;
 
 export function initStore() {
 	state = useMatchStateStore();
@@ -236,7 +234,9 @@ function teamScore(socketData: any) {
 
 EventAnnouncer.subscribe(announcer)
 
-function announcer(socketData: { type: string; message: AnnouncerTypes }) {}
+function announcer(socketData: { type: string; message: AnnouncerTypes }) {
+	// socketData.message == AnnouncerTypes.team_red_won
+}
 
 EventPayload.subscribe(payload);
 
@@ -277,5 +277,19 @@ function version(socketData: any) {
 EventSceneChange.subscribe(cleanData)
 
 function cleanData(socketData: SceneChangeLayout){
-	state.$reset();
+	
+	const freezeStore = useMatchStateFreezeStore();
+
+	// Doesn't work hyperdash first unloads then changes scenes.
+	if(socketData.sceneIndex > 7){
+		state.$reset();
+		freezeStore.showFreezeData = false;
+		freezeStore.doWeHaveData = true;
+	}
+	if(socketData.sceneIndex < 7){
+		if(freezeStore.doWeHaveData == true){
+			freezeStore.showFreezeData = true;
+			freezeStore.PlayerData = cloneDeep(state.PlayerData);
+		}
+	}
 }

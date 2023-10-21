@@ -134,8 +134,8 @@ function getHeadSuicide( kill: KillData ): string {
 }
 function getPlayersTeamAndName( payload: KillFeedLayout ): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
-	const killer = state.PlayerData[payload.killer];
-	const victim = state.PlayerData[payload.victim];
+	const killer = state.GetPlayers[payload.killer];
+	const victim = state.GetPlayers[payload.victim];
 	if (killer == undefined || victim == undefined)
 		return undefined;
 	

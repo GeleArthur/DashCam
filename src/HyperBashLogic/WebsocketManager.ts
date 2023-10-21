@@ -7,18 +7,15 @@ import { useMatchStateStore } from "../stores/MatchStateStore";
 import { HyperBashMessage, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
 import { EventTypes, HBEvent } from "@/Util/EventSystem";
 
-type storeSettingType = ReturnType<typeof useSettingStore>;
-let settingState: storeSettingType;
-
-type storeType = ReturnType<typeof useMatchStateStore>;
-let state: storeType;
+let settingState: ReturnType<typeof useSettingStore>;
+let state: ReturnType<typeof useMatchStateStore>;
 
 let websocketClient: WebSocket;
 let retryID: number;
 
 let prevConnected = false;
 
-// Dont ask why
+// Don't ask why
 // const HBEventsStriped = HyperBashEvents as { [key: string]: HBEvent<HyperBashMessage> };
 const HBEventsStriped = HyperBashEvents as unknown as Record<string, HBEvent<HyperBashMessage>>;// { [key: string]: HBEvent<HyperBashMessage> };
 const HBEvents = {} as Record<EventTypes, HBEvent<HyperBashMessage>>;

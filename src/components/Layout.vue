@@ -120,69 +120,33 @@ watch(() => settingState.IconSettings.iconMode, () => {
 	getTeamInfo(true);
 })
 
-// This is used to stop the image loading if the scene changes before the image is loaded
-let stopImageLoading = false;
-
-EventSceneChange.subscribe(() => {
-	stopImageLoading = true;
-});
-
-
 async function getTeamInfo(updateRed: boolean) {
-	stopImageLoading = false;
 	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
 	let newTeamData = { name: teamName } as TeamInfo
 
 	// dashleague
 	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
 		try {
-			let team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
-			let teamjson = await team.json();
+			const team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
+			const teamJson = await team.json();
 
-			if(stopImageLoading) return;
+			newTeamData.logoFound = false;
 
-			if (teamjson.data == false) {
-				newTeamData.logoFound = false;
-				newTeamData.extrasFound = false;
-			}
-			else {
+			if (teamJson.data) {
 				newTeamData.logoFound = true;
-				newTeamData.logo = teamjson.data.logo;
-
-				try {
-					newTeamData.extrasFound = true;
-					newTeamData.matches = teamjson.data.stats[0].matches;
-					newTeamData.wins = teamjson.data.stats[0].wins;
-					newTeamData.losses = teamjson.data.stats[0].losses;
-
-					newTeamData.players = [];
-
-					for (const player in teamjson.data.roster.players) {
-						if (Object.prototype.hasOwnProperty.call(teamjson.data.roster.players, player)) {
-							newTeamData.players.push(teamjson.data.roster.players[player].name)
-						}
-					}
-				}
-				catch (error) {
-					newTeamData.extrasFound = false;
-					console.log(`Failed to load extras for ${teamName}`)
-				}
+				newTeamData.logo = teamJson.data.logo;
 			}
 		}
 		catch (e) {
 			newTeamData.logoFound = false;
-			newTeamData.extrasFound = false;
 			console.error("Failed to get logo falling back " + e);
 		}
 	}
 	else if (settingState.IconSettings.iconMode == iconModes.hyperCup) {
-		newTeamData.extrasFound = false;
-
 		try {
 			let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
 
 			const logoRequest = await fetch(logoURL);
-			if(stopImageLoading) return;
 
 			// Sucks that we have to request twice any other way?
 			if (logoRequest.ok) {
@@ -199,7 +163,6 @@ async function getTeamInfo(updateRed: boolean) {
 		}
 	}
 	else if (settingState.IconSettings.iconMode == iconModes.custom) {
-		newTeamData.extrasFound = false;
 		newTeamData.logoFound = true;
 	}
 
@@ -216,8 +179,5 @@ async function getTeamInfo(updateRed: boolean) {
 			}
 		})
 	}
-
-
-
 }
 </script>

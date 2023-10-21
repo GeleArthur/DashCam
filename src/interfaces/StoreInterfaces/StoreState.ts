@@ -48,15 +48,8 @@ export enum iconModes{
 
 export interface TeamInfo {
 	name: string;
-
 	logoFound: boolean;
 	logo: string;
-
-	extrasFound: boolean;
-	matches: number;
-	wins: number;
-	losses: number;
-	players: string[];
 }
 
 export enum WebsocketStatusTypes {

@@ -21,12 +21,12 @@ const state = useMatchStateStore();
 const settingState = useSettingStore();
 
 function switchTeam() {
-    for (let i = 0; i < state.PlayerData.length; i++) {
-        if (state.PlayerData[i].isActive) {
+    for (let i = 0; i < state.GetPlayers.length; i++) {
+        if (state.GetPlayers[i].isActive) {
             EventSwitchTeam.invoke({
                 type: "switchTeam",
                 playerID: i,
-                team: state.PlayerData[i].team == Teams.red ? Teams.blue : Teams.red,
+                team: state.GetPlayers[i].team == Teams.red ? Teams.blue : Teams.red,
             })
         }
     }
