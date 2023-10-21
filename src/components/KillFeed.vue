@@ -117,9 +117,8 @@ import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
 import headShot from "@/assets/weapons/head-shot.svg"
 import explosion from "@/assets/weapons/explosion.svg"
 
-const state = useMatchStateStore();
-
-const killsQueue = ref([] as KillData[]);
+const state          = useMatchStateStore();
+const killsQueue     = ref([] as KillData[]);
 const killsQueueSize = ref(8);
 
 onMounted(() => {
@@ -133,13 +132,13 @@ function getHeadSuicide( kill: KillData ): string {
 	let explosives = [-1, 2, 11];
 	return explosives.includes(kill.weaponType) ? explosion : headShot;
 }
-function getPlayersTeamAndName(payload: KillFeedLayout): KillData | undefined {
+function getPlayersTeamAndName( payload: KillFeedLayout ): KillData | undefined {
 	const randomId = Math.random().toString(36).substring(2, 7)
 	const killer = state.PlayerData[payload.killer];
 	const victim = state.PlayerData[payload.victim];
 	if (killer == undefined || victim == undefined)
 		return undefined;
-
+	
 	return {
 		id: randomId,
 		killer: killer.name,
@@ -162,17 +161,26 @@ function getKillClass( kill: KillData ) {
 	
 	return classes;
 }
-function getWeaponSvg(kill: KillData): string {
+function getWeaponSvg( kill: KillData ): string {
 	return getWeaponIcon(kill.weaponType, kill.isAltFire);
 }
-function onPlayerKilled(payload: KillFeedLayout) {
+function onPlayerKilled( payload: KillFeedLayout ) {
 	let kill = getPlayersTeamAndName(payload);
 	
-	if (kill == undefined) return;
+	if ( kill == undefined ) return;
 	
-	if (killsQueue.value.length >= killsQueueSize.value) {
+	const killer = state.PlayerData[payload.killer],
+			  victim = state.PlayerData[payload.victim];
+	
+	if ( killsQueue.value.length >= killsQueueSize.value ) {
 		killsQueue.value.splice(0, 1);
 	}
+	
+	killer.killStreak += 1;
+	victim.killStreak = 0;
+	
+	kill.killStreak = killer.killStreak;
+	
 	killsQueue.value.push(kill);
 }
 </script>

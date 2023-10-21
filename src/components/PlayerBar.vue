@@ -156,7 +156,7 @@ const selectedPlayer = computed(() => {
 
 	if (player == undefined) {
 		// Not good error preventing should be something better
-		return { dash: 0, score: 0, kills: 0, name: "", deads: 0 } as PlayerStateInfo
+		return { dash: 0, score: 0, kills: 0, killStreak: 0, name: "", deads: 0 } as PlayerStateInfo
 	} else {
 		return player;
 	}

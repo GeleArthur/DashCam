@@ -48,6 +48,7 @@ function playerJoins(socketData: PlayerJoinsLayout) {
 		score: 0,
 		deads: 0,
 		kills: 0,
+		killStreak: 0,
 		ping: 0,
 
 		feetPosition: { X: 0, Y: 0, Z: 0 },
