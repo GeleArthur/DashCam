@@ -203,7 +203,6 @@ const matchTypeClass = computed(() => {
 })
 
 function onAnnouncer(socketData: AnnouncerLayout) {
-	console.log(AnnouncerTypes[socketData.message])
 	if (socketData.message == AnnouncerTypes.match_start_321) {
 		customTimer.value = 5;
 	}

@@ -5,20 +5,49 @@ import {
 	PlayerPositionLayout,
 	SceneChangeLayout,
 } from "@/interfaces/HyperBashMessages.interface";
-import { AnnouncerTypes, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
+import {
+	AnnouncerTypes,
+	MatchType,
+	Teams,
+} from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
-import { useMatchStateFreezeStore, useMatchStateStore } from "@/stores/MatchStateStore";
+import {
+	useMatchStateFreezeStore,
+	useMatchStateStore,
+} from "@/stores/MatchStateStore";
 import { useSettingStore } from "../stores/SettingsStore";
-import { EventAnnouncer, EventControlPoint, EventCurrentlySpectating, EventDashUpdate, EventDomination, EventHealthUpdate, EventKillFeed, EventLoadoutUpdate, EventMatchStart, EventPayload, EventPlayerJoins, EventPlayerLeaves, EventPlayerPosition, EventRespawn, EventSceneChange, EventScoreboard, EventSwitchTeam, EventTeamScore, EventTimer, EventVersion } from "./HyperBashEvents";
+import {
+	EventAnnouncer,
+	EventControlPoint,
+	EventCurrentlySpectating,
+	EventDashUpdate,
+	EventDomination,
+	EventHealthUpdate,
+	EventKillFeed,
+	EventLoadoutUpdate,
+	EventMatchStart,
+	EventPayload,
+	EventPlayerJoins,
+	EventPlayerLeaves,
+	EventPlayerPosition,
+	EventRespawn,
+	EventSceneChange,
+	EventScoreboard,
+	EventSwitchTeam,
+	EventTeamScore,
+	EventTimer,
+	EventVersion,
+} from "./HyperBashEvents";
 import cloneDeep from "lodash.clonedeep";
-
 
 let state: ReturnType<typeof useMatchStateStore>;
 let stateSettings: ReturnType<typeof useSettingStore>;
+let freezeStore: ReturnType<typeof useMatchStateFreezeStore>;
 
 export function initStore() {
 	state = useMatchStateStore();
 	stateSettings = useSettingStore();
+	freezeStore = useMatchStateFreezeStore();
 }
 
 EventPlayerJoins.subscribe(playerJoins);
@@ -96,7 +125,7 @@ function getClanName() {
 		}
 	}
 
-	if(state.TeamData.red.name != redMaxString){
+	if (state.TeamData.red.name != redMaxString) {
 		state.TeamData.red.name = redMaxString;
 	}
 
@@ -126,7 +155,7 @@ function getClanName() {
 		}
 	}
 
-	if(state.TeamData.blue.name != blueMaxString){
+	if (state.TeamData.blue.name != blueMaxString) {
 		state.TeamData.blue.name = blueMaxString;
 	}
 }
@@ -209,8 +238,6 @@ function scoreboard(socketData: any) {
 
 function status(socketData: any) {}
 
-
-
 EventMatchStart.subscribe(matchStart);
 
 function matchStart(socketData: any) {
@@ -229,12 +256,6 @@ EventTeamScore.subscribe(teamScore);
 function teamScore(socketData: any) {
 	state.MatchInfo.blueScore = socketData.blueTeam;
 	state.MatchInfo.redScore = socketData.redTeam;
-}
-
-EventAnnouncer.subscribe(announcer)
-
-function announcer(socketData: { type: string; message: AnnouncerTypes }) {
-	// socketData.message == AnnouncerTypes.team_red_won
 }
 
 EventPayload.subscribe(payload);
@@ -273,22 +294,27 @@ function version(socketData: any) {
 	stateSettings.Version = socketData.HyperBashVersion;
 }
 
-EventSceneChange.subscribe(cleanData)
-
-function cleanData(socketData: SceneChangeLayout){
-	
-	const freezeStore = useMatchStateFreezeStore();
-
-	// Doesn't work hyperdash first unloads then changes scenes.
-	if(socketData.sceneIndex > 7){
-		state.$reset();
-		freezeStore.showFreezeData = false;
-		freezeStore.doWeHaveData = true;
-	}
-	if(socketData.sceneIndex < 7){
-		if(freezeStore.doWeHaveData == true){
-			freezeStore.showFreezeData = true;
-			freezeStore.PlayerData = cloneDeep(state.PlayerData);
+EventAnnouncer.subscribe((socketData) => {
+	console.log(AnnouncerTypes[socketData.message])
+	if (state.MatchInfo.matchType == MatchType.Payload) {
+		if (state.MatchInfo.payload.secondRound) {
+			if (
+				socketData.message == AnnouncerTypes.team_red_won ||
+				socketData.message == AnnouncerTypes.team_blue_won
+			) {
+				freezeStore.showFreezeData = true;
+				freezeStore.PlayerData = cloneDeep(state.PlayerData);
+			}
 		}
+	}
+});
+
+EventSceneChange.subscribe(cleanData);
+
+function cleanData(socketData: SceneChangeLayout) {
+	state.$reset();
+
+	if (socketData.sceneIndex > 7) {
+		freezeStore.showFreezeData = false;
 	}
 }
