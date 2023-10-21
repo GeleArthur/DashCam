@@ -103,21 +103,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 				pointB: Teams.none,
 				pointC: Teams.none,
 			},
-<<<<<<< HEAD
-			health: 0,
-			dash: 0,
-			dashPickup: false,
-			isDead: false,
-			deads: 0,
-			kills: 0,
-			killStreak: 0,
-			score: 0,
-			ping: 0,
-			feetPosition: {
-				X: 0,
-				Y: 0,
-				Z: 0,
-=======
+
 			controlPoint: {
 				TeamScoringPoints: Teams.none,
 			},
@@ -133,7 +119,6 @@ export const useMatchStateStore = defineStore("matchState", () => {
 				name: "blue",
 				logo: "",
 				logoFound: false,
->>>>>>> 06bf685e666e38f75a13d6defb3b249cba568a59
 			},
 		};
 
