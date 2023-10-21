@@ -113,7 +113,7 @@ export function CreateFakeData() {
 			isAltFire: false, //false,
 			killer: killer,
 			weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
-			killStreak: false
+			killStreak: 0
 		}
 		
 		let explosives = [0, 11];
@@ -155,7 +155,7 @@ export function CreateFakeData() {
 			isAltFire: false, //false,
 			killer: 0,
 			weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
-			killStreak: false
+			killStreak: 0
 		}
 		
 		let explosives = [0, 11];
@@ -173,7 +173,7 @@ export function CreateFakeData() {
 				isAltFire: false, //false,
 				killer: 5,
 				weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
-				killStreak: false
+				killStreak: 0
 			}
 			
 			EventKillFeed.invoke(thing2)
