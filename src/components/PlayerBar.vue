@@ -152,18 +152,7 @@ import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 const state = useMatchStateStore();
 
 const selectedPlayer = computed(() => {
-<<<<<<< HEAD
-	var player = state.PlayerData[state.SelectedPlayerIndex];
-
-	if (player == undefined) {
-		// Not good error preventing should be something better
-		return { dash: 0, score: 0, kills: 0, killStreak: 0, name: "", deads: 0 } as PlayerStateInfo
-	} else {
-		return player;
-	}
-=======
 	if (state.GetSelectedPlayer != undefined) return state.GetSelectedPlayer;
->>>>>>> 06bf685e666e38f75a13d6defb3b249cba568a59
 })
 
 const healthBar = computed(() => {

@@ -211,5 +211,5 @@ export function CreateFakeData() {
 		// 	feetDirection: [...Array(10).keys()].map(() => 0),
 		// 	feetPos: feetArray,
 		// } as playerPos);
-	}, 500);
+	}, 750);
 }
