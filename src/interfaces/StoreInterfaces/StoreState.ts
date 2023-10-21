@@ -22,6 +22,7 @@ export interface PlayerStateInfo {
 
 	deads: number;
 	kills: number;
+	killStreak: number;
 	score: number;
 	ping: number;
 

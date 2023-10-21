@@ -86,12 +86,12 @@ export function CreateFakeData() {
 			matchType: matchTypeValue
 		}
 	});
-
+	
 	EventCurrentlySpectating.invoke({
 		type: "currentlySpectating",
 		playerID: getRandomInt(0, 9),
 	});
-
+	
 	for (let i = 0; i < 2; i++) {
 		var randomNumbers = [0,1,2,7,8,9,11];
 		
@@ -113,7 +113,7 @@ export function CreateFakeData() {
 			isAltFire: false, //false,
 			killer: killer,
 			weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
-			killStreak: getRandomInt(0,6)
+			killStreak: 0
 		}
 		
 		let explosives = [0, 11];
@@ -135,7 +135,7 @@ export function CreateFakeData() {
 				isFalling: false,
 				isSprinting: false,
 			});
-
+			
 			EventHealthUpdate.invoke({
 				type: "healthUpdate",
 				playerID: i,
@@ -145,6 +145,40 @@ export function CreateFakeData() {
 	}
 
 	fakeDataInterval = setInterval(() => {
+		if ( state.PlayerData[0].isDead ) state.PlayerData[0].isDead = false;
+		state.PlayerData[0].kills += 1;
+		
+		var thing : KillFeedLayout = {
+			type: "killFeed",
+			victim: 5,
+			headShot: Math.random() < 0.5,
+			isAltFire: false, //false,
+			killer: 0,
+			weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
+			killStreak: 0
+		}
+		
+		let explosives = [0, 11];
+		thing.isAltFire = explosives.includes(thing.weaponType);
+		
+		EventKillFeed.invoke(thing);
+		
+		if ( state.PlayerData[0].killStreak > 5 ) {
+			state.PlayerData[0].deads += 1;
+			
+			var thing2 : KillFeedLayout = {
+				type: "killFeed",
+				victim: 0,
+				headShot: Math.random() < 0.5,
+				isAltFire: false, //false,
+				killer: 5,
+				weaponType: randomNumbers[getRandomInt(-1,randomNumbers.length)] || -1,
+				killStreak: 0
+			}
+			
+			EventKillFeed.invoke(thing2)
+		}
+		
 		// let feetArray = [];
 		// for (let i = 0; i < store.state.GetPlayers.length; i++) {
 		// 	feetArray.push(
@@ -177,5 +211,5 @@ export function CreateFakeData() {
 		// 	feetDirection: [...Array(10).keys()].map(() => 0),
 		// 	feetPos: feetArray,
 		// } as playerPos);
-	}, 10);
+	}, 750);
 }

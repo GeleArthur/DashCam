@@ -61,7 +61,7 @@ export {
 	EventPayload,
 	EventPlayerJoins,
 	EventPlayerLeaves,
-    EventPlayerPosition,
+	EventPlayerPosition,
 	EventRespawn,
 	EventSceneChange,
 	EventScoreboard,
