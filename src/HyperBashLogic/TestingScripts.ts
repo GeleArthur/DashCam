@@ -164,7 +164,7 @@ export function CreateFakeData() {
 		EventKillFeed.invoke(thing);
 		
 		if ( state.PlayerData[0].killStreak > 5 ) {
-			state.PlayerData[0].deads += 1;
+			state.PlayerData[0].deaths += 1;
 			
 			var thing2 : KillFeedLayout = {
 				type: "killFeed",

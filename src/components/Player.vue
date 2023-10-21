@@ -11,7 +11,7 @@
 			<div class="player_score"> {{ playerScore }} </div>
 			<div class="player_kd">
 				<div class="player_kills">{{ playerData.kills }}</div>
-				<div class="player_deaths">{{ playerData.deads }}</div>
+				<div class="player_deaths">{{ playerData.deaths }}</div>
 			</div>
 		</div>
 		<div class="player_dashes">

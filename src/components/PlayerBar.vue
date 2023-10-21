@@ -33,7 +33,7 @@
 					</svg>
 					<span>{{ state.GetSelectedPlayer.name }}</span>
 				</div>
-				<div class="playerBar_deaths">{{ state.GetSelectedPlayer.deads }}</div>
+				<div class="playerBar_deaths">{{ state.GetSelectedPlayer.deaths }}</div>
 			</div>
 		</div>
 	</div>

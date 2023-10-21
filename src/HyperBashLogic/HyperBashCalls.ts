@@ -73,7 +73,7 @@ function playerJoins(socketData: PlayerJoinsLayout) {
 		dashPickup: false,
 		isDead: false,
 		score: 0,
-		deads: 0,
+		deaths: 0,
 		kills: 0,
 		killStreak: 0,
 		ping: 0,
@@ -230,7 +230,7 @@ EventScoreboard.subscribe(scoreboard);
 function scoreboard(socketData: any) {
 	for (let i = 0; i < state.PlayerData.length; i++) {
 		if (state.PlayerData[i].isActive == true) {
-			state.PlayerData[i].deads = socketData.deads[i];
+			state.PlayerData[i].deaths = socketData.deads[i];
 			state.PlayerData[i].kills = socketData.kills[i];
 			state.PlayerData[i].score = socketData.scores[i];
 		}

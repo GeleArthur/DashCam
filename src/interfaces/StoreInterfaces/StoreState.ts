@@ -20,7 +20,7 @@ export interface PlayerStateInfo {
 	dashPickup: boolean;
 	isDead: boolean;
 
-	deads: number;
+	deaths: number;
 	kills: number;
 	killStreak: number;
 	score: number;
