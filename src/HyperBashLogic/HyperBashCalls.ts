@@ -337,7 +337,8 @@ EventSceneChange.subscribe(cleanData);
 function cleanData(socketData: SceneChangeLayout) {
 	state.$reset();
 
-	if (socketData.sceneIndex > 7) {
+	// game scene or menu scene
+	if (socketData.sceneIndex > 7 && socketData.sceneIndex != 2) {
 		freezeStore.showFreezeData = false;
 	}
 }
