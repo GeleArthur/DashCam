@@ -328,6 +328,7 @@ function SetupFreezeStore(){
 	freezeStore.PlayerData = cloneDeep(state.PlayerData);
 	freezeStore.MatchInfo = cloneDeep(state.MatchInfo);
 	freezeStore.TeamData = cloneDeep(state.TeamData);
+	freezeStore.MatchInfo.domination.teamCountDown = Teams.none;
 	freezeStore.showFreezeData = true;
 }
 
