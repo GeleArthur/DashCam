@@ -78,6 +78,14 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			return MatchInfo.value;
 	});
 
+	const GetTeamData = computed(()=>{
+		const freezeState = useMatchStateFreezeStore();
+		if(freezeState.showFreezeData) 
+			return freezeState.TeamData
+		else 
+			return TeamData.value;
+	})
+
 	function $reset() {
 		SelectedPlayerIndex.value = -1;
 
@@ -161,6 +169,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		PlayerData,
 		MatchInfo,
 		TeamData,
+		GetTeamData,
 		GetPlayers,
 		GetSelectedPlayerIndex,
 		GetSelectedPlayer,
@@ -214,22 +223,6 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 			logo: "",
 			logoFound: false,
 		} as TeamInfo,
-	});
-
-	const GetPlayers = computed(() => {
-		return PlayerData.value;
-	});
-
-	const GetSelectedPlayerIndex = computed(() => {
-		return SelectedPlayerIndex.value;
-	});
-
-	const GetSelectedPlayer = computed(() => {
-		return GetPlayers.value[GetSelectedPlayerIndex.value];
-	});
-
-	const GetMatchInfo = computed(() => {
-		return MatchInfo.value;
 	});
 
 	function $reset() {
@@ -316,10 +309,6 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 		PlayerData,
 		MatchInfo,
 		TeamData,
-		GetPlayers,
-		GetSelectedPlayerIndex,
-		GetSelectedPlayer,
-		GetMatchInfo,
 		$reset,
 	};
 });

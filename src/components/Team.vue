@@ -122,8 +122,8 @@ const teamColor = computed(() => {
 })
 
 const teamData = computed(() => {
-	if (props.team == Teams.red) return state.TeamData.red;
-	else return state.TeamData.blue;
+	if (props.team == Teams.red) return state.GetTeamData.red;
+	else return state.GetTeamData.blue;
 })
 
 const teamLogo = computed(() => {
