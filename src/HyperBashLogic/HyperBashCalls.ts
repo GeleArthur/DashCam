@@ -294,7 +294,6 @@ function version(socketData: any) {
 }
 
 EventAnnouncer.subscribe((socketData) => {
-	console.log(AnnouncerTypes[socketData.message]);
 	if (state.MatchInfo.matchType == MatchType.Payload) {
 		if (state.MatchInfo.payload.secondRound) {
 			if (
@@ -338,7 +337,7 @@ function cleanData(socketData: SceneChangeLayout) {
 	state.$reset();
 
 	// game scene or menu scene
-	if (socketData.sceneIndex > 7 && socketData.sceneIndex != 2) {
+	if (socketData.sceneIndex > 7) {
 		freezeStore.showFreezeData = false;
 	}
 }
