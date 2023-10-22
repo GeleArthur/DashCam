@@ -208,6 +208,11 @@ function onAnnouncer(socketData: AnnouncerLayout) {
 	}
 	else if (socketData.message == AnnouncerTypes.prepare_to_start) {
 		customTimer.value = 26;
+		if(state.MatchInfo.matchType == MatchType.Domination){
+			if(state.MatchInfo.redScore > 0 || state.MatchInfo.blueScore > 0){
+				customTimer.value = 0; // Doors don't lock at domination second round
+			}
+		}
 	}
 	else if(socketData.message == AnnouncerTypes.match_start_321_go){
 		customTimer.value = 4.5;

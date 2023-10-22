@@ -237,8 +237,6 @@ function scoreboard(socketData: any) {
 	}
 }
 
-function status(socketData: any) {}
-
 EventMatchStart.subscribe(matchStart);
 
 function matchStart(socketData: any) {
@@ -296,19 +294,42 @@ function version(socketData: any) {
 }
 
 EventAnnouncer.subscribe((socketData) => {
-	console.log(AnnouncerTypes[socketData.message])
+	console.log(AnnouncerTypes[socketData.message]);
 	if (state.MatchInfo.matchType == MatchType.Payload) {
 		if (state.MatchInfo.payload.secondRound) {
 			if (
 				socketData.message == AnnouncerTypes.team_red_won ||
 				socketData.message == AnnouncerTypes.team_blue_won
 			) {
-				freezeStore.showFreezeData = true;
-				freezeStore.PlayerData = cloneDeep(state.PlayerData);
+				SetupFreezeStore();
 			}
+		}
+	} 
+	else if (state.MatchInfo.matchType == MatchType.Domination) {
+		if (
+			socketData.message == AnnouncerTypes.team_red_won ||
+			socketData.message == AnnouncerTypes.team_blue_won
+		) {
+			SetupFreezeStore();
+		}
+	} 
+	else if (state.MatchInfo.matchType == MatchType.ControlPoint) {
+		if (
+			socketData.message == AnnouncerTypes.team_red_won ||
+			socketData.message == AnnouncerTypes.team_blue_won ||
+			socketData.message == AnnouncerTypes.match_tie
+		) {
+			SetupFreezeStore();
 		}
 	}
 });
+
+function SetupFreezeStore(){
+	freezeStore.PlayerData = cloneDeep(state.PlayerData);
+	freezeStore.MatchInfo = cloneDeep(state.MatchInfo);
+	freezeStore.TeamData = cloneDeep(state.TeamData);
+	freezeStore.showFreezeData = true;
+}
 
 EventSceneChange.subscribe(cleanData);
 
