@@ -1,6 +1,7 @@
 import {
 	MatchInfoType,
 	MatchType,
+	SpecialCondition,
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
@@ -17,6 +18,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	const MatchInfo = ref({
 		matchType: MatchType.None,
 		mapName: "",
+		specialCondition: SpecialCondition.None,
 		timer: 0,
 
 		blueScore: 0,
@@ -92,6 +94,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		MatchInfo.value = {
 			matchType: MatchType.None,
 			mapName: "",
+			specialCondition: SpecialCondition.None,
 			timer: 0,
 
 			blueScore: 0,
@@ -188,6 +191,7 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 	const MatchInfo = ref({
 		matchType: MatchType.None,
 		mapName: "",
+		specialCondition: SpecialCondition.None,
 		timer: 0,
 
 		blueScore: 0,
@@ -231,6 +235,7 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 		MatchInfo.value = {
 			matchType: MatchType.None,
 			mapName: "",
+			specialCondition: SpecialCondition.None,
 			timer: 0,
 
 			blueScore: 0,

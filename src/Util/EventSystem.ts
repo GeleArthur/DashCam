@@ -25,30 +25,45 @@ export type EventTypes =
 	| "version";
 
 type Listener<T extends HyperBashMessage> = (payload: T) => void;
+type ListenerPriority<T extends HyperBashMessage> = {
+	listener: Listener<T>;
+	priority: number;
+};
 class HBEvent<T extends HyperBashMessage> {
 	constructor(public type: EventTypes) {}
 
-	private listeners: Listener<T>[] = [];
+	private listeners: ListenerPriority<T>[] = [];
 
 	subscribe(listener: Listener<T>) {
-		this.listeners.push(listener);
+		this.subscribePriority(listener, 0);
+	}
+
+	subscribePriority(listener: Listener<T>, priority: number) {
+		this.listeners.push({ listener, priority });
+
+		this.listeners.sort((a, b) => {
+			if (a.priority === b.priority) return 0;
+			else if (a.priority > b.priority) return -1;
+			else return 1;
+		});
 	}
 
 	unsubscribe(listener: Listener<T>) {
-		const index = this.listeners.indexOf(listener);
-		if (index > -1) {
-			this.listeners.splice(index, 1);
+		for (let i = 0; i < this.listeners.length; i++) {
+			if (this.listeners[i].listener == listener) {
+				this.listeners.splice(i, 1);
+			}
 		}
 	}
 
 	invoke(payload: T) {
-		this.listeners.forEach((listener) => {
+		for (let i = 0; i < this.listeners.length; i++) {
 			try {
-				listener(payload);
+				this.listeners[i].listener(payload);
 			} catch (error) {
 				console.log(error);
 			}
-		});
+		}
 	}
 }
 

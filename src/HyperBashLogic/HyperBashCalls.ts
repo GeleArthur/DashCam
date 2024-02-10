@@ -2,12 +2,15 @@ import {
 	KillFeedLayout,
 	LoadoutUpdateLayout,
 	PlayerJoinsLayout,
+	PlayerLeavesLayout,
 	PlayerPositionLayout,
 	SceneChangeLayout,
+	SwitchTeamLayout,
 } from "@/interfaces/HyperBashMessages.interface";
 import {
 	AnnouncerTypes,
 	MatchType,
+	SpecialCondition,
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
@@ -84,17 +87,34 @@ function playerJoins(socketData: PlayerJoinsLayout) {
 
 	getClanName();
 }
+EventPlayerJoins.subscribePriority(Check1v1, -1);
+EventPlayerLeaves.subscribePriority(Check1v1, -1);
+
+function Check1v1(socketData: any) {
+	let count = 0;
+
+	for (let i = 0; i < state.PlayerData.length; i++) {
+		if (state.PlayerData[i].isActive) {
+			count++;
+		}
+	}
+	if (count == 2) {
+		state.MatchInfo.specialCondition = SpecialCondition.OneVOne;
+	} else {
+		state.MatchInfo.specialCondition = SpecialCondition.None;
+	}
+}
 
 EventPlayerLeaves.subscribe(playerLeaves);
 
-function playerLeaves(socketData: any) {
+function playerLeaves(socketData: PlayerLeavesLayout) {
 	state.PlayerData[socketData.playerID].isActive = false;
 	getClanName();
 }
 
 EventSwitchTeam.subscribe(switchTeam);
 
-function switchTeam(socketData: any) {
+function switchTeam(socketData: SwitchTeamLayout) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
 	getClanName();
 }
@@ -303,16 +323,14 @@ EventAnnouncer.subscribe((socketData) => {
 				SetupFreezeStore();
 			}
 		}
-	} 
-	else if (state.MatchInfo.matchType == MatchType.Domination) {
+	} else if (state.MatchInfo.matchType == MatchType.Domination) {
 		if (
 			socketData.message == AnnouncerTypes.team_red_won ||
 			socketData.message == AnnouncerTypes.team_blue_won
 		) {
 			SetupFreezeStore();
 		}
-	} 
-	else if (state.MatchInfo.matchType == MatchType.ControlPoint) {
+	} else if (state.MatchInfo.matchType == MatchType.ControlPoint) {
 		if (
 			socketData.message == AnnouncerTypes.team_red_won ||
 			socketData.message == AnnouncerTypes.team_blue_won ||
@@ -323,7 +341,7 @@ EventAnnouncer.subscribe((socketData) => {
 	}
 });
 
-function SetupFreezeStore(){
+function SetupFreezeStore() {
 	freezeStore.PlayerData = cloneDeep(state.PlayerData);
 	freezeStore.MatchInfo = cloneDeep(state.MatchInfo);
 	freezeStore.TeamData = cloneDeep(state.TeamData);
