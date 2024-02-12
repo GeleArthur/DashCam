@@ -10,7 +10,6 @@ import {
 import {
 	AnnouncerTypes,
 	MatchType,
-	SpecialCondition,
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getImage } from "@/Util/UtilFunctions";
@@ -87,24 +86,6 @@ function playerJoins(socketData: PlayerJoinsLayout) {
 
 	getClanName();
 }
-EventPlayerJoins.subscribePriority(Check1v1, -1);
-EventPlayerLeaves.subscribePriority(Check1v1, -1);
-
-function Check1v1(socketData: any) {
-	let count = 0;
-
-	for (let i = 0; i < state.PlayerData.length; i++) {
-		if (state.PlayerData[i].isActive) {
-			count++;
-		}
-	}
-	if (count == 2) {
-		state.MatchInfo.specialCondition = SpecialCondition.OneVOne;
-	} else {
-		state.MatchInfo.specialCondition = SpecialCondition.None;
-	}
-}
-
 EventPlayerLeaves.subscribe(playerLeaves);
 
 function playerLeaves(socketData: PlayerLeavesLayout) {

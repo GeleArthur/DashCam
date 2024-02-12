@@ -1,7 +1,6 @@
 import {
 	MatchInfoType,
 	MatchType,
-	SpecialCondition,
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
@@ -18,7 +17,6 @@ export const useMatchStateStore = defineStore("matchState", () => {
 	const MatchInfo = ref({
 		matchType: MatchType.None,
 		mapName: "",
-		specialCondition: SpecialCondition.None,
 		timer: 0,
 
 		blueScore: 0,
@@ -88,13 +86,24 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			return TeamData.value;
 	})
 
+	const GetOneVOne = computed(()=>{
+		let playerArray = [] as PlayerStateInfo[] ;
+		for (let i = 0; i < PlayerData.value.length; i++) {
+			if(PlayerData.value[i].isActive){
+				playerArray.push(PlayerData.value[i]);
+			}
+			if(playerArray.length > 2) break;
+		}
+
+		return playerArray;
+	})
+
 	function $reset() {
 		SelectedPlayerIndex.value = -1;
 
 		MatchInfo.value = {
 			matchType: MatchType.None,
 			mapName: "",
-			specialCondition: SpecialCondition.None,
 			timer: 0,
 
 			blueScore: 0,
@@ -177,6 +186,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		GetSelectedPlayerIndex,
 		GetSelectedPlayer,
 		GetMatchInfo,
+		GetOneVOne,
 		$reset,
 	};
 });
@@ -191,7 +201,6 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 	const MatchInfo = ref({
 		matchType: MatchType.None,
 		mapName: "",
-		specialCondition: SpecialCondition.None,
 		timer: 0,
 
 		blueScore: 0,
@@ -235,7 +244,6 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 		MatchInfo.value = {
 			matchType: MatchType.None,
 			mapName: "",
-			specialCondition: SpecialCondition.None,
 			timer: 0,
 
 			blueScore: 0,

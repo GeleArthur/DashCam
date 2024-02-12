@@ -69,7 +69,6 @@ export interface ControlPointInfo {
 
 export interface MatchInfoType {
 	matchType: MatchType;
-	specialCondition: SpecialCondition;
 	mapName: string;
 	timer: number;
 
@@ -194,9 +193,4 @@ export enum AnnouncerTypes {
 	ctf_flag_dropped_red,
 	ctf_flag_dropped_blue,
 	el_ace,
-}
-
-export enum SpecialCondition{
-	None,
-	OneVOne
 }
