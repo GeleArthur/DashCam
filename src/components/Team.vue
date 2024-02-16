@@ -89,16 +89,16 @@ const players = computed(() => {
 
 		var teamSort = data
 			.filter((e: PlayerStateInfo) => e.isActive == true)
-			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.score - p1.score);
+			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.kills - p1.kills);
 
 		teamSort = teamSort.filter((e, index) => {
 			if (props.team == Teams.blue) {
-				if (index >= 0 && index <= 4) {
+				if (index % 2 == 0) {
 					return true;
 				}
 			} 
 			else if (props.team == Teams.red) {
-				if (index >= 5 && index <= 9) {
+				if (index % 2 == 1) {
 					return true;
 				}
 			}

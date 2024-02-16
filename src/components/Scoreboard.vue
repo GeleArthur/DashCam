@@ -171,6 +171,7 @@ import Bar from "./Bar.vue";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventAnnouncer } from "@/HyperBashLogic/HyperBashEvents";
 import { AnnouncerLayout } from "@/interfaces/HyperBashMessages.interface";
+import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 
 const state = useMatchStateStore();
 let customTimer = ref(0);
@@ -188,17 +189,32 @@ const blueTeamScore = computed(() => {
 			return number.toFixed(2);
 		}
 	}
+	else if (state.GetMatchInfo.matchType == MatchType.Deathmatch){
+		var teamSort = state.PlayerData
+			.filter((e: PlayerStateInfo) => e.isActive == true)
+			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.kills - p1.kills);
+
+		return teamSort[0].kills;
+	}
 
 	return state.GetMatchInfo.blueScore ? state.GetMatchInfo.blueScore : 0;
 })
 
 const redTeamScore = computed(() => {
+	if(state.GetMatchInfo.matchType == MatchType.Deathmatch){
+		var teamSort = state.PlayerData
+			.filter((e: PlayerStateInfo) => e.isActive == true)
+			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.kills - p1.kills);
+
+		return teamSort[1].kills;
+	}
+
 	return state.GetMatchInfo.redScore ? state.GetMatchInfo.redScore : 0;
 })
 
 const matchTypeClass = computed(() => {
 	var mode = MatchType[state.GetMatchInfo.matchType] !== undefined ? MatchType[state.GetMatchInfo.matchType].toLowerCase() : false;
-
+	
 	return mode ? 'mode--' + mode : '';
 })
 
