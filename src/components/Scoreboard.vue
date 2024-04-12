@@ -254,7 +254,6 @@ const timer = computed(() => {
 
 	var time: number = customTimer.value > 0 ? customTimer.value : state.GetMatchInfo.timer;
 
-
 	let date = new Date(0),
 		mill = time % 1,
 		mins = (time - mill) / 60,
@@ -266,7 +265,7 @@ const timer = computed(() => {
 	date.setMinutes(mins);
 	date.setSeconds(secs, mill);
 
-	var timeString = date.toISOString().substr(14, 5);
+	var timeString = date.toLocaleTimeString('en-uk').substr(3,5);
 
 	return timeString;
 })
