@@ -45,7 +45,7 @@ const weaponIcons : Record<WeaponTypes, string> = {
 	[WeaponTypes.Sniper]: sniper,
 	[WeaponTypes.Hand]: "",
 	[WeaponTypes.ShockPistol]: shock,
-	[WeaponTypes.InstaGib]: "",
+	[WeaponTypes.InstaGib]: shock,
 	[WeaponTypes.Ball]: "",
 	[WeaponTypes.Flag]: "",
 	[WeaponTypes.Sword]: ""
