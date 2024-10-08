@@ -40,7 +40,7 @@ div {
 .kill_feed{align-items:flex-end;display:flex;flex-direction:column;grid-column:3;grid-row:2;}
 .kill_feed .feed_item{font-size:var(--font-size-small);font-weight:var(--font-weight-bold);}
 .kill_feed .feed_item + .feed_item{margin-top:.25em;}
-.kill_feed .feed_item .feed_players{border-radius:.25em 0 0 .25em;display:flex;flex-direction:row;max-width:450px;padding:.25em 0;}
+.kill_feed .feed_item .feed_players{border-radius:.25em 0 0 .25em;display:flex;flex-direction:row;max-width:450px;padding:.25em 0; justify-content: flex-end;}
 
 .kill_feed .feed_item .feed_players .feed_killer,
 .kill_feed .feed_item .feed_players .feed_victim{width:max-content;padding:5px 10px 5px 10px;}
