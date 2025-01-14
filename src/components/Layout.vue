@@ -127,14 +127,20 @@ async function getTeamInfo(updateRed: boolean) {
 	// dashleague
 	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
 		try {
-			const team = await fetch(`https://dashleague.games/wp-json/api/v1/public/data?data=teams&team=${teamName}`)
+			const team = await fetch(`https://dashleague.games/api/v1/team?teamName=${teamName}`, {
+			method: 'GET',
+			headers: {
+				'X-User-Identifier': 'casting'
+			}
+			});
+
 			const teamJson = await team.json();
 
 			newTeamData.logoFound = false;
 
-			if (teamJson.data) {
+			if (teamJson) {
 				newTeamData.logoFound = true;
-				newTeamData.logo = teamJson.data.logo;
+				newTeamData.logo = teamJson.logo;
 			}
 		}
 		catch (e) {
