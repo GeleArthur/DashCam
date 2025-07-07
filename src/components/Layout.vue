@@ -127,7 +127,7 @@ async function getTeamInfo(updateRed: boolean) {
 	// dashleague
 	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
 		try {
-			const team = await fetch(`https://dashleague.games/api/v1/team?teamName=${teamName}`, {
+			const team = await fetch(`https://dashleague.games/api/v1/team?teamName=${encodeURIComponent(teamName)}`, {
 			method: 'GET',
 			headers: {
 				'X-User-Identifier': 'casting'

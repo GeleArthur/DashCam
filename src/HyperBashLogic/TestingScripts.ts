@@ -19,7 +19,7 @@ export function CreateFakeData() {
 		});
 	}
 
-	var teams = ["EMU", "GanG", "EMRD"];
+	var teams = ["EMU", "GanG", "EMRD", "?!"];
 	var redTeam = teams[Math.floor(Math.random() * teams.length)];
 	teams.splice(teams.indexOf(redTeam), 1);
 	var blueTeam = teams[Math.floor(Math.random() * teams.length)];
