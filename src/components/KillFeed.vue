@@ -115,6 +115,7 @@ import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
 import headShot from "@/assets/weapons/head-shot.svg"
+import headShotSword from "@/assets/weapons/sword_head.svg"
 import explosion from "@/assets/weapons/explosion.svg"
 
 const state          = useMatchStateStore();
@@ -129,6 +130,11 @@ function ifHeadSuicide( kill: KillData ): boolean {
 	return kill.headShot || kill.weaponType == -1;
 }
 function getHeadSuicide( kill: KillData ): string {
+
+	if(kill.weaponType == 15){
+		return headShotSword;
+	}
+
 	let explosives = [-1, 2, 11];
 	return explosives.includes(kill.weaponType) ? explosion : headShot;
 }
