@@ -10,6 +10,7 @@ import smg from "@/assets/weapons/smg.svg";
 import sniper from "@/assets/weapons/sniper.svg";
 import staple from "@/assets/weapons/staples.svg";
 import tombstone from "@/assets/weapons/tombstone.svg"
+import sword from "@/assets/weapons/sword.svg"
 
 export enum WeaponTypes {
 	None = -1,
@@ -48,7 +49,7 @@ const weaponIcons : Record<WeaponTypes, string> = {
 	[WeaponTypes.InstaGib]: shock,
 	[WeaponTypes.Ball]: "",
 	[WeaponTypes.Flag]: "",
-	[WeaponTypes.Sword]: ""
+	[WeaponTypes.Sword]: sword
 }
 const weaponAltIcons = {
 	[WeaponTypes.DefaultPistol]: pistolCharged,
@@ -75,6 +76,9 @@ export function getImage(gunName: string): string {
 		// 	return shield;
 		case "Uzi":
 			return smg;
+		case "Sword":
+			return sword;
+		
 		// case "Cup":
 		// 	return cup;
 		// case "Hand":

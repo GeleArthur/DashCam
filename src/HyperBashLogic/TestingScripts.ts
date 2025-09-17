@@ -93,7 +93,7 @@ export function CreateFakeData() {
 	});
 	
 	for (let i = 0; i < 2; i++) {
-		var randomNumbers = [0,1,2,7,8,9,11];
+		var randomNumbers = [0,1,2,7,8,9,11, 15];
 		
 		var team = getRandomInt(0,2);
 		
