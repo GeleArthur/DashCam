@@ -15,6 +15,8 @@ export const useSettingStore = defineStore("settings", () => {
 		customRedIcon: "",
 		iconMode: iconModes.dashLeague,
 	} as DashCamSettings);
+	const websocketIP = ref("127.0.0.1")
+	const websocketPort = ref("46646") // HyperBash is opens a websocket on 46646
 
-	return { Version, IconSettings, WebsocketStatus };
+	return { Version, IconSettings, WebsocketStatus, websocketIP, websocketPort };
 });

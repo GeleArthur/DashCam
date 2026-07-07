@@ -26,6 +26,17 @@
                         <img :src="blueIconURLSetting" alt="unable to load image">
                     </div>
                 </div>
+
+                <h2>WebSocket</h2>
+
+                <div>
+                    <label for="websocketHost">IP</label>
+                    <input type="url" name="websocketHost" class="" v-model="state.websocketIP">
+                </div>
+                <div>
+                    <label for="websocketHost">Port</label>
+                    <input type="url" name="websocketHost" class="" v-model="state.websocketPort">
+                </div>
             </div>
         </div>
     </div>

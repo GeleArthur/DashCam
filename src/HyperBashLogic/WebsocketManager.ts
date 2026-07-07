@@ -1,4 +1,3 @@
-import { HOST, PORT } from "../Util/ConstVars";
 import { WebsocketStatusTypes } from "../interfaces/StoreInterfaces/StoreState";
 // import { hyperBashCalls } from "@/HyperBashLogic/HyperBashCalls";
 import * as HyperBashEvents from "@/HyperBashLogic/HyperBashEvents";
@@ -57,7 +56,7 @@ function tryToConnect() {
 		websocketClient.close();
 	}
 
-	websocketClient = new WebSocket(`ws://${HOST}:${PORT}`);
+	websocketClient = new WebSocket(`ws://${settingState.websocketIP}:${settingState.websocketPort}`);
 
 	websocketClient.addEventListener("error", onDisconnect);
 	websocketClient.addEventListener("close", onDisconnect);
