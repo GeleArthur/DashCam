@@ -1,5 +1,5 @@
 import {
-	DashCamSettings,
+	type DashCamSettings,
 	iconModes,
 	WebsocketStatusTypes,
 } from "@/interfaces/StoreInterfaces/StoreState";

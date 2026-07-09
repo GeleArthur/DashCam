@@ -7,7 +7,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted } from "vue";
+import { ref, onMounted } from "vue";
 import Layout from "./components/Layout.vue";
 import Instructions from "./components/Instructions.vue";
 import versionCheck from "./components/VersionCheck.vue";

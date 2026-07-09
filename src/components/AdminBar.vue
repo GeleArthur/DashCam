@@ -9,10 +9,9 @@
 
 <script setup lang="ts">
 import { useMatchStateStore } from "@/stores/MatchStateStore";
-import { ref, computed } from "vue";
+import { computed } from "vue";
 import { WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
 import { CreateFakeData } from "@/HyperBashLogic/TestingScripts"
-import { initStore } from "@/HyperBashLogic/HyperBashCalls"
 import { EventSwitchTeam } from "@/HyperBashLogic/HyperBashEvents"
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { useSettingStore } from "@/stores/SettingsStore";

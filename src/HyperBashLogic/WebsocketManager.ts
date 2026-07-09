@@ -3,8 +3,8 @@ import { WebsocketStatusTypes } from "../interfaces/StoreInterfaces/StoreState";
 import * as HyperBashEvents from "@/HyperBashLogic/HyperBashEvents";
 import { useSettingStore } from "../stores/SettingsStore";
 import { useMatchStateStore } from "../stores/MatchStateStore";
-import { HyperBashMessage, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
-import { EventTypes, HBEvent } from "@/Util/EventSystem";
+import { type HyperBashMessage } from "@/interfaces/HyperBashMessages.interface";
+import { type EventTypes, HBEvent } from "@/Util/EventSystem";
 
 let settingState: ReturnType<typeof useSettingStore>;
 let state: ReturnType<typeof useMatchStateStore>;

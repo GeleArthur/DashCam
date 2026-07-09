@@ -73,7 +73,7 @@
 
 <script setup lang="ts">
 import { MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
-import { iconModes, PlayerStateInfo, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { iconModes, type PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { computed } from "vue";
@@ -91,7 +91,7 @@ const players = computed(() => {
 			.filter((e: PlayerStateInfo) => e.isActive == true)
 			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.kills - p1.kills);
 
-		teamSort = teamSort.filter((e, index) => {
+		teamSort = teamSort.filter((_, index) => {
 			if (props.team == Teams.blue) {
 				if (index % 2 == 0) {
 					return true;

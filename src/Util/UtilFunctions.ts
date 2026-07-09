@@ -1,5 +1,3 @@
-import explosion from "@/assets/weapons/explosion.svg"
-import headShot from "@/assets/weapons/head-shot.svg"
 import pistol from "@/assets/weapons/pistols.svg";
 import pistolCharged from "@/assets/weapons/pistols-charged.svg";
 import rocket from "@/assets/weapons/rockets.svg";

@@ -110,8 +110,8 @@ div {
 import { ref, onMounted } from "vue";
 import { Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import { getWeaponIcon } from "../Util/UtilFunctions";
-import KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
-import { KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
+import type KillData from "@/interfaces/StoreInterfaces/KillFeedEntry";
+import { type KillFeedLayout } from "@/interfaces/HyperBashMessages.interface";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventKillFeed } from "@/HyperBashLogic/HyperBashEvents";
 import headShot from "@/assets/weapons/head-shot.svg"

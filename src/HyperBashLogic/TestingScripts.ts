@@ -1,4 +1,4 @@
-import { KillFeedLayout, PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
+import { type KillFeedLayout, type PlayerJoinsLayout } from "@/interfaces/HyperBashMessages.interface";
 import { getRandomArbitrary, getRandomInt } from "@/Util/UtilFunctions";
 import { MatchType } from "../interfaces/StoreInterfaces/MatchInfo";
 import { useMatchStateStore } from "../stores/MatchStateStore";

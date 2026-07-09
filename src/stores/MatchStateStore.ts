@@ -1,11 +1,11 @@
 import {
-	MatchInfoType,
+	type MatchInfoType,
 	MatchType,
 	Teams,
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
-	PlayerStateInfo,
-	TeamInfo,
+	type PlayerStateInfo,
+	type TeamInfo,
 } from "@/interfaces/StoreInterfaces/StoreState";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";

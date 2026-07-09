@@ -165,13 +165,13 @@
 </style>
 
 <script setup lang="ts">
-import { computed, onMounted, ref, watch } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { AnnouncerTypes, MatchType, Teams } from "@/interfaces/StoreInterfaces/MatchInfo";
 import Bar from "./Bar.vue";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { EventAnnouncer } from "@/HyperBashLogic/HyperBashEvents";
-import { AnnouncerLayout } from "@/interfaces/HyperBashMessages.interface";
-import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { type AnnouncerLayout } from "@/interfaces/HyperBashMessages.interface";
+import { type PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 
 const state = useMatchStateStore();
 let customTimer = ref(0);

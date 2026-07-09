@@ -1,4 +1,4 @@
-import { HyperBashMessage } from "@/interfaces/HyperBashMessages.interface";
+import { type HyperBashMessage } from "@/interfaces/HyperBashMessages.interface";
 
 export type EventTypes =
 	| "announcer"

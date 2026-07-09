@@ -1,11 +1,11 @@
 import {
-	KillFeedLayout,
-	LoadoutUpdateLayout,
-	PlayerJoinsLayout,
-	PlayerLeavesLayout,
-	PlayerPositionLayout,
-	SceneChangeLayout,
-	SwitchTeamLayout,
+	type KillFeedLayout,
+	type LoadoutUpdateLayout,
+	type PlayerJoinsLayout,
+	type PlayerLeavesLayout,
+	type PlayerPositionLayout,
+	type SceneChangeLayout,
+	type SwitchTeamLayout,
 } from "@/interfaces/HyperBashMessages.interface";
 import {
 	AnnouncerTypes,

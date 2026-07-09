@@ -20,13 +20,10 @@
 
 <script setup lang="ts">
 import { WebsocketStatusTypes } from "@/interfaces/StoreInterfaces/StoreState";
-import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
-import { MutationType } from "pinia";
 import { ref, watch, computed } from "vue";
 import { latestHyperBashVersion } from "../Util/ConstVars";
 
-const state = useMatchStateStore();
 const settingsState = useSettingStore();
 
 const display = ref(false);

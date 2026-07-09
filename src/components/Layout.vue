@@ -94,8 +94,7 @@
 </style>
 
 <script setup lang="ts">
-import { EventSceneChange } from "@/HyperBashLogic/HyperBashEvents";
-import { iconModes, TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { iconModes, type TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { watch } from "vue";

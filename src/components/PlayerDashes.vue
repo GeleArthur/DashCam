@@ -8,7 +8,7 @@
 </template>
 
 <script setup lang="ts">
-import { PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { type PlayerStateInfo } from "@/interfaces/StoreInterfaces/StoreState";
 import { computed } from "vue";
 
 const dashesLeft = computed(() => {
