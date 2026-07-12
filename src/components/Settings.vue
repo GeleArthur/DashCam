@@ -16,7 +16,7 @@
                         <label for="TeamIconCustom">Custom</label>
                         <input type="radio" name="iconURL" v-model="iconURLSetting" value="2" id="TeamIconCustom" /><br>
                     </div>
-                    <div v-if="iconURLSetting == 2" id="inputForm">
+                    <div v-if="iconURLSetting == iconModes.custom" id="inputForm">
                         <label for="redInput">RedTeam:</label>
                         <input type="url" name="redInput" class="inputURL inputRed" v-model="redIconURLSetting">
                         <img :src="redIconURLSetting" alt="unable to load image">

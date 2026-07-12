@@ -84,24 +84,24 @@ function playerJoins(socketData: PlayerJoinsLayout) {
 		feetRotation: 0,
 	};
 
-	getClanName();
+	updateClanNames();
 }
 EventPlayerLeaves.subscribe(playerLeaves);
 
 function playerLeaves(socketData: PlayerLeavesLayout) {
 	state.PlayerData[socketData.playerID].isActive = false;
-	getClanName();
+	updateClanNames();
 }
 
 EventSwitchTeam.subscribe(switchTeam);
 
 function switchTeam(socketData: SwitchTeamLayout) {
 	state.PlayerData[socketData.playerID].team = socketData.team;
-	getClanName();
+	updateClanNames();
 }
 
-function getClanName() {
-	var redPlayers = state.PlayerData.filter((player) => {
+function updateClanNames() {
+	var redPlayersClanNames = state.PlayerData.filter((player) => {
 		return (
 			player.isActive &&
 			player.team == Teams.red &&
@@ -110,25 +110,26 @@ function getClanName() {
 		);
 	}).map((v) => v.clan);
 
+	// Find clan that is most common
 	const redPlayersCount = {} as { [key: string]: number };
 	let redMaxCount = 0;
-	let redMaxString = "red";
+	let redNewClanName = "red";
 
-	for (let i = 0; i < redPlayers.length; i++) {
-		if (redPlayersCount[redPlayers[i]]) {
-			redPlayersCount[redPlayers[i]]++;
+	for (let i = 0; i < redPlayersClanNames.length; i++) {
+		if (redPlayersCount[redPlayersClanNames[i]]) {
+			redPlayersCount[redPlayersClanNames[i]]++;
 		} else {
-			redPlayersCount[redPlayers[i]] = 1;
+			redPlayersCount[redPlayersClanNames[i]] = 1;
 		}
 
-		if (redPlayersCount[redPlayers[i]] > redMaxCount) {
-			redMaxCount = redPlayersCount[redPlayers[i]];
-			redMaxString = redPlayers[i];
+		if (redPlayersCount[redPlayersClanNames[i]] > redMaxCount) {
+			redMaxCount = redPlayersCount[redPlayersClanNames[i]];
+			redNewClanName = redPlayersClanNames[i];
 		}
 	}
 
-	if (state.TeamData.red.name != redMaxString) {
-		state.TeamData.red.name = redMaxString;
+	if (state.RedTeamName != redNewClanName) {
+		state.RedTeamName = redNewClanName;
 	}
 
 	var bluePlayers = state.PlayerData.filter((player) => {
@@ -142,7 +143,7 @@ function getClanName() {
 
 	const bluePlayersCount = {} as { [key: string]: number };
 	let blueMaxCount = 0;
-	let blueMaxString = "blue";
+	let blueNewClanName = "blue";
 
 	for (let i = 0; i < bluePlayers.length; i++) {
 		if (bluePlayersCount[bluePlayers[i]]) {
@@ -153,12 +154,12 @@ function getClanName() {
 
 		if (bluePlayersCount[bluePlayers[i]] > blueMaxCount) {
 			blueMaxCount = bluePlayersCount[bluePlayers[i]];
-			blueMaxString = bluePlayers[i];
+			blueNewClanName = bluePlayers[i];
 		}
 	}
 
-	if (state.TeamData.blue.name != blueMaxString) {
-		state.TeamData.blue.name = blueMaxString;
+	if (state.BlueTeamName != blueNewClanName) {
+		state.BlueTeamName = blueNewClanName;
 	}
 }
 
@@ -325,7 +326,12 @@ EventAnnouncer.subscribe((socketData) => {
 function SetupFreezeStore() {
 	freezeStore.PlayerData = cloneDeep(state.PlayerData);
 	freezeStore.MatchInfo = cloneDeep(state.MatchInfo);
-	freezeStore.TeamData = cloneDeep(state.TeamData);
+
+	freezeStore.RedTeamName = state.RedTeamName;
+	freezeStore.BlueTeamName = state.BlueTeamName;
+	freezeStore.RedTeamLogo = state.RedTeamLogo;
+	freezeStore.BlueTeamLogo = state.BlueTeamLogo;
+
 	freezeStore.MatchInfo.domination.teamCountDown = Teams.none;
 	freezeStore.showFreezeData = true;
 }

@@ -94,7 +94,7 @@
 </style>
 
 <script setup lang="ts">
-import { iconModes, type TeamInfo } from "@/interfaces/StoreInterfaces/StoreState";
+import { iconModes } from "@/interfaces/StoreInterfaces/StoreState";
 import { useMatchStateStore } from "@/stores/MatchStateStore";
 import { useSettingStore } from "@/stores/SettingsStore";
 import { watch } from "vue";
@@ -106,83 +106,85 @@ import Team from "./Team.vue";
 const state = useMatchStateStore();
 const settingState = useSettingStore();
 
-watch(() => state.TeamData.red.name, () => {
-	getTeamInfo(true);
+let cancelRed: AbortController | null = null
+let cancelBlue: AbortController | null = null
+
+watch(() => state.RedTeamName, async () => {
+
+	cancelRed?.abort()
+	cancelRed = new AbortController();
+
+	getTeamInfo(true, cancelRed.signal);
 })
 
-watch(() => state.TeamData.blue.name, () => {
-	getTeamInfo(false);
+watch(() => state.BlueTeamName, async () => {
+	cancelBlue?.abort()
+	cancelBlue = new AbortController();
+
+	getTeamInfo(false, cancelBlue.signal);
 })
 
-watch(() => settingState.IconSettings.iconMode, () => {
-	getTeamInfo(false);
-	getTeamInfo(true);
+watch(() => settingState.IconSettings.iconMode, async () => {
+	cancelBlue?.abort()
+	cancelBlue = new AbortController();
+
+	cancelRed?.abort()
+	cancelRed = new AbortController();
+
+	getTeamInfo(false, cancelBlue.signal);
+	getTeamInfo(true, cancelRed.signal);
 })
 
-async function getTeamInfo(updateRed: boolean) {
-	const teamName: string = updateRed ? state.TeamData.red.name : state.TeamData.blue.name;
-	let newTeamData = { name: teamName } as TeamInfo
+async function getTeamInfo(isRedTeam: boolean, signal: AbortSignal) {
+	const teamName: string = isRedTeam ? state.RedTeamName : state.BlueTeamName;
 
-	// dashleague
-	if (settingState.IconSettings.iconMode == iconModes.dashLeague) {
-		try {
-			const team = await fetch(`https://dashleague.games/api/v1/team?teamName=${encodeURIComponent(teamName)}`, {
-			method: 'GET',
-			headers: {
-				'X-User-Identifier': 'casting'
-			}
-			});
+	switch (settingState.IconSettings.iconMode) {
+		case iconModes.dashLeague:
+			{
+				let team: Response
+				try{
+					team = await fetch(`https://dashleague.games/api/v1/team?teamName=${encodeURIComponent(teamName)}`, {
+						method: 'GET',
+						headers: {
+							'X-User-Identifier': 'casting'
+						},
+						signal: signal
+					});
+				}catch{
+					return
+				}
 
-			const teamJson = await team.json();
+				if(!team.ok){
+					if(isRedTeam) state.$patch({RedTeamLogo: ""})
+					else state.$patch({BlueTeamLogo: ""})
+					return
+				}
 
-			const isimagevalid = await fetch(teamJson.logo);
-			if(isimagevalid.ok){
-				newTeamData.logoFound = true;
-				newTeamData.logo = teamJson.logo
-			}
-			
-		}
-		catch (e) {
-			newTeamData.logoFound = false;
-			console.error("Failed to get logo falling back " + e);
-		}
-	}
-	else if (settingState.IconSettings.iconMode == iconModes.hyperCup) {
-		try {
-			let logoURL = `https://www.hyperdashcup.com/dashcam/logos/${teamName}.png`;
+				let teamJson: any
+				try{
+					teamJson = await team.json();
+				}
+				catch{
+					return
+				}
+				
+				if (signal.aborted){
+					return
+				}
 
-			const logoRequest = await fetch(logoURL);
+				if (!Object.hasOwn(teamJson, "logo")){
+					return
+				}
 
-			// Sucks that we have to request twice any other way?
-			if (logoRequest.ok) {
-				newTeamData.logoFound = true;
-				newTeamData.logo = logoURL;
+				if(isRedTeam) state.$patch({RedTeamLogo: teamJson.logo})
+				else state.$patch({BlueTeamLogo: teamJson.logo})
 			}
-			else {
-				newTeamData.logoFound = false;
-			}
-		}
-		catch (e) {
-			newTeamData.logoFound = false;
-			console.log("Failed to get logo falling back " + e)
-		}
-	}
-	else if (settingState.IconSettings.iconMode == iconModes.custom) {
-		newTeamData.logoFound = true;
-	}
-
-	if (updateRed) {
-		state.$patch({
-			TeamData: {
-				red: newTeamData
-			}
-		})
-	} else {
-		state.$patch({
-			TeamData: {
-				blue: newTeamData
-			}
-		})
+			break;
+	
+		default:
+			break;
 	}
 }
+
+
 </script>

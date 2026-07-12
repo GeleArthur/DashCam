@@ -42,14 +42,7 @@ export interface DashCamSettings {
 
 export enum iconModes{
 	dashLeague,
-	hyperCup,
 	custom
-}
-
-export interface TeamInfo {
-	name: string;
-	logoFound: boolean;
-	logo: string;
 }
 
 export enum WebsocketStatusTypes {

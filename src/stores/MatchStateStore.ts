@@ -5,7 +5,6 @@ import {
 } from "@/interfaces/StoreInterfaces/MatchInfo";
 import {
 	type PlayerStateInfo,
-	type TeamInfo,
 } from "@/interfaces/StoreInterfaces/StoreState";
 import { defineStore } from "pinia";
 import { computed, ref } from "vue";
@@ -41,18 +40,10 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		},
 	} as MatchInfoType);
 
-	const TeamData = ref({
-		red: {
-			name: "red",
-			logo: "",
-			logoFound: false,
-		} as TeamInfo,
-		blue: {
-			name: "blue",
-			logo: "",
-			logoFound: false,
-		} as TeamInfo,
-	});
+	const RedTeamName = ref("red")
+	const BlueTeamName = ref("blue")
+	const RedTeamLogo = ref("")
+	const BlueTeamLogo = ref("")
 
 	const GetPlayers = computed(() => {
 		const freezeState = useMatchStateFreezeStore();
@@ -78,13 +69,45 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			return MatchInfo.value;
 	});
 
-	const GetTeamData = computed(()=>{
+	const GetRedTeamName = computed(()=>{
 		const freezeState = useMatchStateFreezeStore();
 		if(freezeState.showFreezeData) 
-			return freezeState.TeamData
+			return freezeState.RedTeamName
 		else 
-			return TeamData.value;
+			return RedTeamName.value;
 	})
+
+	const GetBlueTeamName = computed(()=>{
+		const freezeState = useMatchStateFreezeStore();
+		if(freezeState.showFreezeData) 
+			return freezeState.BlueTeamName
+		else 
+			return BlueTeamName.value;
+	})
+
+	const GetRedTeamLogo = computed(()=>{
+		const freezeState = useMatchStateFreezeStore();
+		if(freezeState.showFreezeData) 
+			return freezeState.RedTeamLogo
+		else 
+			return RedTeamLogo.value;
+	})
+
+	const GetBlueTeamLogo = computed(()=>{
+		const freezeState = useMatchStateFreezeStore();
+		if(freezeState.showFreezeData) 
+			return freezeState.BlueTeamLogo
+		else 
+			return BlueTeamLogo.value;
+	})
+
+	// const GetTeamData = computed(()=>{
+	// 	const freezeState = useMatchStateFreezeStore();
+	// 	if(freezeState.showFreezeData) 
+	// 		return freezeState.TeamData
+	// 	else 
+	// 		return TeamData.value;
+	// })
 
 	const GetOneVOne = computed(()=>{
 		let playerArray = [] as PlayerStateInfo[] ;
@@ -129,18 +152,10 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			},
 		} ;
 
-		TeamData.value = {
-			red: {
-				name: "red",
-				logo: "",
-				logoFound: false,
-			},
-			blue: {
-				name: "blue",
-				logo: "",
-				logoFound: false,
-			},
-		};
+		BlueTeamName.value = "blue"
+		RedTeamName.value = "red"
+		BlueTeamLogo.value = ""
+		RedTeamLogo.value = ""
 
 		for (let i = 0; i < 11; i++) {
 			PlayerData.value[i] = {
@@ -180,8 +195,16 @@ export const useMatchStateStore = defineStore("matchState", () => {
 		SelectedPlayerIndex,
 		PlayerData,
 		MatchInfo,
-		TeamData,
-		GetTeamData,
+		RedTeamName,
+		RedTeamLogo,
+		BlueTeamLogo,
+		BlueTeamName,
+
+		GetRedTeamName,
+		GetBlueTeamName,
+		GetRedTeamLogo,
+		GetBlueTeamLogo,
+
 		GetPlayers,
 		GetSelectedPlayerIndex,
 		GetSelectedPlayer,
@@ -225,18 +248,10 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 		},
 	} as MatchInfoType);
 
-	const TeamData = ref({
-		red: {
-			name: "red",
-			logo: "",
-			logoFound: false,
-		} as TeamInfo,
-		blue: {
-			name: "blue",
-			logo: "",
-			logoFound: false,
-		} as TeamInfo,
-	});
+	const RedTeamName = ref("red")
+	const BlueTeamName = ref("blue")
+	const RedTeamLogo = ref("")
+	const BlueTeamLogo = ref("")
 
 	function $reset() {
 		SelectedPlayerIndex.value = -1;
@@ -268,18 +283,10 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 			},
 		} ;
 
-		TeamData.value = {
-			red: {
-				name: "red",
-				logo: "",
-				logoFound: false,
-			},
-			blue: {
-				name: "blue",
-				logo: "",
-				logoFound: false,
-			},
-		};
+		BlueTeamName.value = "blue"
+		RedTeamName.value = "red"
+		BlueTeamLogo.value = ""
+		RedTeamLogo.value = ""
 
 		for (let i = 0; i < 11; i++) {
 			PlayerData.value[i] = {
@@ -321,7 +328,10 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 		SelectedPlayerIndex,
 		PlayerData,
 		MatchInfo,
-		TeamData,
+		BlueTeamName,
+		RedTeamName,
+		BlueTeamLogo,
+		RedTeamLogo,
 		$reset,
 	};
 });

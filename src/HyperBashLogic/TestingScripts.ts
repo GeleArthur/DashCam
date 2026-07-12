@@ -27,7 +27,7 @@ export function CreateFakeData() {
 	for (let teamIndex = 0; teamIndex < 2; teamIndex++) {
 		var currentTeam = teamIndex == 0 ? redTeam : blueTeam;
 
-		for (let i = 0; i < 5; i++) {
+		for (let i = 0; i < 2; i++) {
 			EventPlayerJoins.invoke({
 				type: "playerJoins",
 				playerID: i + teamIndex * 5,

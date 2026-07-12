@@ -1,10 +1,10 @@
 <template>
-	<div class="team" :class="'team--' + teamColor, teamData.logoFound ? 'team--dln' : ''">
+	<div class="team" :class="'team--' + teamColor, teamLogo != '' ? 'team--dln' : ''">
 
 		<div class="team_players" :class="'team_players--' + teamColor" v-if="players">
 			<player v-for="(item, index) in players" :key="index" :playerID="state.GetPlayers.indexOf(item)" />
 		</div>
-		<div class="team_logo" v-if="teamData.logoFound">
+		<div class="team_logo" v-if="teamLogo != ''">
 			<img :src="teamLogo" width="94" height="94">
 		</div>
 	</div>
@@ -121,17 +121,16 @@ const teamColor = computed(() => {
 	}
 })
 
-const teamData = computed(() => {
-	if (props.team == Teams.red) return state.GetTeamData.red;
-	else return state.GetTeamData.blue;
-})
-
 const teamLogo = computed(() => {
 	if (settingsState.IconSettings.iconMode == iconModes.custom) {
 		return props.team == Teams.blue ? settingsState.IconSettings.customRedIcon : settingsState.IconSettings.customBlueIcon;
 	}
 
-	return teamData.value.logo;
+	switch (props.team) {
+		case Teams.red: return state.RedTeamLogo;
+		case Teams.blue: return state.BlueTeamLogo;
+		case Teams.none: return ""	
+	}
 })
 
 const props = defineProps<{
