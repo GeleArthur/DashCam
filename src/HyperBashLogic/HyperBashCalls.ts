@@ -266,8 +266,7 @@ function payload(socketData: any) {
 	state.MatchInfo.payload.cartBlockedByRed = socketData.cartBlockedByRed;
 	state.MatchInfo.payload.checkPoint = socketData.checkPoint;
 	state.MatchInfo.payload.secondRound = socketData.secondRound;
-	state.MatchInfo.payload.precisePayloadDistance =
-		socketData.precisePayloadDistance;
+	state.MatchInfo.payload.precisePayloadDistance = socketData.precisePayloadDistance;
 }
 
 EventDomination.subscribe(domination);
@@ -304,6 +303,9 @@ EventAnnouncer.subscribe((socketData) => {
 			) {
 				SetupFreezeStore();
 			}
+		}
+		if(socketData.message == AnnouncerTypes.switching_sides){
+			state.MatchInfo.payload.precisePayloadDistanceRedTeam = state.MatchInfo.payload.precisePayloadDistance;
 		}
 	} else if (state.MatchInfo.matchType == MatchType.Domination) {
 		if (

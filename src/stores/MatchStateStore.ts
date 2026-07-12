@@ -27,6 +27,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 			checkPoint: false,
 			secondRound: false,
 			precisePayloadDistance: 0,
+			precisePayloadDistanceRedTeam: 0,
 		},
 		domination: {
 			countDownTimer: 0,
@@ -138,6 +139,7 @@ export const useMatchStateStore = defineStore("matchState", () => {
 				checkPoint: false,
 				secondRound: false,
 				precisePayloadDistance: 0,
+				precisePayloadDistanceRedTeam: 0,
 			},
 			domination: {
 				countDownTimer: 0,
@@ -235,6 +237,7 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 			checkPoint: false,
 			secondRound: false,
 			precisePayloadDistance: 0,
+			precisePayloadDistanceRedTeam: 0,
 		},
 		domination: {
 			countDownTimer: 0,
@@ -270,6 +273,7 @@ export const useMatchStateFreezeStore = defineStore("matchStateFreeze", () => {
 				checkPoint: false,
 				secondRound: false,
 				precisePayloadDistance: 0,
+				precisePayloadDistanceRedTeam: 0,
 			},
 			domination: {
 				countDownTimer: 0,

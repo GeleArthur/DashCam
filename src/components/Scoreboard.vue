@@ -201,7 +201,14 @@ const blueTeamScore = computed(() => {
 })
 
 const redTeamScore = computed(() => {
-	if(state.GetMatchInfo.matchType == MatchType.Deathmatch){
+	if (state.GetMatchInfo.matchType == MatchType.Payload) {
+		if (state.GetMatchInfo.payload.precisePayloadDistanceRedTeam) {
+			let number = state.GetMatchInfo.payload.precisePayloadDistanceRedTeam;
+			number *= 100;
+			return number.toFixed(2);
+		}
+	}
+	else if(state.GetMatchInfo.matchType == MatchType.Deathmatch){
 		var teamSort = state.PlayerData
 			.filter((e: PlayerStateInfo) => e.isActive == true)
 			.sort((p1: PlayerStateInfo, p2: PlayerStateInfo) => p2.kills - p1.kills);
