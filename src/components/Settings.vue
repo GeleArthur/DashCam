@@ -8,13 +8,10 @@
                 <div id="iconURL">
                     <div>
                         <label for="TeamIconDashLeague">DashLeague</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="0" id="TeamIconDashLeague" /><br>
-
-                        <label for="TeamIconHyperCup">HyperCup</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="1" id="TeamIconHyperCup" /><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" :value="iconModes.dashLeague" id="TeamIconDashLeague" /><br>
 
                         <label for="TeamIconCustom">Custom</label>
-                        <input type="radio" name="iconURL" v-model="iconURLSetting" value="2" id="TeamIconCustom" /><br>
+                        <input type="radio" name="iconURL" v-model="iconURLSetting" :value="iconModes.custom" id="TeamIconCustom" /><br>
                     </div>
                     <div v-if="iconURLSetting == iconModes.custom" id="inputForm">
                         <label for="redInput">RedTeam:</label>
